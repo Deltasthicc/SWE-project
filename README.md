@@ -6,9 +6,11 @@ Divyam Sharma · Shashwat Rajan · Suryavedha Pradhan · Shreyas Achal
 
 ## Quick Start (3 Steps)
 
-### Step 1 — Download SQLite Driver
+### Step 1 — Download required libraries (.jar files)
 1. Go to: https://github.com/xerial/sqlite-jdbc/releases
 2. Download the latest `.jar` file (e.g. `sqlite-jdbc-3.45.3.0.jar`)
+3. JavaMail API: Download javax.mail-1.6.2.jar from Maven Central
+4. JavaBeans Activation: Download javax.activation-1.2.0.jar from Maven Central
 3. Place it in `BAS/lib/`
 
 ### Step 2 — Compile
@@ -31,7 +33,9 @@ BAS/
 ├── run.bat                ← Windows run
 ├── compile_and_run.sh     ← Linux/Mac compile+run
 ├── lib/
-│   └── sqlite-jdbc-*.jar  ← PUT YOUR JAR HERE
+│   ├── sqlite-jdbc-*.jar  ← PUT YOUR JAR HERE
+│   ├── javax.mail-1.6.2.jar     ← PUT JAR HERE
+│   └── javax.activation-1.2.0.jar ← PUT JAR HERE
 ├── out/                   ← created by compile script
 └── src/bas/
     ├── Main.java
