@@ -1,0 +1,12 @@
+Place JAR files here before compiling.
+
+REQUIRED (app will not start without this):
+  sqlite-jdbc-3.45.1.0.jar
+  Download: https://github.com/xerial/sqlite-jdbc/releases
+  Pick the latest .jar file (e.g. sqlite-jdbc-3.45.3.0.jar)
+
+OPTIONAL (only needed for real email notifications):
+  javax.mail-1.6.2.jar
+  Download: https://mvnrepository.com/artifact/com.sun.mail/javax.mail/1.6.2
+  Click the "jar" download link.
+  Without this, the app still runs fully — emails just print a console warning.
