@@ -2,7 +2,7 @@
 REM ============================================================
 REM  BAS — Compile Script (Windows)
 REM  Run from the BAS\ root folder.
-REM  Requires: JDK 17+  and  lib\sqlite-jdbc-*.jar
+REM  Requires: JDK 17+ and lib\sqlite-jdbc-*.jar, javax.mail.jar, javax.activation.jar
 REM ============================================================
 
 echo.
@@ -15,7 +15,7 @@ echo.
 echo [BAS] Compiling all sources...
 echo.
 
-javac -source 17 -target 17 ^
+javac --release 17 ^
   -cp "lib\*" ^
   -d out ^
   src\bas\model\Book.java ^
@@ -39,7 +39,7 @@ javac -source 17 -target 17 ^
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo [ERROR] Compilation failed. Check errors above.
-    echo Make sure sqlite-jdbc-*.jar is in lib\
+    echo Make sure sqlite-jdbc, javax.mail, and javax.activation jars are physically in your lib\ folder!
     pause
     exit /b 1
 )
