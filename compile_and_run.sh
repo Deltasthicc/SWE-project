@@ -13,6 +13,10 @@ echo "[BAS] Compiling..."
 javac -source 17 -target 17 \
   -cp "lib/*" \
   -d out \
+  src/bas/config/AppConfig.java \
+  src/bas/crypto/AESUtil.java \
+  src/bas/auth/JWTUtil.java \
+  src/bas/auth/SessionManager.java \
   src/bas/model/Book.java \
   src/bas/model/LineItem.java \
   src/bas/model/SaleRecord.java \
@@ -21,6 +25,8 @@ javac -source 17 -target 17 \
   src/bas/util/ISBNValidator.java \
   src/bas/util/EmailValidator.java \
   src/bas/util/PrinterUtil.java \
+  src/bas/db/ConnectionPool.java \
+  src/bas/db/BookCache.java \
   src/bas/db/DatabaseManager.java \
   src/bas/service/EmailService.java \
   src/bas/ui/CustomerTerminalPanel.java \

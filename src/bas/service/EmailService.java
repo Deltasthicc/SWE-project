@@ -1,19 +1,22 @@
 package bas.service;
 
+import bas.config.AppConfig;
+
 import java.util.List;
 import java.util.Properties;
 
 /**
  * SMTP email service (NFR-4: SSL/TLS).
- * Works without javax.mail.jar — calls become no-ops with a console warning.
- * Add javax.mail-1.6.2.jar to lib/ to enable actual sending.
+ * Pre-configured with Gmail App Password credentials.
+ * Requires javax.mail-1.6.2.jar and javax.activation-1.2.0.jar in lib/.
  */
 public class EmailService {
-    private static String  host     = "smtp.gmail.com";
-    private static int     port     = 587;
-    private static String  email    = "";
-    private static String  password = "";
-    private static boolean ready    = false;
+
+    private static String  host     = AppConfig.SMTP_HOST;
+    private static int     port     = AppConfig.SMTP_PORT;
+    private static String  email    = AppConfig.SMTP_EMAIL;
+    private static String  password = AppConfig.SMTP_PASSWORD;
+    private static boolean ready    = true;  // pre-configured from AppConfig
 
     public static void configure(String h, int p, String e, String pw) {
         host = h; port = p; email = e; password = pw;
@@ -28,9 +31,10 @@ public class EmailService {
     public static boolean sendRestockAlert(String to, String title, String isbn) {
         return send(to,
             "Back in Stock: " + title,
-            "Dear Customer,\n\nGreat news! The book you requested is available:\n\n" +
+            "Dear Customer,\n\nGreat news! The book you requested is now available:\n\n" +
             "  Title: " + title + "\n  ISBN:  " + isbn + "\n\n" +
-            "Visit us soon before it sells out!\n\nRegards,\nBAS Bookshop");
+            "Visit us soon before it sells out!\n\nWarm regards,\nBAS Bookshop\n" +
+            "Shiv Nadar Institution of Eminence — Group G01");
     }
 
     public static boolean send(String to, String subject, String body) {
@@ -46,26 +50,36 @@ public class EmailService {
         try {
             Properties props = new Properties();
             props.put("mail.smtp.auth",            "true");
-            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.starttls.enable",  "true");
             props.put("mail.smtp.host",             host);
             props.put("mail.smtp.port",             String.valueOf(port));
-            props.put("mail.smtp.ssl.protocols",   "TLSv1.2 TLSv1.3");
+            props.put("mail.smtp.ssl.protocols",    "TLSv1.2 TLSv1.3");
+            props.put("mail.smtp.ssl.trust",        host);
+
+            // Use Authenticator for proper credential handling
             final String u = email, pw = password;
-            javax.mail.Session session = javax.mail.Session.getInstance(props, null);
+            javax.mail.Authenticator auth = new javax.mail.Authenticator() {
+                @Override
+                protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                    return new javax.mail.PasswordAuthentication(u, pw);
+                }
+            };
+            javax.mail.Session session = javax.mail.Session.getInstance(props, auth);
+
             javax.mail.internet.MimeMessage msg = new javax.mail.internet.MimeMessage(session);
-            msg.setFrom(new javax.mail.internet.InternetAddress(u));
+            msg.setFrom(new javax.mail.internet.InternetAddress(u, "BAS Bookshop"));
             msg.setRecipients(javax.mail.Message.RecipientType.TO,
                 javax.mail.internet.InternetAddress.parse(to));
             msg.setSubject(subject);
-            msg.setText(body);
-            javax.mail.Transport t = session.getTransport("smtp");
-            t.connect(host, port, u, pw);
-            t.sendMessage(msg, msg.getAllRecipients());
-            t.close();
+            msg.setText(body, "UTF-8");
+            msg.setSentDate(new java.util.Date());
+
+            javax.mail.Transport.send(msg);
             System.out.println("[Email] Sent to: " + to);
             return true;
         } catch (Exception e) {
-            System.err.println("[Email] Failed: " + e.getMessage());
+            System.err.println("[Email] Failed to " + to + ": " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }

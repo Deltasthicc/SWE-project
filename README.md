@@ -1,269 +1,241 @@
 # BAS — Bookshop Inventory & Sales Management System
-**Group G01 | Shiv Nadar Institution of Eminence**  
-Divyam Sharma · Shashwat Rajan · Suryavedha Pradhan · Shreyas Achal
+
+**Group G01 | Shiv Nadar Institution of Eminence**
+
+| Name              | Roll No.    |
+|-------------------|-------------|
+| Divyam Sharma     | 2310110109  |
+| Shashwat Rajan    | 2510111019  |
+| Suryavedha Pradhan| 2310110316  |
+| Shreyas Achal     | 2310110289  |
 
 ---
 
-## Quick Start (3 Steps)
+## Overview
 
-### Step 1 — Download required libraries (.jar files)
-1. Go to: https://github.com/xerial/sqlite-jdbc/releases
-2. Download the latest `.jar` file (e.g. `sqlite-jdbc-3.45.3.0.jar`)
-3. JavaMail API: Download javax.mail-1.6.2.jar from Maven Central
-4. JavaBeans Activation: Download javax.activation-1.2.0.jar from Maven Central
-3. Place it in `BAS/lib/`
+BAS is a desktop-based Java Swing application that automates retail bookshop operations:
+real-time inventory queries, point-of-sale billing, demand tracking, procurement planning,
+and automated email notifications for out-of-stock books.
 
-### Step 2 — Compile
-**Windows:** Double-click `compile.bat`
-**Linux/Mac:** `chmod +x compile_and_run.sh && ./compile_and_run.sh`
+### Key Features
 
-### Step 3 — Run
-**Windows:** Double-click `run.bat`  
-**Linux/Mac:** `java -cp "lib/*:out" bas.Main`
-
-> On first launch `bas.db` is created automatically with 20 books + 20 demo sales
-> + 5 OOS requests — everything ready for a full demo instantly.
+- **Book Search & Availability** — Search by title/author, see stock count, rack location, and publisher
+- **Out-of-Stock Requests** — Customers register for email alerts when books are restocked
+- **POS Billing** — ISBN-based checkout with atomic transactions and receipt generation
+- **Inventory Management** — Stock updates, book CRUD, restock threshold monitoring
+- **Procurement Reports** — Auto-calculated order quantities based on weekly sales × lead time
+- **Sales Analytics** — Date-range revenue reports with print support
+- **SMTP Email Notifications** — Working Gmail integration for restock alerts
 
 ---
 
-## Folder Structure
+## Technology Stack
+
+| Component         | Technology                          |
+|-------------------|-------------------------------------|
+| Language          | Java 17+                            |
+| UI Framework      | Swing + FlatLaf (modern flat L&F)   |
+| Database          | PostgreSQL via Supabase (cloud)     |
+| Authentication    | Custom JWT (HMAC-SHA256)            |
+| Encryption        | AES-128-CBC + SHA-256 password hash |
+| Email             | JavaMail API (SMTP/TLS via Gmail)   |
+| Build             | javac (no Maven/Gradle required)    |
+
+---
+
+## Architecture
+
 ```
-BAS/
-├── compile.bat            ← Windows compile
-├── run.bat                ← Windows run
-├── compile_and_run.sh     ← Linux/Mac compile+run
-├── lib/
-│   ├── sqlite-jdbc-*.jar  ← PUT YOUR JAR HERE
-│   ├── javax.mail-1.6.2.jar     ← PUT JAR HERE
-│   └── javax.activation-1.2.0.jar ← PUT JAR HERE
-├── out/                   ← created by compile script
-└── src/bas/
-    ├── Main.java
-    ├── model/             Book, LineItem, SaleRecord, OOSRequest, User
-    ├── db/                DatabaseManager (SQLite, all CRUD)
-    ├── service/           EmailService (SMTP)
-    ├── util/              ISBNValidator, EmailValidator, PrinterUtil
-    └── ui/                LoginFrame, MainFrame, CustomerTerminalPanel,
-                           POSTerminalPanel, InventoryPanel, OwnerPanel
+bas/
+├── Main.java                    # Entry point
+├── config/
+│   └── AppConfig.java           # Centralised config (DB, JWT, SMTP)
+├── crypto/
+│   └── AESUtil.java             # AES encryption/decryption utility
+├── auth/
+│   ├── JWTUtil.java             # JWT token generation & validation
+│   └── SessionManager.java      # Singleton session holder
+├── model/
+│   ├── Book.java                # Book entity with procurement formula
+│   ├── User.java                # User entity with role enum
+│   ├── SaleRecord.java          # Sale transaction record
+│   ├── LineItem.java            # Individual line item in a sale
+│   └── OOSRequest.java          # Out-of-stock request entity
+├── db/
+│   └── DatabaseManager.java     # PostgreSQL/Supabase CRUD (singleton)
+├── service/
+│   └── EmailService.java        # SMTP email service (Gmail)
+├── ui/
+│   ├── LoginFrame.java          # Login screen with JWT auth
+│   ├── MainFrame.java           # Tabbed main window
+│   ├── CustomerTerminalPanel.java  # Book search + OOS requests
+│   ├── POSTerminalPanel.java    # Point-of-sale billing
+│   ├── InventoryPanel.java      # Inventory management (Manager/Owner)
+│   └── OwnerPanel.java          # Reports, procurement, email config
+└── util/
+    ├── ISBNValidator.java       # ISBN-10/13 checksum validation
+    ├── EmailValidator.java      # Email format validation
+    └── PrinterUtil.java         # Receipt & report printing
 ```
 
 ---
 
-## Login Credentials
+## Prerequisites
 
-| Role | User ID | Password | Access |
-|------|---------|----------|--------|
-| **Bookshop Owner** | `owner1` | `owner123` | All tabs |
-| **Inventory Manager** | `manager1` | `mgr123` | Search + POS + Inventory |
-| **Sales Clerk** | `clerk1` | `clerk123` | Search + POS |
-| **Sales Clerk 2** | `clerk2` | `clerk123` | Search + POS |
-| **Customer** | *(no login)* | *(no login)* | Click green button |
+1. **JDK 17 or higher** — [Download from Oracle](https://www.oracle.com/java/technologies/downloads/) or use OpenJDK
+2. **Internet connection** — Required for Supabase database and Gmail SMTP
 
 ---
 
-## Pre-loaded Demo Data
+## Required JARs in `lib/`
 
-### 20 Books (across genres, varied stock levels)
+| JAR File                     | Purpose                | Download Link |
+|------------------------------|------------------------|---------------|
+| `postgresql-42.7.4.jar`     | PostgreSQL JDBC driver | [jdbc.postgresql.org/download](https://jdbc.postgresql.org/download/) |
+| `javax.mail-1.6.2.jar`      | JavaMail API           | Already included |
+| `javax.activation-1.2.0.jar`| JavaMail dependency    | Already included |
+| `flatlaf-3.4.1.jar`         | Modern flat UI (optional) | [github.com/JFormDesigner/FlatLaf/releases](https://github.com/JFormDesigner/FlatLaf/releases) |
 
-| ISBN | Title | Stock | Status |
-|------|-------|-------|--------|
-| 9781982173593 | Atomic Habits | 30 | ✅ In Stock |
-| 9780062315007 | The Alchemist | 25 | ✅ In Stock |
-| 9780451524935 | 1984 | 22 | ✅ In Stock |
-| 9780061096525 | To Kill a Mockingbird | 18 | ✅ In Stock |
-| 9780439023481 | The Hunger Games | 14 | ✅ In Stock |
-| 9780743273565 | The Great Gatsby | 15 | ✅ In Stock |
-| 9780385737951 | The Maze Runner | 20 | ✅ In Stock |
-| 9781250301697 | Where the Crawdads Sing | 11 | ✅ In Stock |
-| 9780316769174 | The Catcher in the Rye | 10 | ✅ In Stock |
-| 9780525559474 | The Fault in Our Stars | 12 | ✅ In Stock |
-| 9781250178619 | A Court of Thorns and Roses | 13 | ✅ In Stock |
-| 9780385545990 | The Midnight Library | 9 | ✅ In Stock |
-| 9781501156700 | It Ends with Us | 8 | ✅ In Stock |
-| 9780316346627 | Verity | 6 | ✅ In Stock |
-| 9780735224292 | Little Fires Everywhere | 7 | ✅ In Stock |
-| 9780679783268 | Crime and Punishment | 4 | 🟡 Low Stock |
-| 9780140449136 | Anna Karenina | 3 | 🟡 Low Stock |
-| 9780062409850 | The Book Thief | 2 | 🟡 Low Stock |
-| 9781501197277 | It (Stephen King) | 0 | 🔴 Out of Stock |
-| 9780307474278 | The Girl with Dragon Tattoo | 0 | 🔴 Out of Stock |
+### Quick download (command line):
 
-### 20 Demo Sales (last 21 days — visible in Owner's Sales Report)
-### 5 OOS Requests pre-loaded (2 for "It", 3 for "Dragon Tattoo")
+**PostgreSQL driver:**
+```bash
+curl -L -o lib/postgresql-42.7.4.jar https://jdbc.postgresql.org/download/postgresql-42.7.4.jar
+```
+
+**FlatLaf (optional):**
+```bash
+curl -L -o lib/flatlaf-3.4.1.jar https://repo1.maven.org/maven2/com/formdev/flatlaf/3.4.1/flatlaf-3.4.1.jar
+```
 
 ---
 
-## Full Demo Walkthrough (All Roles + All Requirements)
+## Setup & Run
 
-### DEMO 1 — Customer (No Login)
-**Shows: F1 (Book Search), F2 (OOS Requests), NFR-7 (minimal training needed)**
+### Windows
 
-1. Launch app → Click the **green "Browse as Customer"** button
-2. The Customer Terminal opens showing all 20 books
-3. **Search by Title:** Type `Atomic` → click Search → see result highlighted green (in stock)
-4. **Search by Author:** Select "By Author" → type `Colleen` → find "Verity" and "It Ends with Us"
-5. **View OOS books:** Click "Show All" → notice 2 red rows at bottom ("It" and "Dragon Tattoo")
-6. **Submit OOS request:**
-   - Select the "It" row → click orange **"Request Notification / Out-of-Stock Alert"**
-   - Fill: ISBN=9781501197277, Title=It, Author=Stephen King, Publisher=Scribner
-   - Add your email → Submit
-   - Confirms: "Request submitted!"
-7. **Request unlisted book:** Click the orange button WITHOUT selecting a row
-   - Fill in any book not in the system → Submit → confirms it was recorded
+```batch
+# 1. Place required JARs in lib\ folder
+# 2. Compile
+compile.bat
 
----
+# 3. Run
+run.bat
+```
 
-### DEMO 2 — Sales Clerk (clerk1 / clerk123)
-**Shows: F3 (Billing), FR-3.1–3.5, NFR-2 (1-sec billing), Data Validation**
+### Linux / macOS
 
-1. Login as `clerk1` / `clerk123`
-2. Click **"🧾 POS Terminal"** tab
-3. **Add item by ISBN:**
-   - Type `9781982173593` (Atomic Habits) in ISBN field → press Enter
-   - See it added: ₹499 × 1 = ₹499
-4. **Use Quick-add buttons:**
-   - Click "Atomic Habits" or "The Alchemist" or "The Hunger Games" quick-add button
-   - Items instantly populate the bill
-5. **Change quantity:** Set Qty spinner to `2` → type ISBN `9780062315007` → Enter
-   - The Alchemist × 2 = ₹620
-6. **Test ISBN validation (NFR - Data Validation):**
-   - Type `1234567890123` (invalid checksum) → system rejects it with error message
-7. **Remove an item:** Select a row → click "🗑 Remove"
-8. **Confirm sale:**
-   - Click **"✔ Confirm & Print"** → confirm dialog shows total
-   - Confirm → receipt appears in the preview panel on the right
-   - Choose to print or skip printer dialog
-9. **Stock updates automatically** — check Inventory tab if logged in as Manager
-10. **Test insufficient stock:**
-    - Add ISBN `9780679783268` (Crime and Punishment, only 4 in stock) with qty = 10
-    - Confirm → sale fails with clear error message
+```bash
+# 1. Place required JARs in lib/ folder
+# 2. Make script executable
+chmod +x compile_and_run.sh
+
+# 3. Compile and run
+./compile_and_run.sh
+```
+
+### Manual (any OS)
+
+```bash
+# Compile
+javac --release 17 -cp "lib/*" -d out src/bas/config/*.java src/bas/crypto/*.java src/bas/auth/*.java src/bas/model/*.java src/bas/util/*.java src/bas/db/*.java src/bas/service/*.java src/bas/ui/*.java src/bas/Main.java
+
+# Run (Windows — semicolon separator)
+java -cp "lib/*;out" bas.Main
+
+# Run (Linux/Mac — colon separator)
+java -cp "lib/*:out" bas.Main
+```
 
 ---
 
-### DEMO 3 — Inventory Manager (manager1 / mgr123)
-**Shows: F4, FR-4.1, NFR-3 (access control), NFR-9 (logs), NFR-10 (modularity)**
+## Default Login Credentials
 
-1. Login as `manager1` / `mgr123`
-2. **POS Terminal** works same as Clerk demo above
-3. Click **"📦 Inventory"** tab
+| Role    | User ID    | Password  |
+|---------|------------|-----------|
+| Owner   | `owner1`   | `owner123`|
+| Manager | `manager1` | `mgr123`  |
+| Clerk   | `clerk1`   | `clerk123`|
+| Clerk   | `clerk2`   | `clerk123`|
+| Customer| No login required — click "Browse as Customer" |
 
-**View books:**
-- All 20 books loaded immediately
-- Colour coding: 🔴 red = OOS, 🟡 yellow = low stock, 🟢 green = normal
-- Click column headers to sort by stock level
-
-**Filter:**
-- Type `Colleen` in Filter field → only Colleen Hoover books shown
-- Type `F-0` → only OOS shelf books shown
-- Click Clear to reset
-
-**Update stock on arrival (FR-4.1):**
-- Select "It" (0 stock, red row) → click **"📦 Update Stock"**
-- Enter `50` → OK
-- System asks: "3 customers waiting — send restock emails?"
-- Click Yes (if SMTP configured) or No — either way, stock updates to 50
-
-**Add a new book:**
-- Click **"+ Add Book"**
-- Fill: ISBN=`9780735619425`, Title=`Shoe Dog`, Author=`Phil Knight`,
-  Publisher=`Scribner`, Price=`389`, Rack=`G-01`, Stock=`15`, Threshold=`5`,
-  Lead Time=`2`, Weekly Sales=`2.5`
-- Save → appears in the list immediately
-
-**Edit a book:**
-- Select any book → click **"✏ Edit"**
-- Change the price → Save → reflected immediately
+These are seeded automatically on first run if the database is empty.
 
 ---
 
-### DEMO 4 — Bookshop Owner (owner1 / owner123)
-**Shows: All F4 features, FR-4.2–4.4, NFR-3, NFR-9**
+## JWT Authentication Flow
 
-1. Login as `owner1` / `owner123`
-2. Has access to all 4 tabs
-
-**📊 Reports & Analytics → Sales Report:**
-- Report auto-generates for last 30 days on open
-- Shows all 20 books with their copies sold and revenue
-- Atomic Habits should show highest revenue (8+ copies × ₹499)
-- Change date range to last 7 days → see different numbers
-- Total revenue shown at top right
-- Click **"🖨 Print"** → printer dialog appears
-
-**📊 → Procurement:**
-- Auto-loads on open
-- Shows all books at/below threshold: 5 books (Crime and Punishment, Anna Karenina,
-  The Book Thief, It, Dragon Tattoo)
-- **Order Qty column** (highlighted red) shows exactly how many to order:
-  - Formula: max(0, ⌈Weekly Sales × Lead Time⌉ − Stock)
-  - "It": (6.0 × 2) − 0 = **12 to order**
-  - "Anna Karenina": (1.5 × 4) − 3 = **3 to order**
-- Publisher Address shown for each → ready to place orders
-- Print → full procurement report for the day
-
-**📊 → OOS Demand Log:**
-- Click Refresh → all 5 pre-loaded OOS requests visible
-- Shows: Request ID, ISBN, title, email (or "no email"), status = PENDING
-- After sending restock alerts, status changes to NOTIFIED
-
-**📊 → Email Settings:**
-- Fill in your SMTP details (Gmail recommended)
-- Click "Send Test Email" → enter your email → verify receipt
-- Once configured, restock alerts work from Inventory tab
-
-**📊 → Activity Log:**
-- Click "Load Logs" → full audit trail of all system events
-- See: INIT, LOGIN, SALE, INVENTORY, OOS, CONFIG events
-- Every action in the system is logged here (NFR-9)
+1. User enters credentials on the login screen
+2. `DatabaseManager.authenticate()` verifies SHA-256 password hash against Supabase
+3. On success, `JWTUtil.generateToken()` creates a signed JWT with:
+   - `sub` (user ID), `name`, `role`, `iat` (issued at), `exp` (expiry = 8 hours)
+   - Signed with HMAC-SHA256 using the secret in `AppConfig.JWT_SECRET`
+4. `SessionManager` stores the token for the session
+5. Protected operations (POS confirm, inventory writes) call `SessionManager.isAuthenticated()` which:
+   - Validates the JWT signature
+   - Checks token expiry
+   - Verifies required role
+6. On logout, the token is destroyed from memory
 
 ---
 
-## SRS Requirements Coverage
+## Supabase Database
 
-| Requirement | Where to see it |
-|-------------|----------------|
-| FR-1.1 Search by title | Customer Terminal → "By Title" radio |
-| FR-1.2 Search by author | Customer Terminal → "By Author" radio |
-| FR-1.3 Stock + rack location | Customer Terminal → Stock and Rack columns |
-| FR-1.4 Results within 2 sec | SwingWorker async + SQLite indexed lookup |
-| FR-2.1 OOS request form | Orange button in Customer Terminal |
-| FR-2.2 Request counter | books.request_count increments on each OOS |
-| FR-2.3 Optional email | Email field in OOS dialog (optional) |
-| FR-2.4 Email on restock | Inventory → Update Stock → sends bulk alerts |
-| FR-3.1 ISBN entry | POS Terminal → ISBN field |
-| FR-3.2 Auto price fetch | Price populated from DB instantly |
-| FR-3.3 Real-time total | Running total updates as you add items |
-| FR-3.4 Printable receipt | Receipt preview + print dialog on confirm |
-| FR-3.5 Atomic stock decrement | DatabaseManager.saveSaleAtomically() |
-| FR-4.1 Stock on arrival | Inventory → Update Stock button |
-| FR-4.2 Sales statistics | Owner → Sales Report tab |
-| FR-4.3 Procurement formula | Book.getRequiredProcurementQty() |
-| FR-4.4 Daily procurement report | Owner → Procurement tab + Print |
-| NFR-1 2-sec search | SwingWorker + LIKE query |
-| NFR-2 1-sec billing | SwingWorker async confirm |
-| NFR-3 Access control | MainFrame shows tabs by role only |
-| NFR-4 SSL/TLS email | EmailService uses STARTTLS |
-| NFR-5/6 Data integrity | SQLite WAL mode + atomic transactions |
-| NFR-7 Minimal training needed | Large buttons, colour coding, tooltips |
-| NFR-8 Descriptive errors | All error messages are user-friendly |
-| NFR-9 Application logs | Every action logged to app_logs table |
-| NFR-10 Modular components | Separate packages: model/db/service/ui/util |
-| NFR-11 Scalability | SQLite with schema supporting 100k+ books |
-| NFR-12 Windows 10/11 | Swing + system L&F + standard peripherals |
-| ISBN Validation | ISBNValidator.java — full ISBN-10 & ISBN-13 checksum |
-| Email Validation | EmailValidator.java — regex pattern |
-| Stock non-negativity | Pre-check in saveSaleAtomically before commit |
-| Atomic transactions | setAutoCommit(false) + rollback on failure |
+- **Host:** `db.hpfibvsyorccjihdyfzh.supabase.co`
+- **Port:** 5432
+- **SSL:** Required (enforced in connection properties)
+- Tables are created automatically via `CREATE TABLE IF NOT EXISTS`
+- Demo data (20 books, 20 sales, 5 OOS requests) seeded on first run
+
+---
+
+## SMTP Email Configuration
+
+Pre-configured with Gmail App Password:
+- **Host:** smtp.gmail.com
+- **Port:** 587 (STARTTLS)
+- **Sender:** shashwat.rajan2005@gmail.com
+
+The Owner Panel → Email Settings tab allows runtime reconfiguration.
+To test: click "Send Test Email" and enter a recipient address.
+
+---
+
+## SRS Requirement Traceability
+
+| Requirement | Feature | Implementation |
+|-------------|---------|----------------|
+| FR-1.1–1.4 | Book Search | `CustomerTerminalPanel` — search by title/author, shows publisher, stock, rack |
+| FR-2.1–2.4 | OOS Requests | `CustomerTerminalPanel.openOOS()` — records request, email notification on restock |
+| FR-3.1–3.5 | POS Billing | `POSTerminalPanel` — ISBN entry, price fetch, atomic transaction, receipt print |
+| FR-4.1 | Inventory Update | `InventoryPanel.openStockUpdate()` |
+| FR-4.2 | Sales Statistics | `OwnerPanel.salesTab()` |
+| FR-4.3 | Procurement Formula | `Book.getRequiredProcurementQty()` = max(0, ceil(weeklySales × leadTime) − stock) |
+| FR-4.4 | Procurement Report | `OwnerPanel.procurementTab()` |
+| NFR-1 | Search < 2s | PostgreSQL indexed queries |
+| NFR-2 | Billing < 1s | Atomic SQL transaction |
+| NFR-3 | Authorized access | JWT authentication + role-based access |
+| NFR-4 | SSL/TLS encryption | Supabase SSL + SMTP STARTTLS + AES utility |
+| NFR-5–6 | Data integrity | PostgreSQL ACID transactions |
+| NFR-7–8 | Usability | FlatLaf UI, descriptive error messages |
+| NFR-9 | Application logs | `app_logs` table, Activity Log tab |
+| NFR-10 | Modularity | Separate packages: auth, config, crypto, db, model, service, ui, util |
 
 ---
 
 ## Troubleshooting
 
-| Problem | Fix |
-|---------|-----|
-| App won't start | Put `sqlite-jdbc-*.jar` in `lib/` and recompile |
-| "UnsupportedClassVersionError" | Install JDK 17+ |
-| Books not showing | Delete `bas.db` and restart (fresh seed) |
-| Sale fails unexpectedly | Check stock — items may have been sold already |
-| Email not sending | Configure SMTP in Owner Panel → use Gmail App Password |
-| "Invalid ISBN" error | Use ISBNs from the demo table above — all verified |
+| Issue | Solution |
+|-------|----------|
+| `ClassNotFoundException: org.postgresql.Driver` | Download `postgresql-42.7.4.jar` and place in `lib/` |
+| `Connection refused` on startup | Check internet connection; verify Supabase project is active |
+| `SSL error` | Ensure Java 17+ (older JDKs may lack required TLS ciphers) |
+| Email test fails | Verify App Password is correct (16 chars, no spaces); check Gmail 2FA is enabled |
+| FlatLaf not loading | Download `flatlaf-3.4.1.jar` to `lib/`; app falls back to system L&F gracefully |
+| `FATAL: password authentication failed` | Check `AppConfig.DB_PASSWORD` matches your Supabase project password |
+
+---
+
+## License
+
+Academic project — Shiv Nadar Institution of Eminence, Software Engineering Course 2026.

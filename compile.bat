@@ -2,7 +2,12 @@
 REM ============================================================
 REM  BAS — Compile Script (Windows)
 REM  Run from the BAS\ root folder.
-REM  Requires: JDK 17+ and lib\sqlite-jdbc-*.jar, javax.mail.jar, javax.activation.jar
+REM  Requires: JDK 17+
+REM  Required JARs in lib\:
+REM    postgresql-42.x.jar
+REM    javax.mail-1.6.2.jar
+REM    javax.activation-1.2.0.jar
+REM  Optional: flatlaf-3.x.jar (for modern UI)
 REM ============================================================
 
 echo.
@@ -18,6 +23,10 @@ echo.
 javac --release 17 ^
   -cp "lib\*" ^
   -d out ^
+  src\bas\config\AppConfig.java ^
+  src\bas\crypto\AESUtil.java ^
+  src\bas\auth\JWTUtil.java ^
+  src\bas\auth\SessionManager.java ^
   src\bas\model\Book.java ^
   src\bas\model\LineItem.java ^
   src\bas\model\SaleRecord.java ^
@@ -26,6 +35,8 @@ javac --release 17 ^
   src\bas\util\ISBNValidator.java ^
   src\bas\util\EmailValidator.java ^
   src\bas\util\PrinterUtil.java ^
+  src\bas\db\ConnectionPool.java ^
+  src\bas\db\BookCache.java ^
   src\bas\db\DatabaseManager.java ^
   src\bas\service\EmailService.java ^
   src\bas\ui\CustomerTerminalPanel.java ^
@@ -39,7 +50,7 @@ javac --release 17 ^
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo [ERROR] Compilation failed. Check errors above.
-    echo Make sure sqlite-jdbc, javax.mail, and javax.activation jars are physically in your lib\ folder!
+    echo Make sure postgresql, javax.mail, and javax.activation jars are in lib\ folder!
     pause
     exit /b 1
 )

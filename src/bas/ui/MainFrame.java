@@ -1,5 +1,6 @@
 package bas.ui;
 
+import bas.auth.SessionManager;
 import bas.model.User;
 
 import javax.swing.*;
@@ -15,64 +16,71 @@ public class MainFrame extends JFrame {
         this.user = user;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         build();
-        setMinimumSize(new Dimension(1050, 700));
+        setMinimumSize(new Dimension(1080, 720));
         setExtendedState(MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void build() {
-        // ── Top bar ──────────────────────────────────────────────────────────
+        // ── Top bar ─────────────────────────────────────────────────────────
         JPanel topBar = new JPanel(new BorderLayout());
-        topBar.setBackground(new Color(25, 55, 120));
-        topBar.setBorder(new EmptyBorder(8, 16, 8, 16));
+        topBar.setBackground(new Color(15, 23, 42));
+        topBar.setBorder(new EmptyBorder(10, 18, 10, 18));
 
-        JLabel appLbl = new JLabel("📚  Bookshop Inventory & Sales Management System");
+        JLabel appLbl = new JLabel("BAS — Bookshop Inventory & Sales Management");
         appLbl.setForeground(Color.WHITE);
         appLbl.setFont(new Font("SansSerif", Font.BOLD, 15));
 
-        JLabel userLbl = new JLabel(
-            user.getName() + "  |  " + user.getRole().name());
-        userLbl.setForeground(new Color(180, 210, 255));
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
+        rightPanel.setOpaque(false);
+
+        JLabel userLbl = new JLabel(user.getName() + "  |  " + user.getRole().name());
+        userLbl.setForeground(new Color(148, 163, 184));
         userLbl.setFont(new Font("SansSerif", Font.PLAIN, 12));
+
+        // JWT indicator
+        JLabel jwtLbl = new JLabel("JWT Active");
+        jwtLbl.setForeground(new Color(74, 222, 128));
+        jwtLbl.setFont(new Font("SansSerif", Font.BOLD, 10));
 
         JButton logoutBtn = new JButton("Logout");
         logoutBtn.setFocusPainted(false);
-        logoutBtn.setBackground(new Color(200, 50, 50));
+        logoutBtn.setBackground(new Color(220, 38, 38));
         logoutBtn.setForeground(Color.WHITE);
-        logoutBtn.setOpaque(true); logoutBtn.setBorderPainted(false);
+        logoutBtn.setOpaque(true);
+        logoutBtn.setBorderPainted(false);
+        logoutBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         logoutBtn.addActionListener(e -> {
-            if (JOptionPane.showConfirmDialog(this, "Logout?", "Confirm",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showConfirmDialog(this, "Logout and invalidate session?",
+                    "Confirm Logout", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                SessionManager.getInstance().logout();
                 dispose();
                 new LoginFrame();
             }
         });
 
-        topBar.add(appLbl,   BorderLayout.WEST);
-        topBar.add(userLbl,  BorderLayout.CENTER);
-        topBar.add(logoutBtn,BorderLayout.EAST);
+        rightPanel.add(jwtLbl);
+        rightPanel.add(userLbl);
+        rightPanel.add(logoutBtn);
 
-        // ── Tabs ─────────────────────────────────────────────────────────────
+        topBar.add(appLbl,     BorderLayout.WEST);
+        topBar.add(rightPanel, BorderLayout.EAST);
+
+        // ── Tabs ────────────────────────────────────────────────────────────
         JTabbedPane tabs = new JTabbedPane();
         tabs.setFont(new Font("SansSerif", Font.PLAIN, 13));
 
-        // All roles see the customer search
-        tabs.addTab("🔍  Book Search", new CustomerTerminalPanel());
+        tabs.addTab("Book Search", new CustomerTerminalPanel());
 
-        // Clerk, Manager, Owner → POS
         if (user.getRole() != User.Role.CUSTOMER) {
-            tabs.addTab("🧾  POS Terminal", new POSTerminalPanel(user.getUserId()));
+            tabs.addTab("POS Terminal", new POSTerminalPanel(user.getUserId()));
         }
-
-        // Manager, Owner → Inventory
         if (user.getRole() == User.Role.MANAGER || user.getRole() == User.Role.OWNER) {
-            tabs.addTab("📦  Inventory", new InventoryPanel(user.getUserId()));
+            tabs.addTab("Inventory", new InventoryPanel(user.getUserId()));
         }
-
-        // Owner only → Reports + Admin
         if (user.getRole() == User.Role.OWNER) {
-            tabs.addTab("📊  Reports & Analytics", new OwnerPanel());
+            tabs.addTab("Reports & Analytics", new OwnerPanel());
         }
 
         JPanel root = new JPanel(new BorderLayout());

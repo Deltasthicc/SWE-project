@@ -1,7 +1,9 @@
 package bas.ui;
 
+import bas.auth.SessionManager;
 import bas.db.DatabaseManager;
 import bas.model.Book;
+import bas.model.User;
 import bas.service.EmailService;
 import bas.util.PrinterUtil;
 
@@ -15,6 +17,7 @@ import java.util.List;
 /**
  * Owner admin panel (F4, FR-4.2 – FR-4.4, NFR-3).
  * Tabs: Sales Report | Procurement | OOS Demand | Email Settings | Activity Log.
+ * SMTP pre-configured. JWT session checked for write ops.
  */
 public class OwnerPanel extends JPanel {
 
@@ -25,11 +28,12 @@ public class OwnerPanel extends JPanel {
 
         JTabbedPane tabs = new JTabbedPane();
         tabs.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        tabs.addTab("📈 Sales Report",       salesTab());
-        tabs.addTab("🛒 Procurement",         procurementTab());
-        tabs.addTab("📋 OOS Demand Log",      oosTab());
-        tabs.addTab("📧 Email Settings",      emailTab());
-        tabs.addTab("🗒 Activity Log",         logsTab());
+        tabs.addTab("Sales Report",       salesTab());
+        tabs.addTab("Transaction History", transactionHistoryTab());
+        tabs.addTab("Procurement",        procurementTab());
+        tabs.addTab("OOS Demand Log",     oosTab());
+        tabs.addTab("Email Settings",     emailTab());
+        tabs.addTab("Activity Log",       logsTab());
         add(tabs, BorderLayout.CENTER);
     }
 
@@ -39,20 +43,19 @@ public class OwnerPanel extends JPanel {
         JPanel p = new JPanel(new BorderLayout(10, 10));
         p.setBackground(Color.WHITE); p.setBorder(new EmptyBorder(12,12,12,12));
 
-        // Date controls
-        String today  = LocalDate.now().toString();
-        String month  = LocalDate.now().minusDays(30).toString();
+        String today = LocalDate.now().toString();
+        String month = LocalDate.now().minusDays(30).toString();
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 4));
         ctrl.setBackground(Color.WHITE);
         ctrl.setBorder(new TitledBorder("Date Range  (FR-4.2: Sales Statistics)"));
 
         JTextField fromF = new JTextField(month, 12);
-        JTextField toF   = new JTextField(today,  12);
-        JButton genBtn   = btn("Generate Report", new Color(30,80,200), Color.WHITE);
-        JLabel  revLbl   = new JLabel("Total Revenue: —");
+        JTextField toF   = new JTextField(today, 12);
+        JButton genBtn   = btn("Generate Report", new Color(37,99,235), Color.WHITE);
+        JLabel  revLbl   = new JLabel("Total Revenue: --");
         revLbl.setFont(new Font("SansSerif", Font.BOLD, 14));
-        revLbl.setForeground(new Color(20,100,40));
-        JButton printBtn = btn("🖨 Print", new Color(80,80,80), Color.WHITE);
+        revLbl.setForeground(new Color(22,163,74));
+        JButton printBtn = btn("Print", new Color(71,85,105), Color.WHITE);
 
         ctrl.add(new JLabel("From (yyyy-MM-dd):")); ctrl.add(fromF);
         ctrl.add(new JLabel("To (yyyy-MM-dd):")); ctrl.add(toF);
@@ -60,8 +63,7 @@ public class OwnerPanel extends JPanel {
         ctrl.add(Box.createHorizontalStrut(20)); ctrl.add(revLbl);
         p.add(ctrl, BorderLayout.NORTH);
 
-        // Table
-        String[] cols = {"ISBN","Title","Author","Publisher","Copies Sold","Revenue (₹)"};
+        String[] cols = {"ISBN","Title","Author","Publisher","Copies Sold","Revenue (INR)"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -78,11 +80,10 @@ public class OwnerPanel extends JPanel {
                 @Override protected void done() {
                     try {
                         for (Object[] row : get())
-                            tm.addRow(new Object[]{
-                                row[0],row[1],row[2],row[3],
+                            tm.addRow(new Object[]{row[0],row[1],row[2],row[3],
                                 row[4], String.format("%.2f",row[5])});
                         double rev = DatabaseManager.getInstance().getTotalRevenue(from, to);
-                        revLbl.setText(String.format("Total Revenue: ₹ %.2f", rev));
+                        revLbl.setText(String.format("Total Revenue: INR %.2f", rev));
                     } catch (Exception ex) { revLbl.setText("Error: " + ex.getMessage()); }
                 }
             }.execute();
@@ -96,7 +97,7 @@ public class OwnerPanel extends JPanel {
             StringBuilder sb = new StringBuilder();
             sb.append("SALES REPORT\n");
             sb.append("Period: ").append(fromF.getText()).append(" to ").append(toF.getText()).append("\n\n");
-            sb.append(String.format("%-14s %-25s %10s %12s%n","ISBN","Title","Copies","Revenue(₹)"));
+            sb.append(String.format("%-14s %-25s %10s %12s%n","ISBN","Title","Copies","Revenue(INR)"));
             sb.append("-".repeat(65)).append("\n");
             for (int r = 0; r < tm.getRowCount(); r++)
                 sb.append(String.format("%-14s %-25s %10s %12s%n",
@@ -106,8 +107,144 @@ public class OwnerPanel extends JPanel {
             PrinterUtil.printTextReport(sb.toString(), "Sales Report");
         });
 
-        // Auto-generate on open
         SwingUtilities.invokeLater(genBtn::doClick);
+        return p;
+    }
+
+    // ═══ TRANSACTION HISTORY ═════════════════════════════════════════════════
+
+    private JPanel transactionHistoryTab() {
+        JPanel p = new JPanel(new BorderLayout(10, 10));
+        p.setBackground(Color.WHITE); p.setBorder(new EmptyBorder(12,12,12,12));
+
+        // Controls
+        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 4));
+        top.setBackground(Color.WHITE);
+        top.setBorder(new TitledBorder("All Transactions — click a row to view receipt"));
+        JSpinner limitSpin = new JSpinner(new SpinnerNumberModel(50, 10, 500, 10));
+        JButton loadBtn = btn("Load History", new Color(37,99,235), Color.WHITE);
+        JLabel cntLbl = new JLabel();
+        cntLbl.setFont(new Font("SansSerif", Font.BOLD, 12));
+        top.add(new JLabel("Show last:")); top.add(limitSpin); top.add(loadBtn); top.add(cntLbl);
+        p.add(top, BorderLayout.NORTH);
+
+        // Split: transaction list (left) + receipt viewer (right)
+        JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        split.setResizeWeight(0.55);
+        split.setDividerSize(5);
+
+        // Transaction table
+        String[] cols = {"Sale ID", "Date & Time", "Clerk", "Items", "Total (INR)"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+        JTable txTable = styledTable(tm);
+        txTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        // Right-align total column
+        javax.swing.table.DefaultTableCellRenderer ra = new javax.swing.table.DefaultTableCellRenderer();
+        ra.setHorizontalAlignment(SwingConstants.RIGHT);
+        txTable.getColumnModel().getColumn(4).setCellRenderer(ra);
+        txTable.getColumnModel().getColumn(3).setCellRenderer(ra);
+
+        JScrollPane txScroll = new JScrollPane(txTable);
+        txScroll.setBorder(new TitledBorder("Transactions"));
+        split.setLeftComponent(txScroll);
+
+        // Receipt viewer panel (right side)
+        JPanel rightPanel = new JPanel(new BorderLayout(4, 4));
+        rightPanel.setBackground(Color.WHITE);
+
+        // Line items table
+        String[] itemCols = {"ISBN", "Title", "Qty", "Unit Price", "Subtotal"};
+        DefaultTableModel itemModel = new DefaultTableModel(itemCols, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+        JTable itemTable = styledTable(itemModel);
+        JScrollPane itemScroll = new JScrollPane(itemTable);
+        itemScroll.setBorder(new TitledBorder("Line Items"));
+
+        // Receipt text
+        JTextArea receiptArea = new JTextArea();
+        receiptArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
+        receiptArea.setEditable(false);
+        receiptArea.setBackground(new Color(250, 250, 245));
+        receiptArea.setMargin(new java.awt.Insets(8,8,8,8));
+        JScrollPane receiptScroll = new JScrollPane(receiptArea);
+        receiptScroll.setBorder(new TitledBorder("Receipt"));
+
+        // Vertically split items and receipt on the right
+        JSplitPane rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        rightSplit.setResizeWeight(0.45);
+        rightSplit.setDividerSize(4);
+        rightSplit.setTopComponent(itemScroll);
+        rightSplit.setBottomComponent(receiptScroll);
+        rightPanel.add(rightSplit, BorderLayout.CENTER);
+
+        // Reprint button
+        JPanel receiptBtns = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        receiptBtns.setBackground(Color.WHITE);
+        JButton reprintBtn = btn("Reprint Receipt", new Color(71,85,105), Color.WHITE);
+        reprintBtn.setEnabled(false);
+        receiptBtns.add(reprintBtn);
+        rightPanel.add(receiptBtns, BorderLayout.SOUTH);
+
+        split.setRightComponent(rightPanel);
+        p.add(split, BorderLayout.CENTER);
+
+        // ── Load transactions ─────────────────────────────────────────────
+        Runnable load = () -> {
+            tm.setRowCount(0);
+            var txns = DatabaseManager.getInstance().getTransactionHistory((int)limitSpin.getValue());
+            double totalRev = 0;
+            for (Object[] row : txns) {
+                tm.addRow(new Object[]{row[0], row[1], row[2], row[4],
+                    String.format("%.2f", (Double)row[3])});
+                totalRev += (Double)row[3];
+            }
+            cntLbl.setText("  " + txns.size() + " transactions  |  Total: INR " +
+                String.format("%.2f", totalRev));
+        };
+        loadBtn.addActionListener(e -> load.run());
+
+        // ── Select transaction → show details ─────────────────────────────
+        txTable.getSelectionModel().addListSelectionListener(e -> {
+            if (e.getValueIsAdjusting()) return;
+            int row = txTable.getSelectedRow();
+            if (row < 0) { reprintBtn.setEnabled(false); return; }
+
+            String saleId = tm.getValueAt(row, 0).toString();
+
+            // Load line items
+            itemModel.setRowCount(0);
+            var items = DatabaseManager.getInstance().getSaleItems(saleId);
+            for (Object[] it : items) {
+                itemModel.addRow(new Object[]{it[0], it[1], it[2],
+                    String.format("%.2f", (Double)it[3]),
+                    String.format("%.2f", (Double)it[4])});
+            }
+
+            // Load receipt content
+            String receipt = DatabaseManager.getInstance().getReceiptContent(saleId);
+            if (receipt != null && !receipt.isBlank()) {
+                receiptArea.setText(receipt);
+                reprintBtn.setEnabled(true);
+            } else {
+                receiptArea.setText("(Receipt not stored for this transaction)");
+                reprintBtn.setEnabled(false);
+            }
+            receiptArea.setCaretPosition(0);
+        });
+
+        // Reprint
+        reprintBtn.addActionListener(e -> {
+            String content = receiptArea.getText();
+            if (content != null && !content.isBlank()) {
+                PrinterUtil.printTextReport(content, "Receipt-Reprint");
+            }
+        });
+
+        SwingUtilities.invokeLater(load);
         return p;
     }
 
@@ -120,28 +257,27 @@ public class OwnerPanel extends JPanel {
         JPanel hdr = new JPanel(new FlowLayout(FlowLayout.LEFT,10,4));
         hdr.setBackground(Color.WHITE);
         hdr.setBorder(new TitledBorder(
-            "FR-4.3 Formula: Qty = max(0, ⌈Weekly Sales × Lead Time⌉ − Current Stock)"));
-        JButton loadBtn  = btn("Load Procurement Report", new Color(30,80,200), Color.WHITE);
-        JButton printBtn = btn("🖨 Print Report",          new Color(80,80,80),  Color.WHITE);
+            "FR-4.3 Formula: Qty = max(0, ceil(Weekly Sales x Lead Time) - Current Stock)"));
+        JButton loadBtn  = btn("Load Procurement Report", new Color(37,99,235), Color.WHITE);
+        JButton printBtn = btn("Print Report", new Color(71,85,105), Color.WHITE);
         hdr.add(loadBtn); hdr.add(printBtn);
         p.add(hdr, BorderLayout.NORTH);
 
         String[] cols = {
             "ISBN","Title","Publisher","Pub. Address",
-            "Stock","Threshold","Wk Sales","Lead(wk)","⚠ Order Qty"
+            "Stock","Threshold","Wk Sales","Lead(wk)","Order Qty"
         };
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
         JTable t = styledTable(tm);
 
-        // Highlight the "Order Qty" column
         t.getColumnModel().getColumn(8).setCellRenderer(new javax.swing.table.DefaultTableCellRenderer() {
             @Override public Component getTableCellRendererComponent(JTable tbl, Object v,
                     boolean sel, boolean foc, int row, int col) {
                 Component c = super.getTableCellRendererComponent(tbl,v,sel,foc,row,col);
                 int qty = v == null ? 0 : Integer.parseInt(v.toString());
-                if (!sel) c.setBackground(qty > 0 ? new Color(255,200,200) : new Color(200,240,210));
+                if (!sel) c.setBackground(qty > 0 ? new Color(254,202,202) : new Color(187,247,208));
                 c.setFont(c.getFont().deriveFont(Font.BOLD));
                 return c;
             }
@@ -167,7 +303,7 @@ public class OwnerPanel extends JPanel {
                             b.getRequiredProcurementQty()});
                         if (books.isEmpty())
                             JOptionPane.showMessageDialog(p,
-                                "All books are above their restock threshold. No procurement needed! 🎉",
+                                "All books are above their restock threshold. No procurement needed!",
                                 "All Good", JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(p,"Error: "+ex.getMessage(),
@@ -183,21 +319,19 @@ public class OwnerPanel extends JPanel {
                     JOptionPane.WARNING_MESSAGE); return;
             }
             StringBuilder sb = new StringBuilder();
-            sb.append("DAILY PROCUREMENT REPORT\n").append(LocalDate.now()).append("\n\n");
-            sb.append(String.format("%-13s %-22s %-18s %5s %8s %5s%n",
-                "ISBN","Title","Publisher","Stock","WkSale","Order"));
+            sb.append("PROCUREMENT REPORT\n");
+            sb.append("Date: ").append(LocalDate.now()).append("\n\n");
+            sb.append(String.format("%-14s %-22s %-20s %6s %9s%n",
+                "ISBN","Title","Publisher","Stock","Order Qty"));
             sb.append("-".repeat(75)).append("\n");
-            for (int r = 0; r < tm.getRowCount(); r++) {
-                sb.append(String.format("%-13s %-22s %-18s %5s %8s %5s%n",
+            for (int r = 0; r < tm.getRowCount(); r++)
+                sb.append(String.format("%-14s %-22s %-20s %6s %9s%n",
                     tm.getValueAt(r,0), abbrev(tm.getValueAt(r,1).toString(),21),
-                    abbrev(tm.getValueAt(r,2).toString(),17),
-                    tm.getValueAt(r,4), tm.getValueAt(r,6), tm.getValueAt(r,8)));
-                sb.append("  Address: ").append(tm.getValueAt(r,3)).append("\n");
-            }
-            PrinterUtil.printTextReport(sb.toString(),"Procurement Report");
+                    abbrev(tm.getValueAt(r,2).toString(),19),
+                    tm.getValueAt(r,4), tm.getValueAt(r,8)));
+            PrinterUtil.printTextReport(sb.toString(), "Procurement Report");
         });
 
-        // Auto-load on open
         SwingUtilities.invokeLater(loadBtn::doClick);
         return p;
     }
@@ -217,7 +351,7 @@ public class OwnerPanel extends JPanel {
 
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
         top.setBackground(Color.WHITE);
-        JButton refreshBtn = btn("Refresh", new Color(30,80,200), Color.WHITE);
+        JButton refreshBtn = btn("Refresh", new Color(37,99,235), Color.WHITE);
         JLabel cntLbl = new JLabel();
         top.add(refreshBtn); top.add(cntLbl);
         p.add(top, BorderLayout.NORTH);
@@ -229,7 +363,7 @@ public class OwnerPanel extends JPanel {
                 tm.addRow(new Object[]{
                     req.getRequestId(), req.getIsbn(), req.getTitle(),
                     req.getAuthor(),
-                    req.getEmail() == null ? "— (no email)" : req.getEmail(),
+                    req.getEmail() == null ? "-- (no email)" : req.getEmail(),
                     req.getFormattedTimestamp(), req.getStatus().name()});
             long pending = reqs.stream().filter(r -> r.getStatus().name().equals("PENDING")).count();
             cntLbl.setText("  Total: " + reqs.size() + "  |  Pending: " + pending);
@@ -252,35 +386,43 @@ public class OwnerPanel extends JPanel {
         GridBagConstraints g = new GridBagConstraints();
         g.insets = new Insets(6,8,6,8); g.fill = GridBagConstraints.HORIZONTAL;
 
-        JTextField  hostF  = fld(EmailService.getHost(),   22);
+        JTextField  hostF  = fld(EmailService.getHost(), 22);
         JTextField  portF  = fld(String.valueOf(EmailService.getPort()), 6);
-        JTextField  emailF = fld(EmailService.getEmail(),  22);
+        JTextField  emailF = fld(EmailService.getEmail(), 22);
         JPasswordField passF = new JPasswordField(22);
+        // Pre-fill with configured password (masked)
+        passF.setText(bas.config.AppConfig.SMTP_PASSWORD);
 
         Object[][] rows = {{"SMTP Host:", hostF},{"SMTP Port:", portF},
                            {"Sender Email:", emailF},{"App Password:", passF}};
         for (int i = 0; i < rows.length; i++) {
-            g.gridx=0; g.gridy=i; g.weightx=0; form.add(new JLabel((String)rows[i][0]),g);
-            g.gridx=1; g.weightx=1; form.add((Component)rows[i][1],g);
+            g.gridx=0; g.gridy=i; g.weightx=0;
+            JLabel l = new JLabel((String)rows[i][0]);
+            l.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            form.add(l, g);
+            g.gridx=1; g.weightx=1; form.add((Component)rows[i][1], g);
         }
 
         g.gridx=0; g.gridy=4; g.gridwidth=2;
         JLabel hint = new JLabel(
-            "<html><i>Gmail: enable 2FA → Google Account → Security → App Passwords.<br>" +
-            "Use the generated 16-char password here, not your Google password.</i></html>");
-        hint.setForeground(Color.GRAY);
+            "<html><i>Gmail: enable 2FA, then Google Account > Security > App Passwords.<br>" +
+            "Use the generated 16-char password here, not your Google password.<br>" +
+            "<b>Pre-configured with project credentials.</b></i></html>");
+        hint.setForeground(new Color(100,116,139));
         hint.setFont(new Font("SansSerif",Font.PLAIN,11));
         form.add(hint,g);
         p.add(form, BorderLayout.CENTER);
 
-        JLabel statusLbl = new JLabel(" ", SwingConstants.CENTER);
+        JLabel statusLbl = new JLabel(EmailService.isConfigured()
+            ? "SMTP pre-configured and ready." : " ", SwingConstants.CENTER);
         statusLbl.setFont(new Font("SansSerif",Font.ITALIC,12));
+        statusLbl.setForeground(EmailService.isConfigured() ? new Color(22,163,74) : Color.BLACK);
         p.add(statusLbl, BorderLayout.NORTH);
 
         JPanel btns = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btns.setBackground(Color.WHITE);
-        JButton save = btn("Save & Apply",   new Color(30,130,50),  Color.WHITE);
-        JButton test = btn("Send Test Email", new Color(100,60,160), Color.WHITE);
+        JButton save = btn("Save & Apply",    new Color(22,163,74),  Color.WHITE);
+        JButton test = btn("Send Test Email", new Color(126,34,206), Color.WHITE);
         btns.add(test); btns.add(save);
         p.add(btns, BorderLayout.SOUTH);
 
@@ -291,28 +433,43 @@ public class OwnerPanel extends JPanel {
                     Integer.parseInt(portF.getText().trim()),
                     emailF.getText().trim(),
                     new String(passF.getPassword()));
-                statusLbl.setForeground(new Color(0,130,0));
-                statusLbl.setText("✔ Email settings saved.");
+                statusLbl.setForeground(new Color(22,163,74));
+                statusLbl.setText("Email settings saved and applied.");
                 DatabaseManager.getInstance().addLog("OWNER","CONFIG",
                     "SMTP configured: " + emailF.getText().trim());
             } catch (NumberFormatException ex) {
-                statusLbl.setForeground(Color.RED);
+                statusLbl.setForeground(new Color(220,38,38));
                 statusLbl.setText("Invalid port number.");
             }
         });
 
         test.addActionListener(e -> {
             if (!EmailService.isConfigured()) {
-                statusLbl.setForeground(Color.RED);
+                statusLbl.setForeground(new Color(220,38,38));
                 statusLbl.setText("Save settings first."); return;
             }
             String to = JOptionPane.showInputDialog(p,"Send test email to:","Test Email",
                 JOptionPane.PLAIN_MESSAGE);
             if (to == null || to.isBlank()) return;
-            boolean ok = EmailService.send(to,"BAS Test Email",
-                "This is a test from BAS. SMTP is configured correctly.");
-            statusLbl.setForeground(ok ? new Color(0,130,0) : Color.RED);
-            statusLbl.setText(ok ? "✔ Test sent to "+to : "✘ Send failed — check console.");
+            statusLbl.setForeground(new Color(100,116,139));
+            statusLbl.setText("Sending...");
+            new SwingWorker<Boolean, Void>() {
+                @Override protected Boolean doInBackground() {
+                    return EmailService.send(to,"BAS Test Email",
+                        "This is a test from BAS (Bookshop Inventory & Sales Management System).\n" +
+                        "SMTP is configured correctly.\n\n— BAS-SWE Project, Group G01");
+                }
+                @Override protected void done() {
+                    try {
+                        boolean ok = get();
+                        statusLbl.setForeground(ok ? new Color(22,163,74) : new Color(220,38,38));
+                        statusLbl.setText(ok ? "Test sent to " + to : "Send failed — check console.");
+                    } catch (Exception ex) {
+                        statusLbl.setForeground(new Color(220,38,38));
+                        statusLbl.setText("Error: " + ex.getMessage());
+                    }
+                }
+            }.execute();
         });
 
         return p;
@@ -334,7 +491,7 @@ public class OwnerPanel extends JPanel {
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
         top.setBackground(Color.WHITE);
         JSpinner spin = new JSpinner(new SpinnerNumberModel(100, 10, 1000, 10));
-        JButton loadBtn = btn("Load Logs", new Color(30,80,200), Color.WHITE);
+        JButton loadBtn = btn("Load Logs", new Color(37,99,235), Color.WHITE);
         top.add(new JLabel("Show last:")); top.add(spin); top.add(loadBtn);
         p.add(top, BorderLayout.NORTH);
 
@@ -353,9 +510,9 @@ public class OwnerPanel extends JPanel {
     private JTable styledTable(DefaultTableModel tm) {
         JTable t = new JTable(tm);
         t.setFont(new Font("SansSerif",Font.PLAIN,12));
-        t.setRowHeight(24);
+        t.setRowHeight(26);
         t.getTableHeader().setFont(new Font("SansSerif",Font.BOLD,12));
-        t.setGridColor(new Color(225,225,225));
+        t.setGridColor(new Color(226,232,240));
         return t;
     }
 
@@ -368,7 +525,7 @@ public class OwnerPanel extends JPanel {
 
     private JTextField fld(String val, int cols) { return new JTextField(val, cols); }
     private String abbrev(String s, int max) {
-        return s.length() > max ? s.substring(0,max-1)+"…" : s;
+        return s.length() > max ? s.substring(0,max-1) + "..." : s;
     }
     private String nullSafe(String s) { return s == null ? "" : s; }
 }

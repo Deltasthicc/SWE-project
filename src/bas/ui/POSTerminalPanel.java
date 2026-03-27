@@ -1,9 +1,11 @@
 package bas.ui;
 
+import bas.auth.SessionManager;
 import bas.db.DatabaseManager;
 import bas.model.Book;
 import bas.model.LineItem;
 import bas.model.SaleRecord;
+import bas.model.User;
 import bas.util.ISBNValidator;
 import bas.util.PrinterUtil;
 
@@ -11,11 +13,10 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.*;
 
 /**
  * POS Terminal (F3) for Sales Clerk / Manager / Owner.
- * ISBN entry → real-time bill → atomic confirm → receipt preview + print option.
+ * JWT session validated before confirming sales.
  */
 public class POSTerminalPanel extends JPanel {
 
@@ -31,7 +32,7 @@ public class POSTerminalPanel extends JPanel {
 
     private SaleRecord    currentSale;
 
-    private static final String[] COLS = {"#","ISBN","Title","Qty","Unit ₹","Subtotal ₹"};
+    private static final String[] COLS = {"#","ISBN","Title","Qty","Unit (INR)","Subtotal (INR)"};
 
     public POSTerminalPanel(String clerkId) {
         this.clerkId     = clerkId;
@@ -47,43 +48,39 @@ public class POSTerminalPanel extends JPanel {
     }
 
     private void build() {
-
-        // ── ISBN input ────────────────────────────────────────────────────────
+        // ── ISBN input ─────────────────────────────────────────────────────
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
         top.setBackground(Color.WHITE);
         top.setBorder(new CompoundBorder(
             new TitledBorder("Add Item  (type or scan ISBN — press Enter)"),
-            new EmptyBorder(2, 4, 2, 4)));
+            new EmptyBorder(4, 6, 4, 6)));
 
         isbnField = new JTextField(20);
         isbnField.setFont(new Font("Monospaced", Font.BOLD, 15));
         isbnField.setToolTipText("ISBN-10 or ISBN-13");
 
         qtySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 999, 1));
-        ((JSpinner.DefaultEditor) qtySpinner.getEditor())
-                .getTextField().setColumns(4);
+        ((JSpinner.DefaultEditor) qtySpinner.getEditor()).getTextField().setColumns(4);
 
-        addBtn = btn("➕  Add", new Color(30, 140, 60), Color.WHITE);
+        addBtn = btn("Add", new Color(22, 163, 74), Color.WHITE);
 
-        // Quick-add demo buttons for easy demo
-        JButton q1 = quickBtn("Atomic Habits",     "9781982173593");
-        JButton q2 = quickBtn("The Alchemist",      "9780062315007");
-        JButton q3 = quickBtn("The Hunger Games",   "9780439023481");
+        JButton q1 = quickBtn("Atomic Habits",   "9781982173593");
+        JButton q2 = quickBtn("The Alchemist",    "9780062315007");
+        JButton q3 = quickBtn("Hunger Games",     "9780439023481");
 
-        top.add(new JLabel("ISBN:"));  top.add(isbnField);
-        top.add(new JLabel("Qty:"));   top.add(qtySpinner);
+        top.add(new JLabel("ISBN:")); top.add(isbnField);
+        top.add(new JLabel("Qty:")); top.add(qtySpinner);
         top.add(addBtn);
         top.add(new JSeparator(SwingConstants.VERTICAL));
         top.add(new JLabel("Quick-add:"));
         top.add(q1); top.add(q2); top.add(q3);
         add(top, BorderLayout.NORTH);
 
-        // ── Split: bill (left) + receipt preview (right) ─────────────────────
+        // ── Split: bill (left) + receipt preview (right) ──────────────────
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         split.setResizeWeight(0.62);
         split.setDividerSize(5);
 
-        // Bill table
         billModel = new DefaultTableModel(COLS, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -91,10 +88,9 @@ public class POSTerminalPanel extends JPanel {
         billTable.setFont(new Font("SansSerif", Font.PLAIN, 13));
         billTable.setRowHeight(28);
         billTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        billTable.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 13));
-        billTable.setGridColor(new Color(220, 220, 220));
+        billTable.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
+        billTable.setGridColor(new Color(226, 232, 240));
 
-        // Right-align numeric cols
         DefaultTableCellRenderer ra = new DefaultTableCellRenderer();
         ra.setHorizontalAlignment(SwingConstants.RIGHT);
         for (int col : new int[]{3,4,5}) billTable.getColumnModel().getColumn(col).setCellRenderer(ra);
@@ -103,11 +99,10 @@ public class POSTerminalPanel extends JPanel {
         billScroll.setBorder(new TitledBorder("Current Bill"));
         split.setLeftComponent(billScroll);
 
-        // Receipt preview
         receiptArea = new JTextArea();
         receiptArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
         receiptArea.setEditable(false);
-        receiptArea.setBackground(new Color(250, 250, 240));
+        receiptArea.setBackground(new Color(250, 250, 245));
         receiptArea.setMargin(new Insets(8,8,8,8));
         JScrollPane rScroll = new JScrollPane(receiptArea);
         rScroll.setBorder(new TitledBorder("Receipt Preview"));
@@ -115,24 +110,24 @@ public class POSTerminalPanel extends JPanel {
 
         add(split, BorderLayout.CENTER);
 
-        // ── Bottom bar ────────────────────────────────────────────────────────
+        // ── Bottom bar ─────────────────────────────────────────────────────
         JPanel bot = new JPanel(new BorderLayout(10, 6));
         bot.setBackground(Color.WHITE);
-        bot.setBorder(new EmptyBorder(6, 0, 0, 0));
+        bot.setBorder(new EmptyBorder(8, 0, 0, 0));
 
         statusLbl = new JLabel(" ");
         statusLbl.setFont(new Font("SansSerif", Font.ITALIC, 12));
-        statusLbl.setForeground(new Color(80, 80, 80));
+        statusLbl.setForeground(new Color(100, 116, 139));
 
-        totalLbl = new JLabel("TOTAL:  ₹ 0.00", SwingConstants.RIGHT);
+        totalLbl = new JLabel("TOTAL:  INR 0.00", SwingConstants.RIGHT);
         totalLbl.setFont(new Font("SansSerif", Font.BOLD, 20));
-        totalLbl.setForeground(new Color(20, 80, 160));
+        totalLbl.setForeground(new Color(37, 99, 235));
 
         JPanel btnsRight = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         btnsRight.setBackground(Color.WHITE);
-        removeBtn  = btn("🗑 Remove",         new Color(160, 80, 20),  Color.WHITE);
-        clearBtn   = btn("✖ Clear Bill",      new Color(180, 40, 40),  Color.WHITE);
-        confirmBtn = btn("✔ Confirm & Print", new Color(15, 130, 50),  Color.WHITE);
+        removeBtn  = btn("Remove",          new Color(180, 83, 9),   Color.WHITE);
+        clearBtn   = btn("Clear Bill",      new Color(220, 38, 38),  Color.WHITE);
+        confirmBtn = btn("Confirm & Print", new Color(22, 163, 74),  Color.WHITE);
         confirmBtn.setFont(new Font("SansSerif", Font.BOLD, 14));
         confirmBtn.setEnabled(false);
         removeBtn.setEnabled(false);
@@ -144,7 +139,7 @@ public class POSTerminalPanel extends JPanel {
         bot.add(btnsRight,  BorderLayout.EAST);
         add(bot, BorderLayout.SOUTH);
 
-        // ── Listeners ─────────────────────────────────────────────────────────
+        // ── Listeners ──────────────────────────────────────────────────────
         addBtn.addActionListener(e -> addItem());
         isbnField.addActionListener(e -> addItem());
 
@@ -168,7 +163,7 @@ public class POSTerminalPanel extends JPanel {
         });
     }
 
-    // ── Add item ─────────────────────────────────────────────────────────────
+    // ── Add item ──────────────────────────────────────────────────────────────
 
     private void addItem() {
         String raw = isbnField.getText().trim();
@@ -188,48 +183,54 @@ public class POSTerminalPanel extends JPanel {
             @Override protected void done() {
                 try {
                     Book b = get();
-                    if (b == null) {
-                        status("ISBN " + isbn + " not found in inventory.");
-                        return;
-                    }
+                    if (b == null) { status("ISBN " + isbn + " not found in inventory."); return; }
                     if (b.getStockCount() < qty) {
-                        status("Only " + b.getStockCount() + " copies of \""+b.getTitle()+"\" in stock.");
+                        status("Only " + b.getStockCount() + " copies of \"" + b.getTitle() + "\" in stock.");
                         return;
                     }
                     currentSale.addItem(new LineItem(isbn, b.getTitle(), qty, b.getUnitPrice()));
                     refresh();
                     isbnField.setText(""); qtySpinner.setValue(1); isbnField.requestFocus();
-                    status("Added: " + b.getTitle() + "  ×" + qty);
+                    status("Added: " + b.getTitle() + "  x" + qty);
                 } catch (Exception ex) { status("Error: " + ex.getMessage()); }
                 finally { addBtn.setEnabled(true); }
             }
         }.execute();
     }
 
-    // ── Confirm ───────────────────────────────────────────────────────────────
+    // ── Confirm with JWT validation ───────────────────────────────────────────
 
     private void confirmSale() {
         if (currentSale.getItems().isEmpty()) { status("Bill is empty."); return; }
 
+        // Validate JWT session before allowing sale
+        if (!SessionManager.getInstance().isAuthenticated()) {
+            JOptionPane.showMessageDialog(this,
+                "Session expired. Please log in again.",
+                "Session Expired", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        SessionManager.getInstance().requireRole(User.Role.CLERK, User.Role.MANAGER, User.Role.OWNER);
+
         String msg = String.format(
-            "Confirm sale of %d item(s)?\nTotal: ₹ %.2f\nSale ID: %s",
+            "Confirm sale of %d item(s)?\nTotal: INR %.2f\nSale ID: %s",
             currentSale.getItems().size(), currentSale.getTotalAmount(), currentSale.getSaleId());
         if (JOptionPane.showConfirmDialog(this, msg, "Confirm Sale",
                 JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) return;
 
         confirmBtn.setEnabled(false);
         final SaleRecord sale = currentSale;
+        final String receipt = PrinterUtil.buildReceiptString(sale);
 
         new SwingWorker<Boolean, Void>() {
             @Override protected Boolean doInBackground() {
-                return DatabaseManager.getInstance().saveSaleAtomically(sale);
+                return DatabaseManager.getInstance().saveSaleAtomically(sale, receipt);
             }
             @Override protected void done() {
                 try {
                     if (get()) {
-                        String receipt = PrinterUtil.buildReceiptString(sale);
                         receiptArea.setText(receipt);
-                        status("✔ Sale " + sale.getSaleId() + " completed  —  ₹ " +
+                        status("Sale " + sale.getSaleId() + " completed — INR " +
                                String.format("%.2f", sale.getTotalAmount()));
                         if (JOptionPane.showConfirmDialog(POSTerminalPanel.this,
                                 "Sale complete!\n\nSend to printer?",
@@ -239,7 +240,7 @@ public class POSTerminalPanel extends JPanel {
                         }
                         currentSale = newSale(); refresh();
                     } else {
-                        status("⚠ Sale failed — stock may be insufficient. Review the bill.");
+                        status("Sale failed — stock may be insufficient. Review the bill.");
                         confirmBtn.setEnabled(true);
                     }
                 } catch (Exception ex) {
@@ -261,7 +262,7 @@ public class POSTerminalPanel extends JPanel {
                 String.format("%.2f", it.getUnitPrice()),
                 String.format("%.2f", it.getSubtotal())});
         }
-        totalLbl.setText(String.format("TOTAL:  ₹ %.2f", currentSale.getTotalAmount()));
+        totalLbl.setText(String.format("TOTAL:  INR %.2f", currentSale.getTotalAmount()));
         confirmBtn.setEnabled(!currentSale.getItems().isEmpty());
         removeBtn.setEnabled(false);
     }

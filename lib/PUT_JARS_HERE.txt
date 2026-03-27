@@ -1,12 +1,13 @@
-Place JAR files here before compiling.
+Place the following JARs in this folder:
 
-REQUIRED (app will not start without this):
-  sqlite-jdbc-3.45.1.0.jar
-  Download: https://github.com/xerial/sqlite-jdbc/releases
-  Pick the latest .jar file (e.g. sqlite-jdbc-3.45.3.0.jar)
+REQUIRED:
+  - postgresql-42.7.4.jar        -> https://jdbc.postgresql.org/download/
+  - javax.mail-1.6.2.jar         -> (already included)
+  - javax.activation-1.2.0.jar   -> (already included)
 
-OPTIONAL (only needed for real email notifications):
-  javax.mail-1.6.2.jar
-  Download: https://mvnrepository.com/artifact/com.sun.mail/javax.mail/1.6.2
-  Click the "jar" download link.
-  Without this, the app still runs fully — emails just print a console warning.
+OPTIONAL (recommended for modern UI):
+  - flatlaf-3.4.1.jar            -> https://github.com/JFormDesigner/FlatLaf/releases
+
+Quick download commands:
+  curl -L -o postgresql-42.7.4.jar https://jdbc.postgresql.org/download/postgresql-42.7.4.jar
+  curl -L -o flatlaf-3.4.1.jar https://repo1.maven.org/maven2/com/formdev/flatlaf/3.4.1/flatlaf-3.4.1.jar
