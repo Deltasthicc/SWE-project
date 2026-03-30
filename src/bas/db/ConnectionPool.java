@@ -20,7 +20,7 @@ import java.util.concurrent.BlockingQueue;
 public final class ConnectionPool {
 
     private static final int POOL_SIZE = 5;
-    private static final long MAX_IDLE_MS = 5 * 60 * 1000; // 5 minutes
+    private static final long MAX_IDLE_MS = 2 * 60 * 1000; // 2 minutes (PgBouncer kills idle faster)
 
     private static ConnectionPool instance;
     private final BlockingQueue<PooledConnection> pool;
@@ -96,9 +96,8 @@ public final class ConnectionPool {
         try {
             if (pc.conn.isClosed()) return false;
             if (System.currentTimeMillis() - pc.createdAt > MAX_IDLE_MS) return false;
-            // Quick validation query
-            pc.conn.isValid(2);
-            return true;
+            // Quick validation — MUST use return value
+            return pc.conn.isValid(2);
         } catch (SQLException e) {
             return false;
         }

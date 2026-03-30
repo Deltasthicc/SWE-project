@@ -3,8 +3,9 @@ package bas.util;
 import java.util.regex.Pattern;
 
 public class EmailValidator {
+    // Rejects consecutive dots (domain..com), leading/trailing dots, empty labels
     private static final Pattern P =
-        Pattern.compile("^[\\w._%+\\-]+@[\\w.\\-]+\\.[a-zA-Z]{2,}$");
+        Pattern.compile("^[\\w._%+\\-]+@[\\w]+([.\\-][\\w]+)*\\.[a-zA-Z]{2,}$");
 
     public static boolean isValid(String email) {
         return email != null && P.matcher(email.trim()).matches();
