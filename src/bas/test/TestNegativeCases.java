@@ -253,8 +253,9 @@ public class TestNegativeCases {
 
     @Test @Order(71) @DisplayName("AES: truncated ciphertext throws")
     void aesTruncated() {
-        String enc = AESUtil.encrypt("secret", "key");
-        String truncated = enc.substring(0, enc.length() / 2);
+        String enc = AESUtil.encrypt("secret data here", "key");
+        // Truncate to just 4 chars — far too short for 16-byte IV + any encrypted data
+        String truncated = enc.substring(0, 4);
         assertThrows(RuntimeException.class, () -> AESUtil.decrypt(truncated, "key"));
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="JUnit Jupiter" tests="420" skipped="0" failures="0" errors="0" time="25.348" hostname="Shashwat-Laptop" timestamp="2026-03-30T23:57:48">
+<testsuite name="JUnit Jupiter" tests="420" skipped="0" failures="0" errors="0" time="26.867" hostname="Shashwat-Laptop" timestamp="2026-04-01T17:48:57">
 <properties>
 <property name="file.encoding" value="UTF-8"/>
 <property name="file.separator" value="\"/>
@@ -47,7 +47,7 @@
 <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
 <property name="sun.os.patch.level" value=""/>
 <property name="user.country" value="US"/>
-<property name="user.dir" value="C:\Users\shash\Downloads\SWE_Project\SWE-project-main3\SWE-project-main"/>
+<property name="user.dir" value="C:\Users\shash\Downloads\SWE_Project\SWE-project"/>
 <property name="user.home" value="C:\Users\shash"/>
 <property name="user.language" value="en"/>
 <property name="user.name" value="shash"/>
@@ -55,31 +55,31 @@
 <property name="user.timezone" value="Asia/Calcutta"/>
 <property name="user.variant" value=""/>
 </properties>
-<testcase name="nfr4_smtpTLS()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="nfr4_smtpTLS()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr4_smtpTLS()]
 display-name: NFR-4: SMTP uses STARTTLS (port 587)
 ]]></system-out>
 </testcase>
-<testcase name="sessionRequireThrows()" classname="bas.test.TestNegativeCases" time="0.003">
+<testcase name="sessionRequireThrows()" classname="bas.test.TestNegativeCases" time="0.004">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:sessionRequireThrows()]
 display-name: Session: requireRole throws when not authenticated
 ]]></system-out>
 </testcase>
-<testcase name="saleNonexistentISBN()" classname="bas.test.TestNegativeCases" time="0.091">
+<testcase name="saleNonexistentISBN()" classname="bas.test.TestNegativeCases" time="0.093">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleNonexistentISBN()]
 display-name: Sale: nonexistent ISBN in sale fails
 ]]></system-out>
 </testcase>
-<testcase name="saleNonexistentISBN()" classname="bas.test.TestDatabase" time="0.092">
+<testcase name="saleNonexistentISBN()" classname="bas.test.TestDatabase" time="0.09">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:saleNonexistentISBN()]
 display-name: Sale: fails for nonexistent ISBN
 ]]></system-out>
 </testcase>
-<testcase name="searchByTitle()" classname="bas.test.TestDatabase" time="0.002">
+<testcase name="searchByTitle()" classname="bas.test.TestDatabase" time="0.004">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:searchByTitle()]
 display-name: Search: searchByTitle finds '1984'
@@ -91,31 +91,31 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwt
 display-name: JWT: payload contains correct name
 ]]></system-out>
 </testcase>
-<testcase name="addStockZero()" classname="bas.test.TestDatabase" time="0.001">
+<testcase name="addStockZero()" classname="bas.test.TestDatabase" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addStockZero()]
 display-name: AddStock: zero quantity returns false
 ]]></system-out>
 </testcase>
-<testcase name="parallelLogWrites()" classname="bas.test.TestConcurrency" time="0.186">
+<testcase name="parallelLogWrites()" classname="bas.test.TestConcurrency" time="0.151">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelLogWrites()]
 display-name: Concurrent: 10 parallel log writes don't interfere
 ]]></system-out>
 </testcase>
-<testcase name="emailOnlySpaces()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="emailOnlySpaces()" classname="bas.test.TestNegativeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:emailOnlySpaces()]
 display-name: Email: only whitespace
 ]]></system-out>
 </testcase>
-<testcase name="validISBN13WithHyphens()" classname="bas.test.TestISBNValidator" time="0">
+<testcase name="validISBN13WithHyphens()" classname="bas.test.TestISBNValidator" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:validISBN13WithHyphens()]
 display-name: Valid ISBN-13 with hyphens: 978-0-451-52493-5
 ]]></system-out>
 </testcase>
-<testcase name="w1_login()" classname="bas.test.TestIntegrationWorkflow" time="0.062">
+<testcase name="w1_login()" classname="bas.test.TestIntegrationWorkflow" time="0.061">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w1_login()]
 display-name: W1.1: Clerk authenticates successfully
@@ -124,7 +124,7 @@ display-name: W1.1: Clerk authenticates successfully
 <testcase name="searchSameAuthor()" classname="bas.test.TestAdvancedScenarios" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:searchSameAuthor()]
-display-name: Search: author search finds multiple books by same author
+display-name: Search: same author finds multiple
 ]]></system-out>
 </testcase>
 <testcase name="highPrice()" classname="bas.test.TestEdgeCases" time="0">
@@ -133,13 +133,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:highPri
 display-name: SaleRecord: very high price
 ]]></system-out>
 </testcase>
-<testcase name="searchNoResults()" classname="bas.test.TestDatabase" time="0">
+<testcase name="searchNoResults()" classname="bas.test.TestDatabase" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:searchNoResults()]
 display-name: Search: no results for nonsense query
 ]]></system-out>
 </testcase>
-<testcase name="fr3_5_inventoryDecrement()" classname="bas.test.TestSRSCompliance" time="0.491">
+<testcase name="fr3_5_inventoryDecrement()" classname="bas.test.TestSRSCompliance" time="0.485">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr3_5_inventoryDecrement()]
 display-name: FR-3.5: Inventory decremented after successful transaction
@@ -151,7 +151,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method
 display-name: Genre: has Sci-Fi & Fantasy (rack C-*)
 ]]></system-out>
 </testcase>
-<testcase name="saleRemoveNonexistent()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="saleRemoveNonexistent()" classname="bas.test.TestNegativeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleRemoveNonexistent()]
 display-name: SaleRecord: remove nonexistent ISBN doesn't crash
@@ -175,37 +175,37 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:lineItemSe
 display-name: LineItem: quantity updatable
 ]]></system-out>
 </testcase>
-<testcase name="saleRemoveFromEmpty()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="saleRemoveFromEmpty()" classname="bas.test.TestNegativeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleRemoveFromEmpty()]
 display-name: SaleRecord: remove from empty sale doesn't crash
 ]]></system-out>
 </testcase>
-<testcase name="receiptLineItems()" classname="bas.test.TestEmailAndPrinter" time="0.003">
+<testcase name="receiptLineItems()" classname="bas.test.TestEmailAndPrinter" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:receiptLineItems()]
 display-name: Receipt: contains all line items
 ]]></system-out>
 </testcase>
-<testcase name="w3_salesReport()" classname="bas.test.TestIntegrationWorkflow" time="0.122">
+<testcase name="w3_salesReport()" classname="bas.test.TestIntegrationWorkflow" time="0.135">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w3_salesReport()]
 display-name: W3.2: Owner generates sales report
 ]]></system-out>
 </testcase>
-<testcase name="receiptLongTitle()" classname="bas.test.TestEmailAndPrinter" time="0.002">
+<testcase name="receiptLongTitle()" classname="bas.test.TestEmailAndPrinter" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:receiptLongTitle()]
 display-name: Receipt: long title gets truncated
 ]]></system-out>
 </testcase>
-<testcase name="emailLongLocal()" classname="bas.test.TestEdgeCases" time="0.002">
+<testcase name="emailLongLocal()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:emailLongLocal()]
 display-name: Email: very long local part
 ]]></system-out>
 </testcase>
-<testcase name="emptyEmail()" classname="bas.test.TestEmailValidator" time="0.001">
+<testcase name="emptyEmail()" classname="bas.test.TestEmailValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:emptyEmail()]
 display-name: Invalid: empty string
@@ -223,25 +223,25 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:val
 display-name: Valid ISBN-10: 0451524934
 ]]></system-out>
 </testcase>
-<testcase name="validISBN10EndingX()" classname="bas.test.TestISBNValidator" time="0.001">
+<testcase name="validISBN10EndingX()" classname="bas.test.TestISBNValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:validISBN10EndingX()]
 display-name: Valid ISBN-10 ending in X: 080442957X
 ]]></system-out>
 </testcase>
-<testcase name="salesHaveReceipts()" classname="bas.test.TestSeedDataIntegrity" time="0.939">
+<testcase name="salesHaveReceipts()" classname="bas.test.TestSeedDataIntegrity" time="1.333">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:salesHaveReceipts()]
 display-name: Sales: demo sales have receipt content stored
 ]]></system-out>
 </testcase>
-<testcase name="w4_pendingEmails()" classname="bas.test.TestIntegrationWorkflow" time="0.061">
+<testcase name="w4_pendingEmails()" classname="bas.test.TestIntegrationWorkflow" time="0.072">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w4_pendingEmails()]
 display-name: W4.3: Pending emails exist for restocked book
 ]]></system-out>
 </testcase>
-<testcase name="saleEmptyItems()" classname="bas.test.TestNegativeCases" time="0.119">
+<testcase name="saleEmptyItems()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleEmptyItems()]
 display-name: Sale: empty items list fails
@@ -253,25 +253,25 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:searchBy
 display-name: Search: searchByAuthor finds George Orwell
 ]]></system-out>
 </testcase>
-<testcase name="stockNonNegative()" classname="bas.test.TestDatabase" time="0.158">
+<testcase name="stockNonNegative()" classname="bas.test.TestDatabase" time="0.194">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:stockNonNegative()]
 display-name: Stock: sale cannot make stock negative
 ]]></system-out>
 </testcase>
-<testcase name="fr3_3_realTimeTotal()" classname="bas.test.TestSRSCompliance" time="0">
+<testcase name="fr3_3_realTimeTotal()" classname="bas.test.TestSRSCompliance" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr3_3_realTimeTotal()]
 display-name: FR-3.3: Total bill calculated in real time
 ]]></system-out>
 </testcase>
-<testcase name="atomicSaleSuccess()" classname="bas.test.TestDatabase" time="0.328">
+<testcase name="atomicSaleSuccess()" classname="bas.test.TestDatabase" time="0.36">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:atomicSaleSuccess()]
 display-name: Sale: atomic sale succeeds with sufficient stock
 ]]></system-out>
 </testcase>
-<testcase name="sqlInjectionLogin()" classname="bas.test.TestEdgeCases" time="0.063">
+<testcase name="sqlInjectionLogin()" classname="bas.test.TestEdgeCases" time="0.064">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:sqlInjectionLogin()]
 display-name: SQL Injection: login with SQL payload
@@ -283,7 +283,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:emp
 display-name: Invalid: empty string
 ]]></system-out>
 </testcase>
-<testcase name="stockZero()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="stockZero()" classname="bas.test.TestNegativeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:stockZero()]
 display-name: Stock: add zero quantity returns false
@@ -295,13 +295,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwt
 display-name: JWT: valid token passes validation
 ]]></system-out>
 </testcase>
-<testcase name="bookSetters()" classname="bas.test.TestModels" time="0.001">
+<testcase name="bookSetters()" classname="bas.test.TestModels" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookSetters()]
 display-name: Book: setters update fields correctly
 ]]></system-out>
 </testcase>
-<testcase name="parallelAuthorSearches()" classname="bas.test.TestConcurrency" time="0.007">
+<testcase name="parallelAuthorSearches()" classname="bas.test.TestConcurrency" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelAuthorSearches()]
 display-name: Concurrent: 10 parallel author searches complete without error
@@ -310,7 +310,7 @@ display-name: Concurrent: 10 parallel author searches complete without error
 <testcase name="receiptTotalAccuracy()" classname="bas.test.TestAdvancedScenarios" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:receiptTotalAccuracy()]
-display-name: Receipt: total matches item subtotals
+display-name: Receipt: total accuracy
 ]]></system-out>
 </testcase>
 <testcase name="aesLongText()" classname="bas.test.TestCryptoAndAuth" time="0.001">
@@ -325,13 +325,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:isbnAll
 display-name: ISBN: 13-digit all zeros except last (valid: checksum = 0)
 ]]></system-out>
 </testcase>
-<testcase name="oosTimestampFormat()" classname="bas.test.TestSupplementary" time="0.006">
+<testcase name="oosTimestampFormat()" classname="bas.test.TestSupplementary" time="0.003">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:oosTimestampFormat()]
 display-name: OOSRequest: getFormattedTimestamp matches yyyy-MM-dd HH:mm:ss
 ]]></system-out>
 </testcase>
-<testcase name="nfr3_roleAccess()" classname="bas.test.TestSRSCompliance" time="0.002">
+<testcase name="nfr3_roleAccess()" classname="bas.test.TestSRSCompliance" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr3_roleAccess()]
 display-name: NFR-3: Role-based access enforcement
@@ -343,31 +343,31 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwt
 display-name: JWT: payload contains correct role
 ]]></system-out>
 </testcase>
-<testcase name="w3_ownerLogin()" classname="bas.test.TestIntegrationWorkflow" time="0.061">
+<testcase name="w3_ownerLogin()" classname="bas.test.TestIntegrationWorkflow" time="0.06">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w3_ownerLogin()]
-display-name: W3.1: Owner authenticates and gets JWT
+display-name: W3.1: Owner authenticates
 ]]></system-out>
 </testcase>
-<testcase name="isbnNegative()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="isbnNegative()" classname="bas.test.TestNegativeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:isbnNegative()]
 display-name: ISBN: negative number string
 ]]></system-out>
 </testcase>
-<testcase name="specialCharsSearch()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="specialCharsSearch()" classname="bas.test.TestEdgeCases" time="0.004">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:specialCharsSearch()]
 display-name: Special chars in search: %_\
 ]]></system-out>
 </testcase>
-<testcase name="fr3_1_isbnEntry()" classname="bas.test.TestSRSCompliance" time="0.069">
+<testcase name="fr3_1_isbnEntry()" classname="bas.test.TestSRSCompliance" time="0.06">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr3_1_isbnEntry()]
 display-name: FR-3.1: Clerk enters ISBN during checkout
 ]]></system-out>
 </testcase>
-<testcase name="oosMarkNotified()" classname="bas.test.TestDatabase" time="0.131">
+<testcase name="oosMarkNotified()" classname="bas.test.TestDatabase" time="0.144">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:oosMarkNotified()]
 display-name: OOS: markNotified changes status
@@ -379,7 +379,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:e
 display-name: Email: reconfigure with empty clears ready flag
 ]]></system-out>
 </testcase>
-<testcase name="parallelJWTGeneration()" classname="bas.test.TestConcurrency" time="0.005">
+<testcase name="parallelJWTGeneration()" classname="bas.test.TestConcurrency" time="0.014">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelJWTGeneration()]
 display-name: Concurrent: 20 parallel JWT generations are all unique
@@ -388,13 +388,13 @@ display-name: Concurrent: 20 parallel JWT generations are all unique
 <testcase name="w5_logout()" classname="bas.test.TestIntegrationWorkflow" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w5_logout()]
-display-name: W5.4: Logout invalidates all access
+display-name: W5.4: Logout invalidates access
 ]]></system-out>
 </testcase>
 <testcase name="reversedDates()" classname="bas.test.TestAdvancedScenarios" time="0.063">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:reversedDates()]
-display-name: DateRange: reversed dates return empty/zero
+display-name: DateRange: reversed = zero
 ]]></system-out>
 </testcase>
 <testcase name="authSpecialChars()" classname="bas.test.TestNegativeCases" time="0.06">
@@ -403,19 +403,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:aut
 display-name: Auth: special chars in credentials don't crash
 ]]></system-out>
 </testcase>
-<testcase name="emailJustAt()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="emailJustAt()" classname="bas.test.TestNegativeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:emailJustAt()]
 display-name: Email: just @ sign
 ]]></system-out>
 </testcase>
-<testcase name="logsHaveTimestamps()" classname="bas.test.TestAdvancedScenarios" time="0.06">
+<testcase name="logsHaveTimestamps()" classname="bas.test.TestAdvancedScenarios" time="0.197">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:logsHaveTimestamps()]
-display-name: Logs: each log entry has timestamp
+display-name: Logs: entries have timestamps
 ]]></system-out>
 </testcase>
-<testcase name="addBookDuplicate()" classname="bas.test.TestNegativeCases" time="0.06">
+<testcase name="addBookDuplicate()" classname="bas.test.TestNegativeCases" time="0.065">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:addBookDuplicate()]
 display-name: AddBook: duplicate ISBN fails
@@ -427,19 +427,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwt
 display-name: JWT: generate returns non-null token
 ]]></system-out>
 </testcase>
-<testcase name="addBookDuplicate()" classname="bas.test.TestDatabase" time="0.081">
+<testcase name="addBookDuplicate()" classname="bas.test.TestDatabase" time="0.074">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addBookDuplicate()]
 display-name: AddBook: duplicate ISBN fails gracefully
 ]]></system-out>
 </testcase>
-<testcase name="procurementZeroLead()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="procurementZeroLead()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:procurementZeroLead()]
 display-name: Book: procurement qty with zero lead time
 ]]></system-out>
 </testcase>
-<testcase name="authValidOwner()" classname="bas.test.TestDatabase" time="0.067">
+<testcase name="authValidOwner()" classname="bas.test.TestDatabase" time="0.069">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:authValidOwner()]
 display-name: Auth: valid owner credentials return User object
@@ -451,31 +451,31 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:aes
 display-name: AES: corrupted ciphertext throws
 ]]></system-out>
 </testcase>
-<testcase name="userRoles()" classname="bas.test.TestModels" time="0.004">
+<testcase name="userRoles()" classname="bas.test.TestModels" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:userRoles()]
 display-name: User: all roles exist in enum
 ]]></system-out>
 </testcase>
-<testcase name="sessionDoubleLogout()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="sessionDoubleLogout()" classname="bas.test.TestNegativeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:sessionDoubleLogout()]
 display-name: Session: double logout doesn't crash
 ]]></system-out>
 </testcase>
-<testcase name="fr4_4_procurementReport()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="fr4_4_procurementReport()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr4_4_procurementReport()]
 display-name: FR-4.4: Procurement report lists books below threshold
 ]]></system-out>
 </testcase>
-<testcase name="saleDuplicateId()" classname="bas.test.TestNegativeCases" time="0.435">
+<testcase name="saleDuplicateId()" classname="bas.test.TestNegativeCases" time="0.434">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleDuplicateId()]
 display-name: Sale: duplicate sale ID fails on second attempt
 ]]></system-out>
 </testcase>
-<testcase name="nfr9_logging()" classname="bas.test.TestSRSCompliance" time="0.138">
+<testcase name="nfr9_logging()" classname="bas.test.TestSRSCompliance" time="0.308">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr9_logging()]
 display-name: NFR-9: Key operations logged (inventory, billing, reports)
@@ -484,28 +484,28 @@ display-name: NFR-9: Key operations logged (inventory, billing, reports)
 <testcase name="reqIdFormat()" classname="bas.test.TestAdvancedScenarios" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:reqIdFormat()]
-display-name: ID: newReqId starts with REQ-
+display-name: ID: newReqId format
 ]]></system-out>
 </testcase>
-<testcase name="hasScience()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
+<testcase name="hasScience()" classname="bas.test.TestSeedDataIntegrity" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasScience()]
 display-name: Genre: has Science/Philosophy (rack G-*)
 ]]></system-out>
 </testcase>
-<testcase name="cacheAfterUpdate()" classname="bas.test.TestAdvancedScenarios" time="0.326">
+<testcase name="cacheAfterUpdate()" classname="bas.test.TestAdvancedScenarios" time="0.351">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:cacheAfterUpdate()]
-display-name: Cache: updateBook reflects in next read
+display-name: Cache: updateBook reflects
 ]]></system-out>
 </testcase>
-<testcase name="transactionHistory()" classname="bas.test.TestDatabase" time="0.064">
+<testcase name="transactionHistory()" classname="bas.test.TestDatabase" time="0.065">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:transactionHistory()]
 display-name: History: getTransactionHistory returns results
 ]]></system-out>
 </testcase>
-<testcase name="stressISBNLookups()" classname="bas.test.TestConcurrency" time="0">
+<testcase name="stressISBNLookups()" classname="bas.test.TestConcurrency" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:stressISBNLookups()]
 display-name: Stress: 20 rapid sequential ISBN lookups
@@ -517,13 +517,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:getByISB
 display-name: Search: getByISBN returns null for unknown ISBN
 ]]></system-out>
 </testcase>
-<testcase name="authWhitespace()" classname="bas.test.TestNegativeCases" time="0.124">
+<testcase name="authWhitespace()" classname="bas.test.TestNegativeCases" time="0.119">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:authWhitespace()]
 display-name: Auth: extra whitespace in credentials
 ]]></system-out>
 </testcase>
-<testcase name="fr4_1_stockUpdate()" classname="bas.test.TestSRSCompliance" time="0.329">
+<testcase name="fr4_1_stockUpdate()" classname="bas.test.TestSRSCompliance" time="0.297">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr4_1_stockUpdate()]
 display-name: FR-4.1: Authorized employees update inventory on arrival
@@ -541,13 +541,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr
 display-name: NFR-3: Valid credentials authenticate
 ]]></system-out>
 </testcase>
-<testcase name="isbnXMiddle()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="isbnXMiddle()" classname="bas.test.TestNegativeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:isbnXMiddle()]
 display-name: ISBN: 10 digits with X not at end
 ]]></system-out>
 </testcase>
-<testcase name="validStandard()" classname="bas.test.TestEmailValidator" time="0.026">
+<testcase name="validStandard()" classname="bas.test.TestEmailValidator" time="0.033">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:validStandard()]
 display-name: Valid: standard email
@@ -559,13 +559,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:hpP
 display-name: Seed: Harry Potter books are correctly priced at 499 INR
 ]]></system-out>
 </testcase>
-<testcase name="isbnCleanOnlyHyphens()" classname="bas.test.TestSupplementary" time="0.003">
+<testcase name="isbnCleanOnlyHyphens()" classname="bas.test.TestSupplementary" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:isbnCleanOnlyHyphens()]
 display-name: ISBN: clean strips only hyphens from pure-hyphen input
 ]]></system-out>
 </testcase>
-<testcase name="booksNeedingRestock()" classname="bas.test.TestDatabase" time="0.081">
+<testcase name="booksNeedingRestock()" classname="bas.test.TestDatabase" time="0.133">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:booksNeedingRestock()]
 display-name: Restock: returns out-of-stock books
@@ -589,31 +589,31 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:oosBlankEm
 display-name: OOSRequest: blank email stored as null
 ]]></system-out>
 </testcase>
-<testcase name="fr1_2_searchByAuthor()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="fr1_2_searchByAuthor()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr1_2_searchByAuthor()]
 display-name: FR-1.2: Search books by author name
 ]]></system-out>
 </testcase>
-<testcase name="addBook()" classname="bas.test.TestDatabase" time="0.105">
+<testcase name="addBook()" classname="bas.test.TestDatabase" time="0.164">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addBook()]
 display-name: AddBook: insert a test book
 ]]></system-out>
 </testcase>
-<testcase name="hasDune()" classname="bas.test.TestSeedDataIntegrity" time="0">
+<testcase name="hasDune()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasDune()]
 display-name: Book exists: Dune by Frank Herbert
 ]]></system-out>
 </testcase>
-<testcase name="cacheAuthorSearchEmpty()" classname="bas.test.TestSupplementary" time="0.001">
+<testcase name="cacheAuthorSearchEmpty()" classname="bas.test.TestSupplementary" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:cacheAuthorSearchEmpty()]
 display-name: Cache: searchByAuthor for empty string returns all books
 ]]></system-out>
 </testcase>
-<testcase name="bookDoesNotNeedRestock()" classname="bas.test.TestModels" time="0.001">
+<testcase name="bookDoesNotNeedRestock()" classname="bas.test.TestModels" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookDoesNotNeedRestock()]
 display-name: Book: needsRestock false when stock > threshold
@@ -625,7 +625,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:userConstr
 display-name: User: constructor and getters
 ]]></system-out>
 </testcase>
-<testcase name="procurementZeroSales()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="procurementZeroSales()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:procurementZeroSales()]
 display-name: Book: procurement qty with zero weekly sales
@@ -637,7 +637,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr
 display-name: NFR-3: Tampered JWT rejected
 ]]></system-out>
 </testcase>
-<testcase name="isbnMixedSeparators()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="isbnMixedSeparators()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:isbnMixedSeparators()]
 display-name: ISBN: with mixed hyphens and spaces
@@ -658,88 +658,88 @@ display-name: SaleRecord: empty sale has zero total
 <testcase name="w2_searchOOS()" classname="bas.test.TestIntegrationWorkflow" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w2_searchOOS()]
-display-name: W2.1: Customer searches for out-of-stock book
+display-name: W2.1: Customer finds out-of-stock book
 ]]></system-out>
 </testcase>
-<testcase name="saleInsufficientStock()" classname="bas.test.TestDatabase" time="0.091">
+<testcase name="saleInsufficientStock()" classname="bas.test.TestDatabase" time="0.128">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:saleInsufficientStock()]
 display-name: Sale: fails when stock insufficient
 ]]></system-out>
 </testcase>
-<testcase name="parallelTitleSearches()" classname="bas.test.TestConcurrency" time="0.009">
+<testcase name="parallelTitleSearches()" classname="bas.test.TestConcurrency" time="0.01">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelTitleSearches()]
 display-name: Concurrent: 10 parallel title searches complete without error
 ]]></system-out>
 </testcase>
-<testcase name="addStockNegative()" classname="bas.test.TestDatabase" time="0.002">
+<testcase name="addStockNegative()" classname="bas.test.TestDatabase" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addStockNegative()]
 display-name: AddStock: negative quantity returns false
 ]]></system-out>
 </testcase>
-<testcase name="cacheAfterAdd()" classname="bas.test.TestAdvancedScenarios" time="0.235">
+<testcase name="cacheAfterAdd()" classname="bas.test.TestAdvancedScenarios" time="0.217">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:cacheAfterAdd()]
-display-name: Cache: addBook invalidates cache and book appears
+display-name: Cache: addBook invalidates + appears
 ]]></system-out>
 </testcase>
-<testcase name="jwtEmptyFields()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="jwtEmptyFields()" classname="bas.test.TestEdgeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:jwtEmptyFields()]
 display-name: JWT: empty string fields still work
 ]]></system-out>
 </testcase>
-<testcase name="oosUnknownISBN()" classname="bas.test.TestAdvancedScenarios" time="0.126">
+<testcase name="oosUnknownISBN()" classname="bas.test.TestAdvancedScenarios" time="0.17">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:oosUnknownISBN()]
-display-name: OOS: request with UNKNOWN ISBN succeeds
+display-name: OOS: unknown ISBN succeeds
 ]]></system-out>
 </testcase>
-<testcase name="w2_submitRequest()" classname="bas.test.TestIntegrationWorkflow" time="0.124">
+<testcase name="w2_submitRequest()" classname="bas.test.TestIntegrationWorkflow" time="0.162">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w2_submitRequest()]
-display-name: W2.2: Customer submits OOS request with email
+display-name: W2.2: Customer submits OOS request
 ]]></system-out>
 </testcase>
-<testcase name="isbnDecimal()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="isbnDecimal()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:isbnDecimal()]
 display-name: ISBN: decimal number string
 ]]></system-out>
 </testcase>
-<testcase name="emptyTitleSearch()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="emptyTitleSearch()" classname="bas.test.TestEdgeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:emptyTitleSearch()]
 display-name: Empty title search returns all or empty (no crash)
 ]]></system-out>
 </testcase>
-<testcase name="nfr3_invalidAuth()" classname="bas.test.TestSRSCompliance" time="0.123">
+<testcase name="nfr3_invalidAuth()" classname="bas.test.TestSRSCompliance" time="0.117">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr3_invalidAuth()]
 display-name: NFR-3: Invalid credentials rejected
 ]]></system-out>
 </testcase>
-<testcase name="dv_isbn()" classname="bas.test.TestSRSCompliance" time="0">
+<testcase name="dv_isbn()" classname="bas.test.TestSRSCompliance" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:dv_isbn()]
 display-name: DV-ISBN: Format validated before acceptance
 ]]></system-out>
 </testcase>
-<testcase name="w3_logs()" classname="bas.test.TestIntegrationWorkflow" time="0.062">
+<testcase name="w3_logs()" classname="bas.test.TestIntegrationWorkflow" time="0.123">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w3_logs()]
-display-name: W3.4: Owner reviews activity logs
+display-name: W3.4: Activity logs include our test sale
 ]]></system-out>
 </testcase>
-<testcase name="emailHost()" classname="bas.test.TestEmailAndPrinter" time="0.001">
+<testcase name="emailHost()" classname="bas.test.TestEmailAndPrinter" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:emailHost()]
 display-name: Email: host is smtp.gmail.com
 ]]></system-out>
 </testcase>
-<testcase name="aesEncryptedDiffers()" classname="bas.test.TestCryptoAndAuth" time="0.001">
+<testcase name="aesEncryptedDiffers()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:aesEncryptedDiffers()]
 display-name: AES: encrypted text differs from plaintext
@@ -748,10 +748,10 @@ display-name: AES: encrypted text differs from plaintext
 <testcase name="saleIdFormat()" classname="bas.test.TestAdvancedScenarios" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:saleIdFormat()]
-display-name: ID: newSaleId starts with SALE-
+display-name: ID: newSaleId format
 ]]></system-out>
 </testcase>
-<testcase name="sessionNoAuth()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="sessionNoAuth()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:sessionNoAuth()]
 display-name: Session: hasRole fails when not authenticated
@@ -763,19 +763,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:ele
 display-name: Invalid: 11 digits (between 10 and 13)
 ]]></system-out>
 </testcase>
-<testcase name="receiptEmptySale()" classname="bas.test.TestEmailAndPrinter" time="0.001">
+<testcase name="receiptEmptySale()" classname="bas.test.TestEmailAndPrinter" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:receiptEmptySale()]
 display-name: Receipt: empty sale produces valid receipt
 ]]></system-out>
 </testcase>
-<testcase name="saleDecrementsStock()" classname="bas.test.TestDatabase" time="0.066">
+<testcase name="saleDecrementsStock()" classname="bas.test.TestDatabase" time="0.096">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:saleDecrementsStock()]
 display-name: Sale: stock decremented after sale
 ]]></system-out>
 </testcase>
-<testcase name="oosInList()" classname="bas.test.TestDatabase" time="0.069">
+<testcase name="oosInList()" classname="bas.test.TestDatabase" time="0.077">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:oosInList()]
 display-name: OOS: request appears in getAllOOSRequests
@@ -787,7 +787,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:sp
 display-name: Invalid: spaces in email
 ]]></system-out>
 </testcase>
-<testcase name="saleExceedStock()" classname="bas.test.TestNegativeCases" time="0.094">
+<testcase name="saleExceedStock()" classname="bas.test.TestNegativeCases" time="0.096">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleExceedStock()]
 display-name: Sale: quantity exceeding stock fails atomically
@@ -799,13 +799,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:saleMerge(
 display-name: SaleRecord: duplicate ISBN merges quantity
 ]]></system-out>
 </testcase>
-<testcase name="allTitlesNonEmpty()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
+<testcase name="allTitlesNonEmpty()" classname="bas.test.TestSeedDataIntegrity" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:allTitlesNonEmpty()]
 display-name: Seed: all books have non-empty title
 ]]></system-out>
 </testcase>
-<testcase name="aesRoundTrip()" classname="bas.test.TestCryptoAndAuth" time="0.001">
+<testcase name="aesRoundTrip()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:aesRoundTrip()]
 display-name: AES: encrypt then decrypt returns original
@@ -817,43 +817,43 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method
 display-name: Book exists: The Alchemist by Paulo Coelho
 ]]></system-out>
 </testcase>
-<testcase name="stockNonexistent()" classname="bas.test.TestNegativeCases" time="0.059">
+<testcase name="stockNonexistent()" classname="bas.test.TestNegativeCases" time="0.061">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:stockNonexistent()]
 display-name: Stock: add to nonexistent ISBN returns false
 ]]></system-out>
 </testcase>
-<testcase name="hashNotPlaintext()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="hashNotPlaintext()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:hashNotPlaintext()]
 display-name: SHA-256: hash differs from plaintext
 ]]></system-out>
 </testcase>
-<testcase name="receiptContainsDate()" classname="bas.test.TestSupplementary" time="0.012">
+<testcase name="receiptContainsDate()" classname="bas.test.TestSupplementary" time="0.009">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:receiptContainsDate()]
 display-name: Receipt: contains date/time of sale
 ]]></system-out>
 </testcase>
-<testcase name="authWrongPassword()" classname="bas.test.TestDatabase" time="0.061">
+<testcase name="authWrongPassword()" classname="bas.test.TestDatabase" time="0.075">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:authWrongPassword()]
 display-name: Auth: wrong password returns null
 ]]></system-out>
 </testcase>
-<testcase name="validISBN13_HarryPotter()" classname="bas.test.TestISBNValidator" time="0">
+<testcase name="validISBN13_HarryPotter()" classname="bas.test.TestISBNValidator" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:validISBN13_HarryPotter()]
 display-name: Valid ISBN-13: 9780590353427 (Harry Potter 1)
 ]]></system-out>
 </testcase>
-<testcase name="sessionRequireRoleThrows()" classname="bas.test.TestCryptoAndAuth" time="0.001">
+<testcase name="sessionRequireRoleThrows()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:sessionRequireRoleThrows()]
 display-name: Session: requireRole throws for wrong role
 ]]></system-out>
 </testcase>
-<testcase name="allPublishersNonEmpty()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
+<testcase name="allPublishersNonEmpty()" classname="bas.test.TestSeedDataIntegrity" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:allPublishersNonEmpty()]
 display-name: Seed: all books have non-empty publisher
@@ -865,25 +865,25 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method
 display-name: Status: has well-stocked books (stock > threshold)
 ]]></system-out>
 </testcase>
-<testcase name="saleItems()" classname="bas.test.TestDatabase" time="0.062">
+<testcase name="saleItems()" classname="bas.test.TestDatabase" time="0.061">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:saleItems()]
 display-name: History: getSaleItems returns line items
 ]]></system-out>
 </testcase>
-<testcase name="w4_managerLogin()" classname="bas.test.TestIntegrationWorkflow" time="0.058">
+<testcase name="w4_managerLogin()" classname="bas.test.TestIntegrationWorkflow" time="0.06">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w4_managerLogin()]
 display-name: W4.1: Manager logs in
 ]]></system-out>
 </testcase>
-<testcase name="nfr12_portability()" classname="bas.test.TestSRSCompliance" time="0.002">
+<testcase name="nfr12_portability()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr12_portability()]
 display-name: NFR-12: No platform-specific dependencies in core logic
 ]]></system-out>
 </testcase>
-<testcase name="emailReconfigure()" classname="bas.test.TestEmailAndPrinter" time="0.001">
+<testcase name="emailReconfigure()" classname="bas.test.TestEmailAndPrinter" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:emailReconfigure()]
 display-name: Email: reconfigure with valid settings restores ready
@@ -892,16 +892,16 @@ display-name: Email: reconfigure with valid settings restores ready
 <testcase name="configSmtpHost()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configSmtpHost()]
-display-name: Config: SMTP_HOST is non-empty
+display-name: Config: SMTP_HOST non-empty
 ]]></system-out>
 </testcase>
-<testcase name="emailHyphenStartDomain()" classname="bas.test.TestSupplementary" time="0.001">
+<testcase name="emailHyphenStartDomain()" classname="bas.test.TestSupplementary" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:emailHyphenStartDomain()]
 display-name: Email: hyphen at start of domain fails
 ]]></system-out>
 </testcase>
-<testcase name="authLongUsername()" classname="bas.test.TestNegativeCases" time="0.063">
+<testcase name="authLongUsername()" classname="bas.test.TestNegativeCases" time="0.067">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:authLongUsername()]
 display-name: Auth: very long username doesn't crash
@@ -913,7 +913,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cach
 display-name: Cache: searchByAuthor returns correct results
 ]]></system-out>
 </testcase>
-<testcase name="w1_search()" classname="bas.test.TestIntegrationWorkflow" time="0.001">
+<testcase name="w1_search()" classname="bas.test.TestIntegrationWorkflow" time="0.088">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w1_search()]
 display-name: W1.2: Clerk searches for a book by title
@@ -937,13 +937,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method
 display-name: Seed: all ISBNs are unique
 ]]></system-out>
 </testcase>
-<testcase name="fr2_4_pendingEmails()" classname="bas.test.TestSRSCompliance" time="0.061">
+<testcase name="fr2_4_pendingEmails()" classname="bas.test.TestSRSCompliance" time="0.058">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr2_4_pendingEmails()]
 display-name: FR-2.4: Pending emails retrievable for notification
 ]]></system-out>
 </testcase>
-<testcase name="stressCacheHits()" classname="bas.test.TestConcurrency" time="0.155">
+<testcase name="stressCacheHits()" classname="bas.test.TestConcurrency" time="0.065">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:stressCacheHits()]
 display-name: Stress: 50 rapid sequential cache hits
@@ -955,43 +955,43 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method
 display-name: Genre: has Mystery & Thriller (rack D-*)
 ]]></system-out>
 </testcase>
-<testcase name="normalize()" classname="bas.test.TestEmailValidator" time="0.004">
+<testcase name="normalize()" classname="bas.test.TestEmailValidator" time="0.008">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:normalize()]
 display-name: Normalize trims and lowercases
 ]]></system-out>
 </testcase>
-<testcase name="isbn13WithX()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="isbn13WithX()" classname="bas.test.TestNegativeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:isbn13WithX()]
 display-name: ISBN: 13 digits with X anywhere
 ]]></system-out>
 </testcase>
-<testcase name="nfr3_jwtValidation()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="nfr3_jwtValidation()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr3_jwtValidation()]
 display-name: NFR-3: JWT token validates correctly
 ]]></system-out>
 </testcase>
-<testcase name="parallelJWTValidation()" classname="bas.test.TestConcurrency" time="0.006">
+<testcase name="parallelJWTValidation()" classname="bas.test.TestConcurrency" time="0.019">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelJWTValidation()]
 display-name: Concurrent: parallel JWT validation
 ]]></system-out>
 </testcase>
-<testcase name="cleanNull()" classname="bas.test.TestISBNValidator" time="0">
+<testcase name="cleanNull()" classname="bas.test.TestISBNValidator" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:cleanNull()]
 display-name: Clean handles null safely
 ]]></system-out>
 </testcase>
-<testcase name="logsHaveSales()" classname="bas.test.TestAdvancedScenarios" time="0.095">
+<testcase name="logsHaveSales()" classname="bas.test.TestAdvancedScenarios" time="0.065">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:logsHaveSales()]
-display-name: Logs: SALE logs exist from demo data
+display-name: Logs: SALE exists
 ]]></system-out>
 </testcase>
-<testcase name="stockNegative()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="stockNegative()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:stockNegative()]
 display-name: Stock: add negative quantity returns false
@@ -1003,13 +1003,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookConstr
 display-name: Book: constructor sets all fields
 ]]></system-out>
 </testcase>
-<testcase name="jwtSubject()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="jwtSubject()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwtSubject()]
 display-name: JWT: payload contains correct subject
 ]]></system-out>
 </testcase>
-<testcase name="zeroPriceItem()" classname="bas.test.TestEdgeCases" time="0.002">
+<testcase name="zeroPriceItem()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:zeroPriceItem()]
 display-name: SaleRecord: zero-price item
@@ -1021,37 +1021,37 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:sea
 display-name: Search: tab character in search doesn't crash
 ]]></system-out>
 </testcase>
-<testcase name="hasChildrens()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
+<testcase name="hasChildrens()" classname="bas.test.TestSeedDataIntegrity" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasChildrens()]
 display-name: Genre: has Children's & YA (rack H-*)
 ]]></system-out>
 </testcase>
-<testcase name="fr4_3_procurementFormula()" classname="bas.test.TestSRSCompliance" time="0.062">
+<testcase name="fr4_3_procurementFormula()" classname="bas.test.TestSRSCompliance" time="0.059">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr4_3_procurementFormula()]
 display-name: FR-4.3: Required inventory = ceil(weeklySales * leadTime) - stock
 ]]></system-out>
 </testcase>
-<testcase name="bookInStock()" classname="bas.test.TestModels" time="0.001">
+<testcase name="bookInStock()" classname="bas.test.TestModels" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookInStock()]
 display-name: Book: isInStock true when stock > 0
 ]]></system-out>
 </testcase>
-<testcase name="oosLongTitle()" classname="bas.test.TestAdvancedScenarios" time="0.137">
+<testcase name="oosLongTitle()" classname="bas.test.TestAdvancedScenarios" time="0.489">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:oosLongTitle()]
-display-name: OOS: request with very long title succeeds
+display-name: OOS: very long title succeeds
 ]]></system-out>
 </testcase>
-<testcase name="parallelReqIds()" classname="bas.test.TestConcurrency" time="0.016">
+<testcase name="parallelReqIds()" classname="bas.test.TestConcurrency" time="0.011">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelReqIds()]
 display-name: Concurrent: 50 parallel request ID generations are all unique
 ]]></system-out>
 </testcase>
-<testcase name="w1_confirmSale()" classname="bas.test.TestIntegrationWorkflow" time="0.436">
+<testcase name="w1_confirmSale()" classname="bas.test.TestIntegrationWorkflow" time="0.39">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w1_confirmSale()]
 display-name: W1.6: Atomic sale commits, stock decrements, receipt stored
@@ -1063,13 +1063,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookProcur
 display-name: Book: procurement qty with fractional weekly sales
 ]]></system-out>
 </testcase>
-<testcase name="w2_emailPending()" classname="bas.test.TestIntegrationWorkflow" time="0.061">
+<testcase name="w2_emailPending()" classname="bas.test.TestIntegrationWorkflow" time="0.08">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w2_emailPending()]
-display-name: W2.4: Email is in pending list for that ISBN
+display-name: W2.4: Email in pending list
 ]]></system-out>
 </testcase>
-<testcase name="w1_history()" classname="bas.test.TestIntegrationWorkflow" time="0.065">
+<testcase name="w1_history()" classname="bas.test.TestIntegrationWorkflow" time="0.061">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w1_history()]
 display-name: W1.7: Transaction appears in history
@@ -1081,31 +1081,31 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:has
 display-name: SHA-256: different input = different hash
 ]]></system-out>
 </testcase>
-<testcase name="w1_sessionCheck()" classname="bas.test.TestIntegrationWorkflow" time="0.001">
+<testcase name="w1_sessionCheck()" classname="bas.test.TestIntegrationWorkflow" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w1_sessionCheck()]
-display-name: W1.4: Session validated before sale (JWT check)
+display-name: W1.4: Session validated (JWT)
 ]]></system-out>
 </testcase>
-<testcase name="searchIncludesPublisher()" classname="bas.test.TestDatabase" time="0.001">
+<testcase name="searchIncludesPublisher()" classname="bas.test.TestDatabase" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:searchIncludesPublisher()]
 display-name: Search: result includes publisher field
 ]]></system-out>
 </testcase>
-<testcase name="poolBorrow()" classname="bas.test.TestPoolAndCache" time="0.03">
+<testcase name="poolBorrow()" classname="bas.test.TestPoolAndCache" time="0.028">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:poolBorrow()]
 display-name: Pool: borrow returns valid connection
 ]]></system-out>
 </testcase>
-<testcase name="hasClassics()" classname="bas.test.TestSeedDataIntegrity" time="0.003">
+<testcase name="hasClassics()" classname="bas.test.TestSeedDataIntegrity" time="0.004">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasClassics()]
 display-name: Genre: has Literary Classics (rack A-*)
 ]]></system-out>
 </testcase>
-<testcase name="addBookVerify()" classname="bas.test.TestDatabase" time="0.103">
+<testcase name="addBookVerify()" classname="bas.test.TestDatabase" time="0.092">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addBookVerify()]
 display-name: AddBook: verify inserted book is retrievable
@@ -1123,13 +1123,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:emailSh
 display-name: Email: single char TLD fails (< 2 chars)
 ]]></system-out>
 </testcase>
-<testcase name="w4_markNotified()" classname="bas.test.TestIntegrationWorkflow" time="0.123">
+<testcase name="w4_markNotified()" classname="bas.test.TestIntegrationWorkflow" time="0.126">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w4_markNotified()]
-display-name: W4.4: Mark notified clears pending status
+display-name: W4.4: Selective mark notified by email
 ]]></system-out>
 </testcase>
-<testcase name="poolReuse()" classname="bas.test.TestPoolAndCache" time="0.06">
+<testcase name="poolReuse()" classname="bas.test.TestPoolAndCache" time="0.057">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:poolReuse()]
 display-name: Pool: released connection is reusable
@@ -1141,7 +1141,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:dv_
 display-name: DV-Stock: Non-negativity enforced
 ]]></system-out>
 </testcase>
-<testcase name="parallelSaleIds()" classname="bas.test.TestConcurrency" time="0.018">
+<testcase name="parallelSaleIds()" classname="bas.test.TestConcurrency" time="0.015">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelSaleIds()]
 display-name: Concurrent: 50 parallel sale ID generations are all unique
@@ -1153,7 +1153,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwt
 display-name: JWT: token has 3 dot-separated parts
 ]]></system-out>
 </testcase>
-<testcase name="searchCaseInsensitive()" classname="bas.test.TestDatabase" time="0.001">
+<testcase name="searchCaseInsensitive()" classname="bas.test.TestDatabase" time="0.008">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:searchCaseInsensitive()]
 display-name: Search: case-insensitive title search
@@ -1165,7 +1165,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method
 display-name: Config: DB_USER is non-empty
 ]]></system-out>
 </testcase>
-<testcase name="parallelCacheSearches()" classname="bas.test.TestConcurrency" time="0.07">
+<testcase name="parallelCacheSearches()" classname="bas.test.TestConcurrency" time="0.116">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelCacheSearches()]
 display-name: Concurrent: cache search from multiple threads
@@ -1177,61 +1177,61 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:err
 display-name: Error message for bad checksum
 ]]></system-out>
 </testcase>
-<testcase name="errorWrongLength()" classname="bas.test.TestISBNValidator" time="0">
+<testcase name="errorWrongLength()" classname="bas.test.TestISBNValidator" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:errorWrongLength()]
 display-name: Error message for wrong length
 ]]></system-out>
 </testcase>
-<testcase name="longSearchString()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="longSearchString()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:longSearchString()]
 display-name: Very long search string doesn't crash
 ]]></system-out>
 </testcase>
-<testcase name="sameDayRange()" classname="bas.test.TestAdvancedScenarios" time="0.078">
+<testcase name="sameDayRange()" classname="bas.test.TestAdvancedScenarios" time="0.097">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:sameDayRange()]
-display-name: DateRange: same day from and to returns results
+display-name: DateRange: same day
 ]]></system-out>
 </testcase>
-<testcase name="validISBN10LowercaseX()" classname="bas.test.TestISBNValidator" time="0.001">
+<testcase name="validISBN10LowercaseX()" classname="bas.test.TestISBNValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:validISBN10LowercaseX()]
 display-name: Valid ISBN-10 with lowercase x: 080442957x
 ]]></system-out>
 </testcase>
-<testcase name="clerk1Exists()" classname="bas.test.TestSeedDataIntegrity" time="0.06">
+<testcase name="clerk1Exists()" classname="bas.test.TestSeedDataIntegrity" time="0.074">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:clerk1Exists()]
 display-name: Users: clerk1 exists
 ]]></system-out>
 </testcase>
-<testcase name="jwtMissingClaim()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="jwtMissingClaim()" classname="bas.test.TestEdgeCases" time="0.003">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:jwtMissingClaim()]
 display-name: JWT: extractClaim with missing key returns null
 ]]></system-out>
 </testcase>
-<testcase name="oosPendingNonExistent()" classname="bas.test.TestAdvancedScenarios" time="0.069">
+<testcase name="oosPendingNonExistent()" classname="bas.test.TestAdvancedScenarios" time="0.062">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:oosPendingNonExistent()]
-display-name: OOS: getPendingEmails for non-existent ISBN returns empty
+display-name: OOS: pending for non-existent ISBN = empty
 ]]></system-out>
 </testcase>
-<testcase name="hasSapiens()" classname="bas.test.TestSeedDataIntegrity" time="0">
+<testcase name="hasSapiens()" classname="bas.test.TestSeedDataIntegrity" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasSapiens()]
 display-name: Book exists: Sapiens by Harari
 ]]></system-out>
 </testcase>
-<testcase name="jwtBadPayload()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="jwtBadPayload()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:jwtBadPayload()]
 display-name: JWT: base64 but invalid JSON payload fails
 ]]></system-out>
 </testcase>
-<testcase name="aesWrongKey()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="aesWrongKey()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:aesWrongKey()]
 display-name: AES: wrong key fails to decrypt correctly
@@ -1255,13 +1255,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:dv_
 display-name: DV-Email: Format validated before storage
 ]]></system-out>
 </testcase>
-<testcase name="hasLowStock()" classname="bas.test.TestSeedDataIntegrity" time="0.002">
+<testcase name="hasLowStock()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasLowStock()]
 display-name: Status: has low-stock books (stock <= threshold)
 ]]></system-out>
 </testcase>
-<testcase name="isbnWhitespace()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="isbnWhitespace()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:isbnWhitespace()]
 display-name: ISBN: leading/trailing whitespace handled
@@ -1279,7 +1279,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:restock
 display-name: Book: needsRestock when stock equals threshold exactly
 ]]></system-out>
 </testcase>
-<testcase name="nfr4_passwordHash()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="nfr4_passwordHash()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr4_passwordHash()]
 display-name: NFR-4: Passwords stored as SHA-256 hashes, not plaintext
@@ -1294,34 +1294,34 @@ display-name: Cache: searchByTitle returns correct results
 <testcase name="w1_buildSale()" classname="bas.test.TestIntegrationWorkflow" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w1_buildSale()]
-display-name: W1.5: Build sale with items and verify total
+display-name: W1.5: Build sale and verify total
 ]]></system-out>
 </testcase>
-<testcase name="authValidClerk()" classname="bas.test.TestDatabase" time="0.064">
+<testcase name="authValidClerk()" classname="bas.test.TestDatabase" time="0.073">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:authValidClerk()]
 display-name: Auth: valid clerk credentials return User object
 ]]></system-out>
 </testcase>
-<testcase name="fr2_3_optionalEmail()" classname="bas.test.TestSRSCompliance" time="0.488">
+<testcase name="fr2_3_optionalEmail()" classname="bas.test.TestSRSCompliance" time="0.301">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr2_3_optionalEmail()]
 display-name: FR-2.3: Customer can optionally provide email
 ]]></system-out>
 </testcase>
-<testcase name="configDbHost()" classname="bas.test.TestAdvancedScenarios" time="0.001">
+<testcase name="configDbHost()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configDbHost()]
 display-name: Config: DB_HOST is non-empty
 ]]></system-out>
 </testcase>
-<testcase name="tooShort()" classname="bas.test.TestISBNValidator" time="0.001">
+<testcase name="tooShort()" classname="bas.test.TestISBNValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:tooShort()]
 display-name: Invalid: too short (5 digits)
 ]]></system-out>
 </testcase>
-<testcase name="nfr5_failedSaleIntegrity()" classname="bas.test.TestSRSCompliance" time="0.275">
+<testcase name="nfr5_failedSaleIntegrity()" classname="bas.test.TestSRSCompliance" time="0.262">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr5_failedSaleIntegrity()]
 display-name: NFR-5: Failed sale does not corrupt inventory
@@ -1333,19 +1333,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:sal
 display-name: SaleRecord: add same ISBN 10 times merges correctly
 ]]></system-out>
 </testcase>
-<testcase name="oosStatusChange()" classname="bas.test.TestModels" time="0.001">
+<testcase name="oosStatusChange()" classname="bas.test.TestModels" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:oosStatusChange()]
 display-name: OOSRequest: status can be changed
 ]]></system-out>
 </testcase>
-<testcase name="oosMarkNonExistent()" classname="bas.test.TestAdvancedScenarios" time="0.079">
+<testcase name="oosMarkNonExistent()" classname="bas.test.TestAdvancedScenarios" time="0.073">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:oosMarkNonExistent()]
-display-name: OOS: markNotified on non-existent ISBN doesn't crash
+display-name: OOS: markNotified on non-existent = no crash
 ]]></system-out>
 </testcase>
-<testcase name="parallelISBNLookups()" classname="bas.test.TestConcurrency" time="0.004">
+<testcase name="parallelISBNLookups()" classname="bas.test.TestConcurrency" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelISBNLookups()]
 display-name: Concurrent: 10 parallel ISBN lookups complete without error
@@ -1357,31 +1357,31 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:boo
 display-name: Book: stock=1 threshold=0 does not need restock
 ]]></system-out>
 </testcase>
-<testcase name="w4_addStock()" classname="bas.test.TestIntegrationWorkflow" time="0.253">
+<testcase name="w4_addStock()" classname="bas.test.TestIntegrationWorkflow" time="0.152">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w4_addStock()]
-display-name: W4.2: Manager adds stock to out-of-stock book
+display-name: W4.2: Manager adds stock to OOS book
 ]]></system-out>
 </testcase>
-<testcase name="noAtSymbol()" classname="bas.test.TestEmailValidator" time="0.002">
+<testcase name="noAtSymbol()" classname="bas.test.TestEmailValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:noAtSymbol()]
 display-name: Invalid: no @ symbol
 ]]></system-out>
 </testcase>
-<testcase name="cacheGetAll()" classname="bas.test.TestPoolAndCache" time="0.001">
+<testcase name="cacheGetAll()" classname="bas.test.TestPoolAndCache" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cacheGetAll()]
 display-name: Cache: getAllBooks returns books
 ]]></system-out>
 </testcase>
-<testcase name="searchPartialISBN()" classname="bas.test.TestAdvancedScenarios" time="0.001">
+<testcase name="searchPartialISBN()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:searchPartialISBN()]
-display-name: Search: partial ISBN doesn't crash (returns empty)
+display-name: Search: partial ISBN = null
 ]]></system-out>
 </testcase>
-<testcase name="emailPreConfigured()" classname="bas.test.TestEmailAndPrinter" time="0.019">
+<testcase name="emailPreConfigured()" classname="bas.test.TestEmailAndPrinter" time="0.013">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:emailPreConfigured()]
 display-name: Email: pre-configured from AppConfig
@@ -1399,19 +1399,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:e
 display-name: Email: port is 587 (STARTTLS)
 ]]></system-out>
 </testcase>
-<testcase name="hasIndianAuthors()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
+<testcase name="hasIndianAuthors()" classname="bas.test.TestSeedDataIntegrity" time="0.006">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasIndianAuthors()]
 display-name: Genre: has Indian Authors (rack F-*)
 ]]></system-out>
 </testcase>
-<testcase name="nfr10_modelIndependence()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="nfr10_modelIndependence()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr10_modelIndependence()]
 display-name: NFR-10: Models independent of DB (pure Java objects)
 ]]></system-out>
 </testcase>
-<testcase name="jwtMissingLong()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="jwtMissingLong()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:jwtMissingLong()]
 display-name: JWT: extractLong with missing key returns -1
@@ -1423,37 +1423,37 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:ema
 display-name: Email: trailing dot in domain
 ]]></system-out>
 </testcase>
-<testcase name="bookProcurementQtyPositive()" classname="bas.test.TestModels" time="0.001">
+<testcase name="bookProcurementQtyPositive()" classname="bas.test.TestModels" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookProcurementQtyPositive()]
 display-name: Book: procurement qty positive when stock is low
 ]]></system-out>
 </testcase>
-<testcase name="sqlInjectionISBN()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="sqlInjectionISBN()" classname="bas.test.TestEdgeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:sqlInjectionISBN()]
 display-name: SQL Injection: ISBN lookup with payload
 ]]></system-out>
 </testcase>
-<testcase name="lineItemIsbn()" classname="bas.test.TestSupplementary" time="0.003">
+<testcase name="lineItemIsbn()" classname="bas.test.TestSupplementary" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:lineItemIsbn()]
 display-name: LineItem: getIsbn returns correct value
 ]]></system-out>
 </testcase>
-<testcase name="logsHaveInit()" classname="bas.test.TestAdvancedScenarios" time="0.09">
+<testcase name="logsHaveInit()" classname="bas.test.TestAdvancedScenarios" time="0.065">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:logsHaveInit()]
-display-name: Logs: INIT log exists from seeding
+display-name: Logs: INIT exists
 ]]></system-out>
 </testcase>
-<testcase name="parallelMixedReads()" classname="bas.test.TestConcurrency" time="0.008">
+<testcase name="parallelMixedReads()" classname="bas.test.TestConcurrency" time="0.006">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelMixedReads()]
 display-name: Concurrent: mixed read operations (search + getAll + getByISBN)
 ]]></system-out>
 </testcase>
-<testcase name="searchNullByte()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="searchNullByte()" classname="bas.test.TestNegativeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:searchNullByte()]
 display-name: Search: null byte in search doesn't crash
@@ -1465,37 +1465,37 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cach
 display-name: Cache: getBooksNeedingRestock returns sorted results
 ]]></system-out>
 </testcase>
-<testcase name="w2_requestInList()" classname="bas.test.TestIntegrationWorkflow" time="0.07">
+<testcase name="w2_requestInList()" classname="bas.test.TestIntegrationWorkflow" time="0.062">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w2_requestInList()]
 display-name: W2.3: Request appears in OOS list
 ]]></system-out>
 </testcase>
-<testcase name="nfr4_dbSSL()" classname="bas.test.TestSRSCompliance" time="0.062">
+<testcase name="nfr4_dbSSL()" classname="bas.test.TestSRSCompliance" time="0.059">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr4_dbSSL()]
 display-name: NFR-4: Database uses SSL (sslmode=require in connection)
 ]]></system-out>
 </testcase>
-<testcase name="w5_managerAccess()" classname="bas.test.TestIntegrationWorkflow" time="0.002">
+<testcase name="w5_managerAccess()" classname="bas.test.TestIntegrationWorkflow" time="0.005">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w5_managerAccess()]
-display-name: W5.2: Manager can access MANAGER but not OWNER features
+display-name: W5.2: Manager restricted from OWNER
 ]]></system-out>
 </testcase>
-<testcase name="bookProcurementQty()" classname="bas.test.TestModels" time="0.001">
+<testcase name="bookProcurementQty()" classname="bas.test.TestModels" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookProcurementQty()]
 display-name: Book: procurement qty = max(0, ceil(weeklySales*leadTime) - stock)
 ]]></system-out>
 </testcase>
-<testcase name="sessionUserId()" classname="bas.test.TestSupplementary" time="0.011">
+<testcase name="sessionUserId()" classname="bas.test.TestSupplementary" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:sessionUserId()]
 display-name: Session: getUserId matches the logged-in user
 ]]></system-out>
 </testcase>
-<testcase name="configDbPassword()" classname="bas.test.TestAdvancedScenarios" time="0.001">
+<testcase name="configDbPassword()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configDbPassword()]
 display-name: Config: DB_PASSWORD is non-empty
@@ -1507,19 +1507,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:lineItemSu
 display-name: LineItem: subtotal = qty * unitPrice
 ]]></system-out>
 </testcase>
-<testcase name="cacheRefresh()" classname="bas.test.TestPoolAndCache" time="0.09">
+<testcase name="cacheRefresh()" classname="bas.test.TestPoolAndCache" time="0.059">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cacheRefresh()]
 display-name: Cache: refresh returns fresh data
 ]]></system-out>
 </testcase>
-<testcase name="saleClerkId()" classname="bas.test.TestSupplementary" time="0">
+<testcase name="saleClerkId()" classname="bas.test.TestSupplementary" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:saleClerkId()]
 display-name: SaleRecord: clerkId stored correctly
 ]]></system-out>
 </testcase>
-<testcase name="hashDeterministic()" classname="bas.test.TestCryptoAndAuth" time="0.001">
+<testcase name="hashDeterministic()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:hashDeterministic()]
 display-name: SHA-256: same input = same hash (deterministic)
@@ -1534,7 +1534,7 @@ display-name: NFR-1: Title search under 2 seconds
 <testcase name="configSmtpPort()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configSmtpPort()]
-display-name: Config: SMTP_PORT is 587 (STARTTLS)
+display-name: Config: SMTP_PORT is 587
 ]]></system-out>
 </testcase>
 <testcase name="noDomain()" classname="bas.test.TestEmailValidator" time="0">
@@ -1543,7 +1543,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:no
 display-name: Invalid: no domain
 ]]></system-out>
 </testcase>
-<testcase name="errorEmpty()" classname="bas.test.TestISBNValidator" time="0.001">
+<testcase name="errorEmpty()" classname="bas.test.TestISBNValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:errorEmpty()]
 display-name: Error message for empty ISBN
@@ -1552,22 +1552,22 @@ display-name: Error message for empty ISBN
 <testcase name="configAesKey()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configAesKey()]
-display-name: Config: AES_KEY is non-empty
+display-name: Config: AES_KEY non-empty
 ]]></system-out>
 </testcase>
-<testcase name="allRackLocations()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
+<testcase name="allRackLocations()" classname="bas.test.TestSeedDataIntegrity" time="0.003">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:allRackLocations()]
 display-name: Seed: all rack locations are non-null
 ]]></system-out>
 </testcase>
-<testcase name="getByISBNEdge()" classname="bas.test.TestNegativeCases" time="0.062">
+<testcase name="getByISBNEdge()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:getByISBNEdge()]
 display-name: GetByISBN: null-like values don't crash
 ]]></system-out>
 </testcase>
-<testcase name="concurrentLogs()" classname="bas.test.TestEdgeCases" time="0.191">
+<testcase name="concurrentLogs()" classname="bas.test.TestEdgeCases" time="0.199">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:concurrentLogs()]
 display-name: Concurrent: logs from different actors don't interfere
@@ -1579,43 +1579,43 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:nul
 display-name: Invalid: null
 ]]></system-out>
 </testcase>
-<testcase name="authWrongPasswordAllRoles()" classname="bas.test.TestNegativeCases" time="0.239">
+<testcase name="authWrongPasswordAllRoles()" classname="bas.test.TestNegativeCases" time="0.248">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:authWrongPasswordAllRoles()]
 display-name: Auth: wrong password for every role
 ]]></system-out>
 </testcase>
-<testcase name="lettersInISBN()" classname="bas.test.TestISBNValidator" time="0.001">
+<testcase name="lettersInISBN()" classname="bas.test.TestISBNValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:lettersInISBN()]
 display-name: Invalid: letters in ISBN
 ]]></system-out>
 </testcase>
-<testcase name="errorBlank()" classname="bas.test.TestEmailValidator" time="0.001">
+<testcase name="errorBlank()" classname="bas.test.TestEmailValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:errorBlank()]
 display-name: Validation error for blank
 ]]></system-out>
 </testcase>
-<testcase name="sessionLogout()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="sessionLogout()" classname="bas.test.TestCryptoAndAuth" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:sessionLogout()]
 display-name: Session: not authenticated after logout
 ]]></system-out>
 </testcase>
-<testcase name="parallelCacheReads()" classname="bas.test.TestConcurrency" time="0.118">
+<testcase name="parallelCacheReads()" classname="bas.test.TestConcurrency" time="0.102">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelCacheReads()]
 display-name: Concurrent: cache reads from multiple threads
 ]]></system-out>
 </testcase>
-<testcase name="emailSender()" classname="bas.test.TestEmailAndPrinter" time="0.001">
+<testcase name="emailSender()" classname="bas.test.TestEmailAndPrinter" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:emailSender()]
 display-name: Email: sender matches AppConfig
 ]]></system-out>
 </testcase>
-<testcase name="receiptString()" classname="bas.test.TestEmailAndPrinter" time="0.002">
+<testcase name="receiptString()" classname="bas.test.TestEmailAndPrinter" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:receiptString()]
 display-name: Receipt: buildReceiptString produces valid output
@@ -1627,7 +1627,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:oos
 display-name: Seed: out-of-stock books have correct rack locations
 ]]></system-out>
 </testcase>
-<testcase name="jwtExpFuture()" classname="bas.test.TestSupplementary" time="0.001">
+<testcase name="jwtExpFuture()" classname="bas.test.TestSupplementary" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:jwtExpFuture()]
 display-name: JWT: exp is in the future
@@ -1639,13 +1639,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:isb
 display-name: ISBN: single character
 ]]></system-out>
 </testcase>
-<testcase name="emailNoLocal()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="emailNoLocal()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:emailNoLocal()]
 display-name: Email: no local part
 ]]></system-out>
 </testcase>
-<testcase name="searchPartial()" classname="bas.test.TestDatabase" time="0">
+<testcase name="searchPartial()" classname="bas.test.TestDatabase" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:searchPartial()]
 display-name: Search: partial title match
@@ -1657,43 +1657,43 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method
 display-name: Config: SMTP_EMAIL contains @
 ]]></system-out>
 </testcase>
-<testcase name="oosRequestCounts()" classname="bas.test.TestSeedDataIntegrity" time="0.163">
+<testcase name="oosRequestCounts()" classname="bas.test.TestSeedDataIntegrity" time="0.091">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:oosRequestCounts()]
 display-name: OOS: out-of-stock books have request_count > 0
 ]]></system-out>
 </testcase>
-<testcase name="bookDefaultConstructor()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="bookDefaultConstructor()" classname="bas.test.TestNegativeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:bookDefaultConstructor()]
 display-name: Book: default constructor creates empty book
 ]]></system-out>
 </testcase>
-<testcase name="aesDifferentKeys()" classname="bas.test.TestCryptoAndAuth" time="0">
+<testcase name="aesDifferentKeys()" classname="bas.test.TestCryptoAndAuth" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:aesDifferentKeys()]
 display-name: AES: different keys produce different ciphertext
 ]]></system-out>
 </testcase>
-<testcase name="doubleAt()" classname="bas.test.TestEmailValidator" time="0.001">
+<testcase name="doubleAt()" classname="bas.test.TestEmailValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:doubleAt()]
 display-name: Invalid: double @ sign
 ]]></system-out>
 </testcase>
-<testcase name="fr2_1_oosBookDetails()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="fr2_1_oosBookDetails()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr2_1_oosBookDetails()]
 display-name: FR-2.1: Out-of-stock search shows request form fields
 ]]></system-out>
 </testcase>
-<testcase name="emailMultiAt()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="emailMultiAt()" classname="bas.test.TestNegativeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:emailMultiAt()]
 display-name: Email: multiple @ signs
 ]]></system-out>
 </testcase>
-<testcase name="cacheInvalidateWhileReading()" classname="bas.test.TestConcurrency" time="0.297">
+<testcase name="cacheInvalidateWhileReading()" classname="bas.test.TestConcurrency" time="0.174">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:cacheInvalidateWhileReading()]
 display-name: Concurrent: invalidate + read doesn't crash
@@ -1702,7 +1702,7 @@ display-name: Concurrent: invalidate + read doesn't crash
 <testcase name="receiptThankYou()" classname="bas.test.TestAdvancedScenarios" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:receiptThankYou()]
-display-name: Receipt: contains 'Thank you' message
+display-name: Receipt: Thank you
 ]]></system-out>
 </testcase>
 <testcase name="validISBN13_AtomicHabits()" classname="bas.test.TestISBNValidator" time="0">
@@ -1711,7 +1711,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:val
 display-name: Valid ISBN-13: 9781982173593 (Atomic Habits)
 ]]></system-out>
 </testcase>
-<testcase name="addStock()" classname="bas.test.TestDatabase" time="0.432">
+<testcase name="addStock()" classname="bas.test.TestDatabase" time="0.184">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addStock()]
 display-name: AddStock: increment stock count
@@ -1723,13 +1723,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:largeQu
 display-name: SaleRecord: large quantity
 ]]></system-out>
 </testcase>
-<testcase name="sessionRequireRolePasses()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="sessionRequireRolePasses()" classname="bas.test.TestCryptoAndAuth" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:sessionRequireRolePasses()]
 display-name: Session: requireRole passes for correct role
 ]]></system-out>
 </testcase>
-<testcase name="poolConcurrent()" classname="bas.test.TestPoolAndCache" time="0.152">
+<testcase name="poolConcurrent()" classname="bas.test.TestPoolAndCache" time="0.141">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:poolConcurrent()]
 display-name: Pool: multiple concurrent borrows succeed
@@ -1741,25 +1741,25 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:no
 display-name: Invalid: no TLD
 ]]></system-out>
 </testcase>
-<testcase name="addOOS()" classname="bas.test.TestDatabase" time="0.139">
+<testcase name="addOOS()" classname="bas.test.TestDatabase" time="0.167">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addOOS()]
 display-name: OOS: add request succeeds
 ]]></system-out>
 </testcase>
-<testcase name="has1984()" classname="bas.test.TestSeedDataIntegrity" time="0">
+<testcase name="has1984()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:has1984()]
 display-name: Book exists: 1984 by George Orwell
 ]]></system-out>
 </testcase>
-<testcase name="parallelPoolCycles()" classname="bas.test.TestConcurrency" time="0.238">
+<testcase name="parallelPoolCycles()" classname="bas.test.TestConcurrency" time="0.276">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:parallelPoolCycles()]
 display-name: Concurrent: 10 parallel connection borrow/release cycles
 ]]></system-out>
 </testcase>
-<testcase name="updateBook()" classname="bas.test.TestDatabase" time="0.153">
+<testcase name="updateBook()" classname="bas.test.TestDatabase" time="0.192">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:updateBook()]
 display-name: UpdateBook: change title and price
@@ -1771,13 +1771,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:inv
 display-name: Invalid: wrong checksum ISBN-10
 ]]></system-out>
 </testcase>
-<testcase name="saleRemoveItem()" classname="bas.test.TestModels" time="0.001">
+<testcase name="saleRemoveItem()" classname="bas.test.TestModels" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:saleRemoveItem()]
 display-name: SaleRecord: removeItem decreases total
 ]]></system-out>
 </testcase>
-<testcase name="cacheSpeed()" classname="bas.test.TestPoolAndCache" time="0.093">
+<testcase name="cacheSpeed()" classname="bas.test.TestPoolAndCache" time="0.094">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cacheSpeed()]
 display-name: Cache: second call is faster (cached)
@@ -1789,7 +1789,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method
 display-name: Seed: all prices are positive
 ]]></system-out>
 </testcase>
-<testcase name="hashEmpty()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="hashEmpty()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:hashEmpty()]
 display-name: SHA-256: empty string hashes without error
@@ -1801,7 +1801,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:r
 display-name: Receipt: buildLines returns list of strings
 ]]></system-out>
 </testcase>
-<testcase name="hasAtomicHabits()" classname="bas.test.TestSeedDataIntegrity" time="0">
+<testcase name="hasAtomicHabits()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasAtomicHabits()]
 display-name: Book exists: Atomic Habits by James Clear
@@ -1813,10 +1813,10 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr1
 display-name: FR-1.1: Search books by title
 ]]></system-out>
 </testcase>
-<testcase name="configJwtSecret()" classname="bas.test.TestAdvancedScenarios" time="0.001">
+<testcase name="configJwtSecret()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configJwtSecret()]
-display-name: Config: JWT_SECRET is at least 32 chars
+display-name: Config: JWT_SECRET >= 32 chars
 ]]></system-out>
 </testcase>
 <testcase name="nfr1_authorPerf()" classname="bas.test.TestSRSCompliance" time="0">
@@ -1825,7 +1825,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr
 display-name: NFR-1: Author search under 2 seconds
 ]]></system-out>
 </testcase>
-<testcase name="bookNullPublisherAddress()" classname="bas.test.TestSupplementary" time="0.002">
+<testcase name="bookNullPublisherAddress()" classname="bas.test.TestSupplementary" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:bookNullPublisherAddress()]
 display-name: Book: publisherAddress can be null without error
@@ -1837,7 +1837,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:va
 display-name: Valid: email with underscore
 ]]></system-out>
 </testcase>
-<testcase name="noNegativeStock()" classname="bas.test.TestSeedDataIntegrity" time="0.004">
+<testcase name="noNegativeStock()" classname="bas.test.TestSeedDataIntegrity" time="0.007">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:noNegativeStock()]
 display-name: Seed: no book has negative stock
@@ -1849,7 +1849,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:whi
 display-name: Invalid: only whitespace
 ]]></system-out>
 </testcase>
-<testcase name="sessionRole()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="sessionRole()" classname="bas.test.TestCryptoAndAuth" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:sessionRole()]
 display-name: Session: correct role after login
@@ -1867,13 +1867,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:aes
 display-name: AES: empty string encrypts and decrypts
 ]]></system-out>
 </testcase>
-<testcase name="hasFivePoint()" classname="bas.test.TestSeedDataIntegrity" time="0">
+<testcase name="hasFivePoint()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:hasFivePoint()]
 display-name: Book exists: Five Point Someone by Chetan Bhagat
 ]]></system-out>
 </testcase>
-<testcase name="aesSpecialChars()" classname="bas.test.TestCryptoAndAuth" time="0">
+<testcase name="aesSpecialChars()" classname="bas.test.TestCryptoAndAuth" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:aesSpecialChars()]
 display-name: AES: special characters survive round-trip
@@ -1885,19 +1885,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:ses
 display-name: Session: authenticated after login
 ]]></system-out>
 </testcase>
-<testcase name="cleanMethod()" classname="bas.test.TestISBNValidator" time="0">
+<testcase name="cleanMethod()" classname="bas.test.TestISBNValidator" time="0.003">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:cleanMethod()]
 display-name: Clean removes hyphens and spaces
 ]]></system-out>
 </testcase>
-<testcase name="unicodeSearch()" classname="bas.test.TestEdgeCases" time="0.004">
+<testcase name="unicodeSearch()" classname="bas.test.TestEdgeCases" time="0.007">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:unicodeSearch()]
 display-name: Unicode/Emoji in search doesn't crash
 ]]></system-out>
 </testcase>
-<testcase name="cacheSearchEmpty()" classname="bas.test.TestSupplementary" time="0.002">
+<testcase name="cacheSearchEmpty()" classname="bas.test.TestSupplementary" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:cacheSearchEmpty()]
 display-name: Cache: searchByTitle for empty string returns all books
@@ -1927,13 +1927,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:jwt
 display-name: JWT: token with 4 parts fails
 ]]></system-out>
 </testcase>
-<testcase name="clerk2Exists()" classname="bas.test.TestSeedDataIntegrity" time="0.312">
+<testcase name="clerk2Exists()" classname="bas.test.TestSeedDataIntegrity" time="0.064">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:clerk2Exists()]
 display-name: Users: clerk2 exists
 ]]></system-out>
 </testcase>
-<testcase name="saleZeroStock()" classname="bas.test.TestNegativeCases" time="0.089">
+<testcase name="saleZeroStock()" classname="bas.test.TestNegativeCases" time="0.09">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleZeroStock()]
 display-name: Sale: zero-stock book cannot be sold
@@ -1945,25 +1945,25 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:ses
 display-name: Session: hasRole accepts multiple allowed roles
 ]]></system-out>
 </testcase>
-<testcase name="oosCount()" classname="bas.test.TestSeedDataIntegrity" time="0.061">
+<testcase name="oosCount()" classname="bas.test.TestSeedDataIntegrity" time="0.062">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:oosCount()]
 display-name: OOS: demo requests exist
 ]]></system-out>
 </testcase>
-<testcase name="idsUnique()" classname="bas.test.TestAdvancedScenarios" time="0.004">
+<testcase name="idsUnique()" classname="bas.test.TestAdvancedScenarios" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:idsUnique()]
-display-name: ID: generated IDs are unique
+display-name: ID: 100 unique
 ]]></system-out>
 </testcase>
 <testcase name="configJwtExpiry()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configJwtExpiry()]
-display-name: Config: JWT_EXPIRY_HOURS is positive
+display-name: Config: JWT_EXPIRY_HOURS > 0
 ]]></system-out>
 </testcase>
-<testcase name="managerExists()" classname="bas.test.TestSeedDataIntegrity" time="0.072">
+<testcase name="managerExists()" classname="bas.test.TestSeedDataIntegrity" time="0.046">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:managerExists()]
 display-name: Users: manager1 exists
@@ -1975,10 +1975,10 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:bookNeedsR
 display-name: Book: needsRestock true when stock <= threshold
 ]]></system-out>
 </testcase>
-<testcase name="salePerformance()" classname="bas.test.TestDatabase" time="0.353">
+<testcase name="salePerformance()" classname="bas.test.TestDatabase" time="0.431">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:salePerformance()]
-display-name: Sale: performance within 1 second (NFR-2)
+display-name: Sale: performance within acceptable time (NFR-2)
 ]]></system-out>
 </testcase>
 <testcase name="nfr8_descriptiveErrors()" classname="bas.test.TestSRSCompliance" time="0.001">
@@ -1987,43 +1987,43 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr
 display-name: NFR-8: ISBN validation gives descriptive error messages
 ]]></system-out>
 </testcase>
-<testcase name="allAuthorsNonEmpty()" classname="bas.test.TestSeedDataIntegrity" time="0">
+<testcase name="allAuthorsNonEmpty()" classname="bas.test.TestSeedDataIntegrity" time="0.005">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:allAuthorsNonEmpty()]
 display-name: Seed: all books have non-empty author
 ]]></system-out>
 </testcase>
-<testcase name="ancientDates()" classname="bas.test.TestAdvancedScenarios" time="0.061">
+<testcase name="ancientDates()" classname="bas.test.TestAdvancedScenarios" time="0.074">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:ancientDates()]
-display-name: DateRange: very old dates return zero
+display-name: DateRange: ancient = zero
 ]]></system-out>
 </testcase>
-<testcase name="authCaseSensitivePassword()" classname="bas.test.TestNegativeCases" time="0.125">
+<testcase name="authCaseSensitivePassword()" classname="bas.test.TestNegativeCases" time="0.121">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:authCaseSensitivePassword()]
 display-name: Auth: case-sensitive password
 ]]></system-out>
 </testcase>
-<testcase name="logsLimit()" classname="bas.test.TestDatabase" time="0.12">
+<testcase name="logsLimit()" classname="bas.test.TestDatabase" time="0.131">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:logsLimit()]
 display-name: Logs: getRecentLogs respects limit
 ]]></system-out>
 </testcase>
-<testcase name="cacheInvalidate()" classname="bas.test.TestPoolAndCache" time="0.294">
+<testcase name="cacheInvalidate()" classname="bas.test.TestPoolAndCache" time="0.095">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cacheInvalidate()]
 display-name: Cache: invalidate forces re-fetch on next call
 ]]></system-out>
 </testcase>
-<testcase name="isbnAllZeros10()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="isbnAllZeros10()" classname="bas.test.TestEdgeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:isbnAllZeros10()]
 display-name: ISBN: all zeros ISBN-10 is technically valid (checksum 0 mod 11)
 ]]></system-out>
 </testcase>
-<testcase name="addLog()" classname="bas.test.TestDatabase" time="0.123">
+<testcase name="addLog()" classname="bas.test.TestDatabase" time="0.148">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:addLog()]
 display-name: Logs: addLog writes to database
@@ -2035,7 +2035,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:va
 display-name: Valid: email with dots
 ]]></system-out>
 </testcase>
-<testcase name="authValidManager()" classname="bas.test.TestDatabase" time="0.063">
+<testcase name="authValidManager()" classname="bas.test.TestDatabase" time="0.077">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:authValidManager()]
 display-name: Auth: valid manager credentials return User object
@@ -2059,37 +2059,37 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwt
 display-name: JWT: null token fails
 ]]></system-out>
 </testcase>
-<testcase name="transactionFields()" classname="bas.test.TestDatabase" time="0.064">
+<testcase name="transactionFields()" classname="bas.test.TestDatabase" time="0.065">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:transactionFields()]
 display-name: History: transaction includes correct fields
 ]]></system-out>
 </testcase>
-<testcase name="authSqlInjection()" classname="bas.test.TestDatabase" time="0.061">
+<testcase name="authSqlInjection()" classname="bas.test.TestDatabase" time="0.316">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:authSqlInjection()]
 display-name: Auth: SQL injection attempt in username returns null
 ]]></system-out>
 </testcase>
-<testcase name="poolPerformance()" classname="bas.test.TestPoolAndCache" time="0.059">
+<testcase name="poolPerformance()" classname="bas.test.TestPoolAndCache" time="0.057">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:poolPerformance()]
 display-name: Pool: pooled borrow completes within reasonable time
 ]]></system-out>
 </testcase>
-<testcase name="jwtExtractIat()" classname="bas.test.TestSupplementary" time="0.01">
+<testcase name="jwtExtractIat()" classname="bas.test.TestSupplementary" time="0.003">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:jwtExtractIat()]
 display-name: JWT: extractLong returns valid iat from token
 ]]></system-out>
 </testcase>
-<testcase name="emailNumericDomain()" classname="bas.test.TestSupplementary" time="0">
+<testcase name="emailNumericDomain()" classname="bas.test.TestSupplementary" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:emailNumericDomain()]
 display-name: Email: numeric domain is valid
 ]]></system-out>
 </testcase>
-<testcase name="salesStats()" classname="bas.test.TestDatabase" time="0.062">
+<testcase name="salesStats()" classname="bas.test.TestDatabase" time="0.071">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:salesStats()]
 display-name: SalesStats: returns data for valid date range
@@ -2101,16 +2101,16 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:sal
 display-name: SaleRecord: saleId stored correctly
 ]]></system-out>
 </testcase>
-<testcase name="stressHashing()" classname="bas.test.TestConcurrency" time="0.038">
+<testcase name="stressHashing()" classname="bas.test.TestConcurrency" time="0.042">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:stressHashing()]
 display-name: Stress: 100 rapid sequential hash computations
 ]]></system-out>
 </testcase>
-<testcase name="w5_clerkRestricted()" classname="bas.test.TestIntegrationWorkflow" time="0.002">
+<testcase name="w5_clerkRestricted()" classname="bas.test.TestIntegrationWorkflow" time="0.004">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w5_clerkRestricted()]
-display-name: W5.1: Clerk cannot access OWNER-only features
+display-name: W5.1: Clerk restricted from OWNER features
 ]]></system-out>
 </testcase>
 <testcase name="nfr8_emailErrors()" classname="bas.test.TestSRSCompliance" time="0">
@@ -2119,10 +2119,10 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr
 display-name: NFR-8: Email validation gives descriptive error messages
 ]]></system-out>
 </testcase>
-<testcase name="w3_procurement()" classname="bas.test.TestIntegrationWorkflow" time="0.065">
+<testcase name="w3_procurement()" classname="bas.test.TestIntegrationWorkflow" time="0.382">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w3_procurement()]
-display-name: W3.3: Owner checks procurement needs
+display-name: W3.3: Procurement report shows books below threshold
 ]]></system-out>
 </testcase>
 <testcase name="oosNullEmail()" classname="bas.test.TestModels" time="0">
@@ -2143,7 +2143,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestModels]/[method:saleAddIte
 display-name: SaleRecord: addItem increases total
 ]]></system-out>
 </testcase>
-<testcase name="salesFutureRange()" classname="bas.test.TestDatabase" time="0.06">
+<testcase name="salesFutureRange()" classname="bas.test.TestDatabase" time="0.071">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:salesFutureRange()]
 display-name: SalesStats: future date range returns zero revenue
@@ -2155,7 +2155,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:er
 display-name: Validation error for invalid format
 ]]></system-out>
 </testcase>
-<testcase name="updateNonexistent()" classname="bas.test.TestNegativeCases" time="0.091">
+<testcase name="updateNonexistent()" classname="bas.test.TestNegativeCases" time="0.076">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:updateNonexistent()]
 display-name: UpdateBook: nonexistent ISBN does nothing (no crash)
@@ -2167,7 +2167,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:inv
 display-name: Invalid: wrong checksum ISBN-13
 ]]></system-out>
 </testcase>
-<testcase name="searchNewline()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="searchNewline()" classname="bas.test.TestNegativeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:searchNewline()]
 display-name: Search: newline in search doesn't crash
@@ -2185,25 +2185,25 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr1
 display-name: FR-1.4: Search results within 2 seconds (10000+ capable)
 ]]></system-out>
 </testcase>
-<testcase name="receiptClerk()" classname="bas.test.TestAdvancedScenarios" time="0.002">
+<testcase name="receiptClerk()" classname="bas.test.TestAdvancedScenarios" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:receiptClerk()]
-display-name: Receipt: contains clerk ID
+display-name: Receipt: clerk ID
 ]]></system-out>
 </testcase>
-<testcase name="jwt2Parts()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="jwt2Parts()" classname="bas.test.TestNegativeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:jwt2Parts()]
 display-name: JWT: token with only 2 parts fails
 ]]></system-out>
 </testcase>
-<testcase name="nfr2_billingPerf()" classname="bas.test.TestSRSCompliance" time="0.303">
+<testcase name="nfr2_billingPerf()" classname="bas.test.TestSRSCompliance" time="0.298">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr2_billingPerf()]
-display-name: NFR-2: Billing operation under 1 second
+display-name: NFR-2: Billing operation within acceptable time (cloud DB)
 ]]></system-out>
 </testcase>
-<testcase name="ownerExists()" classname="bas.test.TestSeedDataIntegrity" time="0.068">
+<testcase name="ownerExists()" classname="bas.test.TestSeedDataIntegrity" time="0.061">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:ownerExists()]
 display-name: Users: owner1 exists
@@ -2215,34 +2215,34 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:r
 display-name: Receipt: contains sale ID
 ]]></system-out>
 </testcase>
-<testcase name="getAllBooks()" classname="bas.test.TestDatabase" time="0.321">
+<testcase name="getAllBooks()" classname="bas.test.TestDatabase" time="0.1">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:getAllBooks()]
 display-name: Search: getAllBooks returns seeded books (71+)
 ]]></system-out>
 </testcase>
-<testcase name="salesCount()" classname="bas.test.TestSeedDataIntegrity" time="0.069">
+<testcase name="salesCount()" classname="bas.test.TestSeedDataIntegrity" time="0.088">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:salesCount()]
-display-name: Sales: at least 35 demo transactions exist
+display-name: Sales: at least 25 demo transactions exist
 ]]></system-out>
 </testcase>
-<testcase name="saleStockUnchangedOnFail()" classname="bas.test.TestNegativeCases" time="0.258">
+<testcase name="saleStockUnchangedOnFail()" classname="bas.test.TestNegativeCases" time="0.224">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:saleStockUnchangedOnFail()]
 display-name: Sale: stock unchanged after failed sale
 ]]></system-out>
 </testcase>
-<testcase name="saleReceiptStored()" classname="bas.test.TestDatabase" time="0.063">
+<testcase name="saleReceiptStored()" classname="bas.test.TestDatabase" time="0.061">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:saleReceiptStored()]
 display-name: Sale: receipt content stored in DB
 ]]></system-out>
 </testcase>
-<testcase name="buyFromZeroStock()" classname="bas.test.TestAdvancedScenarios" time="0.093">
+<testcase name="buyFromZeroStock()" classname="bas.test.TestAdvancedScenarios" time="0.099">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:buyFromZeroStock()]
-display-name: Boundary: cannot buy from zero-stock book
+display-name: Boundary: zero-stock book fails sale
 ]]></system-out>
 </testcase>
 <testcase name="hasModernFiction()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
@@ -2251,7 +2251,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method
 display-name: Genre: has Modern Fiction (rack B-*)
 ]]></system-out>
 </testcase>
-<testcase name="sqlInjectionAuthor()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="sqlInjectionAuthor()" classname="bas.test.TestEdgeCases" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:sqlInjectionAuthor()]
 display-name: SQL Injection: author search with SQL payload
@@ -2269,13 +2269,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:has
 display-name: SHA-256: Unicode characters hash correctly
 ]]></system-out>
 </testcase>
-<testcase name="authEmpty()" classname="bas.test.TestDatabase" time="0.061">
+<testcase name="authEmpty()" classname="bas.test.TestDatabase" time="0.056">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:authEmpty()]
 display-name: Auth: empty credentials return null
 ]]></system-out>
 </testcase>
-<testcase name="stressSequentialSearches()" classname="bas.test.TestConcurrency" time="0.003">
+<testcase name="stressSequentialSearches()" classname="bas.test.TestConcurrency" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestConcurrency]/[method:stressSequentialSearches()]
 display-name: Stress: 50 rapid sequential searches complete
@@ -2293,37 +2293,37 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:searchPe
 display-name: Performance: search completes within 2 seconds (NFR-1)
 ]]></system-out>
 </testcase>
-<testcase name="bookZeroThreshold()" classname="bas.test.TestNegativeCases" time="0">
+<testcase name="bookZeroThreshold()" classname="bas.test.TestNegativeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:bookZeroThreshold()]
 display-name: Book: zero threshold means always needs restock at 0
 ]]></system-out>
 </testcase>
-<testcase name="salePrecision()" classname="bas.test.TestSupplementary" time="0.029">
+<testcase name="salePrecision()" classname="bas.test.TestSupplementary" time="0.016">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:salePrecision()]
 display-name: SaleRecord: total precision with fractional prices
 ]]></system-out>
 </testcase>
-<testcase name="authLongPassword()" classname="bas.test.TestNegativeCases" time="0.062">
+<testcase name="authLongPassword()" classname="bas.test.TestNegativeCases" time="0.06">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:authLongPassword()]
 display-name: Auth: very long password doesn't crash
 ]]></system-out>
 </testcase>
-<testcase name="w1_validateISBN()" classname="bas.test.TestIntegrationWorkflow" time="0.001">
+<testcase name="w1_validateISBN()" classname="bas.test.TestIntegrationWorkflow" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w1_validateISBN()]
-display-name: W1.3: ISBN validation passes for the found book
+display-name: W1.3: ISBN validation passes
 ]]></system-out>
 </testcase>
-<testcase name="buyLastCopy()" classname="bas.test.TestAdvancedScenarios" time="0.47">
+<testcase name="buyLastCopy()" classname="bas.test.TestAdvancedScenarios" time="0.763">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:buyLastCopy()]
-display-name: Boundary: buy exactly the last copy of a book
+display-name: Boundary: buy exactly the last copies
 ]]></system-out>
 </testcase>
-<testcase name="receiptCurrency()" classname="bas.test.TestEmailAndPrinter" time="0.001">
+<testcase name="receiptCurrency()" classname="bas.test.TestEmailAndPrinter" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailAndPrinter]/[method:receiptCurrency()]
 display-name: Receipt: INR currency format
@@ -2332,22 +2332,22 @@ display-name: Receipt: INR currency format
 <testcase name="multiItemReceipt()" classname="bas.test.TestAdvancedScenarios" time="0.067">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:multiItemReceipt()]
-display-name: MultiSale: receipt stored correctly for multi-item
+display-name: MultiSale: receipt stored correctly
 ]]></system-out>
 </testcase>
-<testcase name="bookCount()" classname="bas.test.TestSeedDataIntegrity" time="0.001">
+<testcase name="bookCount()" classname="bas.test.TestSeedDataIntegrity" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:bookCount()]
 display-name: Seed: at least 70 books in catalogue
 ]]></system-out>
 </testcase>
-<testcase name="receiptSeparators()" classname="bas.test.TestAdvancedScenarios" time="0.001">
+<testcase name="receiptSeparators()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:receiptSeparators()]
-display-name: Receipt: contains separator lines
+display-name: Receipt: separators
 ]]></system-out>
 </testcase>
-<testcase name="rapidSearches()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="rapidSearches()" classname="bas.test.TestEdgeCases" time="0.005">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:rapidSearches()]
 display-name: Sequence: multiple rapid searches don't crash
@@ -2356,34 +2356,34 @@ display-name: Sequence: multiple rapid searches don't crash
 <testcase name="configDbPort()" classname="bas.test.TestAdvancedScenarios" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:configDbPort()]
-display-name: Config: DB_PORT is valid (1-65535)
+display-name: Config: DB_PORT is valid
 ]]></system-out>
 </testcase>
-<testcase name="authCaseSensitiveId()" classname="bas.test.TestNegativeCases" time="0.118">
+<testcase name="authCaseSensitiveId()" classname="bas.test.TestNegativeCases" time="0.125">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:authCaseSensitiveId()]
 display-name: Auth: case-sensitive user ID
 ]]></system-out>
 </testcase>
-<testcase name="oosNullEmail()" classname="bas.test.TestDatabase" time="0.123">
+<testcase name="oosNullEmail()" classname="bas.test.TestDatabase" time="0.183">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:oosNullEmail()]
 display-name: OOS: request with null email stores correctly
 ]]></system-out>
 </testcase>
-<testcase name="fr3_4_receiptGeneration()" classname="bas.test.TestSRSCompliance" time="0.001">
+<testcase name="fr3_4_receiptGeneration()" classname="bas.test.TestSRSCompliance" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr3_4_receiptGeneration()]
 display-name: FR-3.4: Printable sales receipt generated
 ]]></system-out>
 </testcase>
-<testcase name="sqlInjectionTitle()" classname="bas.test.TestEdgeCases" time="0.084">
+<testcase name="sqlInjectionTitle()" classname="bas.test.TestEdgeCases" time="0.065">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:sqlInjectionTitle()]
 display-name: SQL Injection: title search with SQL payload
 ]]></system-out>
 </testcase>
-<testcase name="operationSequence()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="operationSequence()" classname="bas.test.TestEdgeCases" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:operationSequence()]
 display-name: Sequence: search → add to cart → verify → clear
@@ -2395,10 +2395,10 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:va
 display-name: Valid: email with hyphen in domain
 ]]></system-out>
 </testcase>
-<testcase name="w5_ownerFullAccess()" classname="bas.test.TestIntegrationWorkflow" time="0.001">
+<testcase name="w5_ownerFullAccess()" classname="bas.test.TestIntegrationWorkflow" time="0.008">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w5_ownerFullAccess()]
-display-name: W5.3: Owner has access to everything
+display-name: W5.3: Owner has full access
 ]]></system-out>
 </testcase>
 <testcase name="emailConsecutiveDots()" classname="bas.test.TestEdgeCases" time="0">
@@ -2407,31 +2407,31 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:emailCo
 display-name: Email: consecutive dots in domain
 ]]></system-out>
 </testcase>
-<testcase name="fr4_2_salesStats()" classname="bas.test.TestSRSCompliance" time="0.064">
+<testcase name="fr4_2_salesStats()" classname="bas.test.TestSRSCompliance" time="0.06">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr4_2_salesStats()]
 display-name: FR-4.2: Sales statistics include ISBN, title, author, publisher, copies, revenue
 ]]></system-out>
 </testcase>
-<testcase name="searchSorted()" classname="bas.test.TestAdvancedScenarios" time="0.121">
+<testcase name="searchSorted()" classname="bas.test.TestAdvancedScenarios" time="0.067">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:searchSorted()]
-display-name: Search: results sorted alphabetically by title
+display-name: Search: sorted alphabetically
 ]]></system-out>
 </testcase>
-<testcase name="fr2_2_requestCounter()" classname="bas.test.TestSRSCompliance" time="0.612">
+<testcase name="fr2_2_requestCounter()" classname="bas.test.TestSRSCompliance" time="0.356">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:fr2_2_requestCounter()]
 display-name: FR-2.2: Request counter increments on OOS query
 ]]></system-out>
 </testcase>
-<testcase name="nfr1_getAllPerf()" classname="bas.test.TestSRSCompliance" time="0.087">
+<testcase name="nfr1_getAllPerf()" classname="bas.test.TestSRSCompliance" time="0.085">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSRSCompliance]/[method:nfr1_getAllPerf()]
 display-name: NFR-1: getAllBooks under 2 seconds
 ]]></system-out>
 </testcase>
-<testcase name="jwtPayloadTampered()" classname="bas.test.TestCryptoAndAuth" time="0.006">
+<testcase name="jwtPayloadTampered()" classname="bas.test.TestCryptoAndAuth" time="0.004">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwtPayloadTampered()]
 display-name: JWT: token with modified payload fails signature check
@@ -2443,13 +2443,13 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:lin
 display-name: LineItem: getTitle returns correct value
 ]]></system-out>
 </testcase>
-<testcase name="emptyAuthorSearch()" classname="bas.test.TestEdgeCases" time="0">
+<testcase name="emptyAuthorSearch()" classname="bas.test.TestEdgeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:emptyAuthorSearch()]
 display-name: Empty author search returns all or empty (no crash)
 ]]></system-out>
 </testcase>
-<testcase name="jwtQuotesInName()" classname="bas.test.TestEdgeCases" time="0.001">
+<testcase name="jwtQuotesInName()" classname="bas.test.TestEdgeCases" time="0.002">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestEdgeCases]/[method:jwtQuotesInName()]
 display-name: JWT: name with quotes doesn't break JSON
@@ -2461,19 +2461,19 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwt
 display-name: JWT: empty token fails
 ]]></system-out>
 </testcase>
-<testcase name="salesHaveItems()" classname="bas.test.TestSeedDataIntegrity" time="0.393">
+<testcase name="salesHaveItems()" classname="bas.test.TestSeedDataIntegrity" time="0.361">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSeedDataIntegrity]/[method:salesHaveItems()]
 display-name: Sales: demo sales have line items
 ]]></system-out>
 </testcase>
-<testcase name="getByISBN()" classname="bas.test.TestDatabase" time="0">
+<testcase name="getByISBN()" classname="bas.test.TestDatabase" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:getByISBN()]
 display-name: Search: getByISBN returns correct book
 ]]></system-out>
 </testcase>
-<testcase name="tooLong()" classname="bas.test.TestISBNValidator" time="0.001">
+<testcase name="tooLong()" classname="bas.test.TestISBNValidator" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:tooLong()]
 display-name: Invalid: too long (15 digits)
@@ -2485,16 +2485,16 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestEmailValidator]/[method:nu
 display-name: Invalid: null
 ]]></system-out>
 </testcase>
-<testcase name="bookProcurementLargeStock()" classname="bas.test.TestSupplementary" time="0.001">
+<testcase name="bookProcurementLargeStock()" classname="bas.test.TestSupplementary" time="0">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:bookProcurementLargeStock()]
 display-name: Book: procurement qty with very large stock returns 0
 ]]></system-out>
 </testcase>
-<testcase name="fullYearRange()" classname="bas.test.TestAdvancedScenarios" time="0.065">
+<testcase name="fullYearRange()" classname="bas.test.TestAdvancedScenarios" time="0.062">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:fullYearRange()]
-display-name: DateRange: full year range includes all demo sales
+display-name: DateRange: full year captures sales
 ]]></system-out>
 </testcase>
 <testcase name="sessionNullAfterLogout()" classname="bas.test.TestNegativeCases" time="0.001">
@@ -2503,25 +2503,25 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:ses
 display-name: Session: getters return null after logout
 ]]></system-out>
 </testcase>
-<testcase name="jwtTampered()" classname="bas.test.TestCryptoAndAuth" time="0">
+<testcase name="jwtTampered()" classname="bas.test.TestCryptoAndAuth" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:jwtTampered()]
 display-name: JWT: tampered token fails validation
 ]]></system-out>
 </testcase>
-<testcase name="multiItemSale()" classname="bas.test.TestAdvancedScenarios" time="0.374">
+<testcase name="multiItemSale()" classname="bas.test.TestAdvancedScenarios" time="0.293">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestAdvancedScenarios]/[method:multiItemSale()]
-display-name: MultiSale: 3 different books in one transaction
+display-name: MultiSale: 3 books in one transaction
 ]]></system-out>
 </testcase>
-<testcase name="salesRevenue()" classname="bas.test.TestDatabase" time="0.059">
+<testcase name="salesRevenue()" classname="bas.test.TestDatabase" time="0.081">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestDatabase]/[method:salesRevenue()]
 display-name: SalesStats: total revenue is positive
 ]]></system-out>
 </testcase>
-<testcase name="aesLongKey()" classname="bas.test.TestSupplementary" time="0.006">
+<testcase name="aesLongKey()" classname="bas.test.TestSupplementary" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestSupplementary]/[method:aesLongKey()]
 display-name: AES: encrypt with very long key works
@@ -2539,7 +2539,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cach
 display-name: Cache: getByISBN returns null for missing
 ]]></system-out>
 </testcase>
-<testcase name="sessionToken()" classname="bas.test.TestCryptoAndAuth" time="0.002">
+<testcase name="sessionToken()" classname="bas.test.TestCryptoAndAuth" time="0.001">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestCryptoAndAuth]/[method:sessionToken()]
 display-name: Session: getToken returns non-null after login
@@ -2551,7 +2551,7 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestISBNValidator]/[method:val
 display-name: Valid ISBN-13: 9780451524935 (1984)
 ]]></system-out>
 </testcase>
-<testcase name="aesTruncated()" classname="bas.test.TestNegativeCases" time="0.001">
+<testcase name="aesTruncated()" classname="bas.test.TestNegativeCases" time="0.005">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestNegativeCases]/[method:aesTruncated()]
 display-name: AES: truncated ciphertext throws
@@ -2563,10 +2563,10 @@ unique-id: [engine:junit-jupiter]/[class:bas.test.TestPoolAndCache]/[method:cach
 display-name: Cache: getByISBN returns correct book
 ]]></system-out>
 </testcase>
-<testcase name="w4_cleanup()" classname="bas.test.TestIntegrationWorkflow" time="0.07">
+<testcase name="w4_cleanup()" classname="bas.test.TestIntegrationWorkflow" time="0.062">
 <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:bas.test.TestIntegrationWorkflow]/[method:w4_cleanup()]
-display-name: W4.5: Cleanup — restore Circe to original stock
+display-name: W4.5: Cleanup — restore Circe
 ]]></system-out>
 </testcase>
 <testcase name="noErrorForValid()" classname="bas.test.TestISBNValidator" time="0">

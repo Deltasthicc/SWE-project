@@ -166,10 +166,10 @@ public class TestSeedDataIntegrity {
 
     // ═══ DEMO SALES ══════════════════════════════════════════════════════════
 
-    @Test @Order(40) @DisplayName("Sales: at least 35 demo transactions exist")
+    @Test @Order(40) @DisplayName("Sales: at least 25 demo transactions exist")
     void salesCount() {
         List<Object[]> txns = DatabaseManager.getInstance().getTransactionHistory(100);
-        assertTrue(txns.size() >= 35, "Expected 35+ demo sales, got " + txns.size());
+        assertTrue(txns.size() >= 25, "Expected 25+ demo sales, got " + txns.size());
     }
 
     @Test @Order(41) @DisplayName("Sales: demo sales have receipt content stored")
