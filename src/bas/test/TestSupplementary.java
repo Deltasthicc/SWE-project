@@ -13,10 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 /**
- * 20 supplementary tests — rounding out the full 420 test suite.
- * Covers remaining untested edges and behaviors.
+ * 26 supplementary tests — covering remaining untested edges and behaviors.
  */
-@DisplayName("Supplementary Tests (Round to 420)")
+@DisplayName("Supplementary Tests (Additional Coverage)")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestSupplementary {
 
@@ -156,5 +155,56 @@ public class TestSupplementary {
         assertEquals(0, it.getStockCount());
         assertNotNull(it.getRackLocation());
         assertFalse(it.getRackLocation().isBlank(), "Even OOS books should have a rack location");
+    }
+
+    // ═══ ADDITIONAL SUPPLEMENTARY TESTS ═════════════════════════════════════
+
+    @Test @Order(21) @DisplayName("DatabaseManager: generateSalt returns 32 hex chars")
+    void generateSaltFormat() {
+        String salt = DatabaseManager.generateSalt();
+        assertNotNull(salt);
+        assertEquals(32, salt.length());
+        assertTrue(salt.matches("[0-9a-f]{32}"), "Salt should be lowercase hex");
+    }
+
+    @Test @Order(22) @DisplayName("DatabaseManager: hash with salt differs from hash without salt")
+    void hashWithSaltDiffers() {
+        String password = "testPassword";
+        String salt = "abcdef1234567890abcdef1234567890";
+        String hashNoSalt = DatabaseManager.hash(password);
+        String hashWithSalt = DatabaseManager.hash(password, salt);
+        assertNotEquals(hashNoSalt, hashWithSalt, "Salted hash should differ from unsalted");
+    }
+
+    @Test @Order(23) @DisplayName("DatabaseManager: newSaleId starts with SALE-")
+    void saleIdPrefix() {
+        String id = DatabaseManager.newSaleId();
+        assertTrue(id.startsWith("SALE-"));
+        assertTrue(id.length() > 5);
+    }
+
+    @Test @Order(24) @DisplayName("DatabaseManager: newReqId starts with REQ-")
+    void reqIdPrefix() {
+        String id = DatabaseManager.newReqId();
+        assertTrue(id.startsWith("REQ-"));
+        assertTrue(id.length() > 4);
+    }
+
+    @Test @Order(25) @DisplayName("AppConfig: all required fields are non-null")
+    void appConfigFields() {
+        assertNotNull(bas.config.AppConfig.DB_HOST);
+        assertNotNull(bas.config.AppConfig.DB_USER);
+        assertNotNull(bas.config.AppConfig.DB_PASSWORD);
+        assertNotNull(bas.config.AppConfig.JWT_SECRET);
+        assertNotNull(bas.config.AppConfig.SMTP_HOST);
+        assertNotNull(bas.config.AppConfig.SMTP_EMAIL);
+        assertNotNull(bas.config.AppConfig.AES_KEY);
+        assertNotNull(bas.config.AppConfig.DB_URL);
+    }
+
+    @Test @Order(26) @DisplayName("Session: getRole returns null when not authenticated")
+    void sessionRoleNull() {
+        SessionManager.getInstance().logout();
+        assertNull(SessionManager.getInstance().getUserId());
     }
 }

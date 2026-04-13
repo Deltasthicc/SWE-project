@@ -10,8 +10,8 @@ import org.w3c.dom.*;
 
 /**
  * Reads JUnit XML reports from test-reports/ directory,
- * prints a clean PASS/FAIL summary table to console,
- * and generates an HTML test report file.
+ * prints a SUMMARISED pass/fail report grouped by test class,
+ * and generates an HTML test report file with collapsible detail sections.
  *
  * Run after JUnit: java -cp out bas.test.TestReportGenerator
  */
@@ -19,7 +19,7 @@ public class TestReportGenerator {
 
     static int totalTests = 0, totalPassed = 0, totalFailed = 0, totalSkipped = 0, totalErrors = 0;
     static double totalTime = 0;
-    static List<String[]> allResults = new ArrayList<>(); // {class, name, status, time, message}
+    static List<String[]> allResults = new ArrayList<>();
     static List<String[]> failures = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -38,7 +38,7 @@ public class TestReportGenerator {
 
         for (File f : xmlFiles) parseFile(f);
 
-        printConsoleTable();
+        printSummaryTable();
         generateHTML(reportDir + "/BAS_Test_Report.html");
     }
 
@@ -85,31 +85,53 @@ public class TestReportGenerator {
         }
     }
 
-    static void printConsoleTable() {
-        String sep = "+" + "-".repeat(42) + "+" + "-".repeat(50) + "+" + "-".repeat(8) + "+" + "-".repeat(10) + "+";
+    /**
+     * Prints a concise, grouped summary: one row per test class showing
+     * passed/failed/total counts instead of listing every individual test.
+     */
+    static void printSummaryTable() {
+        // Group results by class
+        Map<String, int[]> classStats = new LinkedHashMap<>();
+        Map<String, Double> classTimes = new LinkedHashMap<>();
+        for (String[] r : allResults) {
+            String cls = r[0];
+            classStats.computeIfAbsent(cls, k -> new int[5]);
+            classTimes.merge(cls, parseDouble(r[3].replace("s","")), Double::sum);
+            int[] s = classStats.get(cls);
+            s[2]++; // total
+            switch (r[2]) {
+                case "PASS"  -> s[0]++;
+                case "FAIL"  -> s[1]++;
+                case "ERROR" -> s[3]++;
+                case "SKIP"  -> s[4]++;
+            }
+        }
+
         System.out.println();
-        System.out.println("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║                              BAS TEST SUITE — RESULTS SUMMARY                                              ║");
-        System.out.println("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+        System.out.println("======================================================================================");
+        System.out.println("                         BAS TEST SUITE  -  SUMMARY REPORT                            ");
+        System.out.println("======================================================================================");
         System.out.println();
+
+        String sep = "+" + "-".repeat(42) + "+" + "-".repeat(8) + "+" + "-".repeat(8) + "+" + "-".repeat(8) + "+" + "-".repeat(10) + "+" + "-".repeat(8) + "+";
         System.out.println(sep);
-        System.out.printf("| %-40s | %-48s | %-6s | %-8s |%n", "Test Class", "Test Name", "Result", "Time");
+        System.out.printf("| %-40s | %-6s | %-6s | %-6s | %-8s | %-6s |%n",
+            "Test Class", "Total", "Pass", "Fail", "Time", "Status");
         System.out.println(sep);
 
-        for (String[] r : allResults) {
-            String icon = switch(r[2]) {
-                case "PASS" -> "PASS";
-                case "FAIL" -> "FAIL";
-                case "ERROR" -> "ERR!";
-                case "SKIP" -> "SKIP";
-                default -> "????";
-            };
-            System.out.printf("| %-40s | %-48s | %-6s | %8s |%n",
-                truncate(r[0], 40), truncate(r[1], 48), icon, r[3]);
+        for (var entry : classStats.entrySet()) {
+            String cls = entry.getKey();
+            int[] s = entry.getValue();
+            double time = classTimes.getOrDefault(cls, 0.0);
+            int failCount = s[1] + s[3];
+            String status = failCount == 0 ? "  OK" : "FAIL";
+
+            System.out.printf("| %-40s | %6d | %6d | %6d | %7.1fs | %-6s |%n",
+                truncate(cls, 40), s[2], s[0], failCount, time, status);
         }
         System.out.println(sep);
 
-        // Summary
+        // Grand totals
         System.out.println();
         System.out.println("  TOTAL: " + totalTests + " tests  |  PASSED: " + totalPassed +
             "  |  FAILED: " + totalFailed + "  |  ERRORS: " + totalErrors +
@@ -119,6 +141,7 @@ public class TestReportGenerator {
         double passRate = totalTests > 0 ? (totalPassed * 100.0 / totalTests) : 0;
         System.out.printf("  PASS RATE: %.1f%%%n", passRate);
 
+        // Only print individual failures if there are any
         if (!failures.isEmpty()) {
             System.out.println();
             System.out.println("  *** FAILURES ***");
@@ -154,6 +177,8 @@ public class TestReportGenerator {
         sb.append(".failures{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px 24px;margin:20px 0}");
         sb.append(".failures h3{color:#dc2626;margin-top:0}.failures li{margin:8px 0}");
         sb.append(".footer{color:#94a3b8;font-size:12px;margin-top:30px;text-align:center}");
+        sb.append("details{margin:4px 0;background:white;border-radius:6px;border:1px solid #e2e8f0;overflow:hidden}");
+        sb.append("summary{cursor:pointer;font-weight:600;padding:10px 16px;background:#f8fafc}summary:hover{background:#f1f5f9}");
         sb.append("</style></head><body>");
 
         sb.append("<h1>BAS Test Suite Report</h1>");
@@ -180,20 +205,56 @@ public class TestReportGenerator {
             sb.append("</ol></div>");
         }
 
-        // Full results table
-        sb.append("<h2>All Test Results</h2>");
-        sb.append("<table><thead><tr><th>#</th><th>Test Class</th><th>Test Method</th><th>Status</th><th>Time</th></tr></thead><tbody>");
-        int idx = 1;
-        for (String[] r : allResults) {
-            sb.append("<tr class='status-").append(r[2]).append("'>");
-            sb.append("<td>").append(idx++).append("</td>");
-            sb.append("<td>").append(esc(r[0])).append("</td>");
-            sb.append("<td>").append(esc(r[1])).append("</td>");
-            sb.append("<td class='status-").append(r[2]).append("'>").append(r[2]).append("</td>");
-            sb.append("<td>").append(r[3]).append("</td>");
+        // Grouped summary table
+        sb.append("<h2>Results by Test Class</h2>");
+        Map<String, List<String[]>> grouped = new LinkedHashMap<>();
+        for (String[] r : allResults) grouped.computeIfAbsent(r[0], k -> new ArrayList<>()).add(r);
+
+        sb.append("<table><thead><tr><th>Test Class</th><th>Total</th><th>Passed</th><th>Failed</th><th>Time</th><th>Status</th></tr></thead><tbody>");
+        for (var entry : grouped.entrySet()) {
+            String cls = entry.getKey();
+            List<String[]> tests = entry.getValue();
+            int p = 0, f = 0;
+            double t = 0;
+            for (String[] r : tests) {
+                t += parseDouble(r[3].replace("s",""));
+                if ("PASS".equals(r[2])) p++; else if ("FAIL".equals(r[2]) || "ERROR".equals(r[2])) f++;
+            }
+            String st = f == 0 ? "PASS" : "FAIL";
+            sb.append("<tr class='status-").append(st).append("'>");
+            sb.append("<td>").append(esc(cls)).append("</td>");
+            sb.append("<td>").append(tests.size()).append("</td>");
+            sb.append("<td>").append(p).append("</td>");
+            sb.append("<td>").append(f).append("</td>");
+            sb.append("<td>").append(String.format("%.1fs", t)).append("</td>");
+            sb.append("<td class='status-").append(st).append("'>").append(st).append("</td>");
             sb.append("</tr>");
         }
         sb.append("</tbody></table>");
+
+        // Full results in collapsible sections per class
+        sb.append("<h2>All Test Results (click to expand)</h2>");
+        for (var entry : grouped.entrySet()) {
+            String cls = entry.getKey();
+            List<String[]> tests = entry.getValue();
+            long failCount = tests.stream().filter(r -> "FAIL".equals(r[2]) || "ERROR".equals(r[2])).count();
+            String icon = failCount == 0 ? "&#9989;" : "&#10060;";
+            sb.append("<details><summary>").append(icon).append(" ").append(esc(cls));
+            sb.append(" &mdash; ").append(tests.size()).append(" tests");
+            if (failCount > 0) sb.append(", ").append(failCount).append(" failed");
+            sb.append("</summary>");
+            sb.append("<table><thead><tr><th>#</th><th>Test Method</th><th>Status</th><th>Time</th></tr></thead><tbody>");
+            int idx = 1;
+            for (String[] r : tests) {
+                sb.append("<tr class='status-").append(r[2]).append("'>");
+                sb.append("<td>").append(idx++).append("</td>");
+                sb.append("<td>").append(esc(r[1])).append("</td>");
+                sb.append("<td class='status-").append(r[2]).append("'>").append(r[2]).append("</td>");
+                sb.append("<td>").append(r[3]).append("</td>");
+                sb.append("</tr>");
+            }
+            sb.append("</tbody></table></details>");
+        }
 
         sb.append("<div class='footer'>BAS Test Report — Shiv Nadar IoE, Group G01 — ").append(timestamp).append("</div>");
         sb.append("</body></html>");

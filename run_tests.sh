@@ -31,6 +31,8 @@ javac -source 17 -target 17 -cp "lib/*:out" -d out \
   src/bas/test/TestNegativeCases.java \
   src/bas/test/TestConcurrency.java \
   src/bas/test/TestSupplementary.java \
+  src/bas/test/TestProcurement.java \
+  src/bas/test/TestConcurrentWrites.java \
   src/bas/test/TestReportGenerator.java
 if [ $? -ne 0 ]; then echo "[ERROR] Test compilation failed."; exit 1; fi
 

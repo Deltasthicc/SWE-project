@@ -130,4 +130,77 @@ public class TestEmailAndPrinter {
         String receipt = PrinterUtil.buildReceiptString(sale);
         assertTrue(receipt.contains("1234.56"));
     }
+
+    // ═══ ADDITIONAL EMAIL & RECEIPT TESTS ════════════════════════════════════
+
+    @Test @Order(20) @DisplayName("Email: send returns false when not configured")
+    void emailSendNotConfigured() {
+        String origHost = EmailService.getHost();
+        int origPort = EmailService.getPort();
+        String origEmail = EmailService.getEmail();
+        EmailService.configure("", 0, "", "");
+        assertFalse(EmailService.send("test@example.com", "Subject", "Body"));
+        EmailService.configure(origHost, origPort, origEmail, AppConfig.SMTP_PASSWORD);
+    }
+
+    @Test @Order(21) @DisplayName("Email: sendBulkAlerts returns 0 when not configured")
+    void emailBulkNotConfigured() {
+        String origHost = EmailService.getHost();
+        int origPort = EmailService.getPort();
+        String origEmail = EmailService.getEmail();
+        EmailService.configure("", 0, "", "");
+        int count = EmailService.sendBulkAlerts(
+            java.util.Arrays.asList("a@b.com", "c@d.com"), "Title", "isbn");
+        assertEquals(0, count);
+        EmailService.configure(origHost, origPort, origEmail, AppConfig.SMTP_PASSWORD);
+    }
+
+    @Test @Order(22) @DisplayName("Email: sendBulkAlertsSelective returns empty list when not configured")
+    void emailBulkSelectiveNotConfigured() {
+        String origHost = EmailService.getHost();
+        int origPort = EmailService.getPort();
+        String origEmail = EmailService.getEmail();
+        EmailService.configure("", 0, "", "");
+        java.util.List<String> sent = EmailService.sendBulkAlertsSelective(
+            java.util.Arrays.asList("a@b.com"), "Title", "isbn");
+        assertTrue(sent.isEmpty());
+        EmailService.configure(origHost, origPort, origEmail, AppConfig.SMTP_PASSWORD);
+    }
+
+    @Test @Order(23) @DisplayName("Receipt: multi-item sale totals correctly in receipt")
+    void receiptMultiItemTotal() {
+        SaleRecord sale = new SaleRecord("SALE-MULTI-T", "clerk1");
+        sale.addItem(new LineItem("isbn1", "Book A", 2, 150.0));
+        sale.addItem(new LineItem("isbn2", "Book B", 1, 300.0));
+        String receipt = PrinterUtil.buildReceiptString(sale);
+        assertTrue(receipt.contains("600.00"), "Total should be 2*150 + 1*300 = 600.00");
+    }
+
+    @Test @Order(24) @DisplayName("Receipt: receipt contains Thank you message")
+    void receiptThankYou() {
+        SaleRecord sale = new SaleRecord("SALE-TY", "clerk1");
+        sale.addItem(new LineItem("isbn", "Book", 1, 100.0));
+        String receipt = PrinterUtil.buildReceiptString(sale);
+        assertTrue(receipt.contains("Thank you"));
+    }
+
+    @Test @Order(25) @DisplayName("Receipt: receipt contains BOOKSHOP header")
+    void receiptHeader() {
+        SaleRecord sale = new SaleRecord("SALE-HDR", "clerk1");
+        sale.addItem(new LineItem("isbn", "Book", 1, 100.0));
+        String receipt = PrinterUtil.buildReceiptString(sale);
+        assertTrue(receipt.contains("BOOKSHOP"));
+    }
+
+    @Test @Order(26) @DisplayName("Email: isConfigured returns true after valid configure")
+    void emailIsConfiguredAfterSet() {
+        EmailService.configure("smtp.test.com", 587, "user@test.com", "pass");
+        assertTrue(EmailService.isConfigured());
+        assertEquals("smtp.test.com", EmailService.getHost());
+        assertEquals(587, EmailService.getPort());
+        assertEquals("user@test.com", EmailService.getEmail());
+        // Restore
+        EmailService.configure(AppConfig.SMTP_HOST, AppConfig.SMTP_PORT,
+            AppConfig.SMTP_EMAIL, AppConfig.SMTP_PASSWORD);
+    }
 }

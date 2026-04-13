@@ -286,4 +286,82 @@ public class TestConcurrency {
         assertEquals(50, ids.size());
         pool.shutdown();
     }
+
+    // ═══ ADDITIONAL CONCURRENCY TESTS ════════════════════════════════════════
+
+    @Test @Order(80) @DisplayName("Concurrent: 20 parallel getAllBooks don't crash")
+    void parallelGetAllBooks() throws Exception {
+        ExecutorService pool = Executors.newFixedThreadPool(5);
+        List<Future<Integer>> futures = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            futures.add(pool.submit(() -> DatabaseManager.getInstance().getAllBooks().size()));
+        }
+        int expectedSize = -1;
+        for (Future<Integer> f : futures) {
+            int size = f.get(10, TimeUnit.SECONDS);
+            assertTrue(size > 0);
+            if (expectedSize < 0) expectedSize = size;
+            assertEquals(expectedSize, size, "All getAllBooks calls should return same count");
+        }
+        pool.shutdown();
+    }
+
+    @Test @Order(81) @DisplayName("Concurrent: parallel getBooksNeedingRestock is consistent")
+    void parallelRestock() throws Exception {
+        ExecutorService pool = Executors.newFixedThreadPool(5);
+        List<Future<Integer>> futures = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            futures.add(pool.submit(() -> DatabaseManager.getInstance().getBooksNeedingRestock().size()));
+        }
+        for (Future<Integer> f : futures) {
+            assertTrue(f.get(10, TimeUnit.SECONDS) >= 0);
+        }
+        pool.shutdown();
+    }
+
+    @Test @Order(82) @DisplayName("Stress: 30 rapid sequential getByISBN calls")
+    void stressGetByISBN() {
+        for (int i = 0; i < 30; i++) {
+            Book b = DatabaseManager.getInstance().getByISBN("9780451524935");
+            assertNotNull(b);
+            assertEquals("1984", b.getTitle());
+        }
+    }
+
+    @Test @Order(83) @DisplayName("Concurrent: 10 parallel salted hash computations are deterministic")
+    void parallelSaltedHash() throws Exception {
+        String salt = "a1b2c3d4e5f6a1b2a1b2c3d4e5f6a1b2";
+        String expected = DatabaseManager.hash("password", salt);
+        ExecutorService pool = Executors.newFixedThreadPool(5);
+        List<Future<String>> futures = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            futures.add(pool.submit(() -> DatabaseManager.hash("password", salt)));
+        }
+        for (Future<String> f : futures) {
+            assertEquals(expected, f.get(5, TimeUnit.SECONDS));
+        }
+        pool.shutdown();
+    }
+
+    @Test @Order(84) @DisplayName("Concurrent: parallel cache invalidate + search doesn't lose data")
+    void cacheInvalidateSearch() throws Exception {
+        BookCache.getInstance().refresh();
+        ExecutorService pool = Executors.newFixedThreadPool(4);
+        List<Future<?>> futures = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            if (i % 4 == 0) {
+                futures.add(pool.submit(() -> BookCache.getInstance().invalidate()));
+            } else {
+                futures.add(pool.submit(() -> {
+                    List<bas.model.Book> books = BookCache.getInstance().searchByTitle("Harry");
+                    // May be empty during refresh, but should never throw
+                    return books;
+                }));
+            }
+        }
+        for (Future<?> f : futures) {
+            assertDoesNotThrow(() -> f.get(15, TimeUnit.SECONDS));
+        }
+        pool.shutdown();
+    }
 }

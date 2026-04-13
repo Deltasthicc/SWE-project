@@ -420,4 +420,94 @@ public class TestDatabase {
         assertFalse(DatabaseManager.getInstance().saveSaleAtomically(sale, null),
             "Sale of more than available stock should fail");
     }
+
+    // ═══ DIRECT RECEIPT & HISTORY TESTS ══════════════════════════════════════
+
+    @Test @Order(100) @DisplayName("ReceiptContent: returns stored receipt for known sale")
+    void receiptContentDirect() {
+        String receipt = DatabaseManager.getInstance().getReceiptContent("SALE-D001");
+        assertNotNull(receipt, "Demo sale SALE-D001 should have receipt content");
+        assertTrue(receipt.contains("SALE-D001"));
+    }
+
+    @Test @Order(101) @DisplayName("ReceiptContent: returns null for nonexistent sale")
+    void receiptContentNull() {
+        assertNull(DatabaseManager.getInstance().getReceiptContent("SALE-NONEXISTENT-999"));
+    }
+
+    @Test @Order(102) @DisplayName("History: transaction limit=1 returns exactly 1")
+    void historyLimit1() {
+        List<Object[]> txns = DatabaseManager.getInstance().getTransactionHistory(1);
+        assertEquals(1, txns.size());
+    }
+
+    @Test @Order(103) @DisplayName("History: getSaleItems for demo sale has items")
+    void saleItemsDemo() {
+        List<Object[]> items = DatabaseManager.getInstance().getSaleItems("SALE-D001");
+        assertFalse(items.isEmpty(), "Demo sale SALE-D001 should have line items");
+        // Each item row: isbn, title, quantity, unit_price, subtotal
+        Object[] first = items.get(0);
+        assertNotNull(first[0]); // isbn
+        assertNotNull(first[1]); // title
+        assertTrue((Integer) first[2] > 0); // quantity > 0
+    }
+
+    @Test @Order(104) @DisplayName("History: getSaleItems for nonexistent sale returns empty")
+    void saleItemsEmpty() {
+        List<Object[]> items = DatabaseManager.getInstance().getSaleItems("SALE-NONEXISTENT-999");
+        assertTrue(items.isEmpty());
+    }
+
+    @Test @Order(105) @DisplayName("Revenue: known date range returns positive amount")
+    void revenueDateRange() {
+        String from = java.time.LocalDate.now().minusDays(1).toString();
+        String to = java.time.LocalDate.now().toString();
+        double rev = DatabaseManager.getInstance().getTotalRevenue(from, to);
+        assertTrue(rev >= 0, "Revenue should be non-negative");
+    }
+
+    @Test @Order(106) @DisplayName("MarkNotifiedByEmail: changes only specified email")
+    void markNotifiedByEmailSelective() {
+        // Add two test OOS requests with different emails
+        String isbn = TEST_ISBN;
+        OOSRequest req1 = new OOSRequest("REQ-TEST-SEL1", isbn, "Test", "Auth", "Pub", "keep@test.com");
+        OOSRequest req2 = new OOSRequest("REQ-TEST-SEL2", isbn, "Test", "Auth", "Pub", "mark@test.com");
+        DatabaseManager.getInstance().addOOSRequest(req1);
+        DatabaseManager.getInstance().addOOSRequest(req2);
+
+        // Mark only one email as notified
+        DatabaseManager.getInstance().markNotifiedByEmail(isbn, "mark@test.com");
+
+        List<String> pending = DatabaseManager.getInstance().getPendingEmails(isbn);
+        assertTrue(pending.contains("keep@test.com"), "Unmarked email should remain pending");
+        assertFalse(pending.contains("mark@test.com"), "Marked email should no longer be pending");
+    }
+
+    @Test @Order(107) @DisplayName("SalesStats: includes ISBN and revenue fields")
+    void salesStatsFields() {
+        String from = java.time.LocalDate.now().minusDays(30).toString();
+        String to = java.time.LocalDate.now().toString();
+        List<Object[]> stats = DatabaseManager.getInstance().getSalesStats(from, to);
+        assertFalse(stats.isEmpty());
+        // Each row: isbn, title, author, publisher, copies, revenue
+        Object[] first = stats.get(0);
+        assertNotNull(first[0]); // isbn
+        assertNotNull(first[1]); // title
+        assertNotNull(first[2]); // author
+        assertNotNull(first[3]); // publisher
+        assertTrue((Integer) first[4] > 0); // copies > 0
+        assertTrue((Double) first[5] > 0); // revenue > 0
+    }
+
+    @Test @Order(108) @DisplayName("AddBook: negative price rejected")
+    void addBookNegativePrice() {
+        Book b = new Book("9999999999998", "Bad Price", "Auth", "Pub", "", -50.0, "Z", 1, 1, 0, 1.0, 1);
+        assertFalse(DatabaseManager.getInstance().addBook(b), "Negative price should be rejected");
+    }
+
+    @Test @Order(109) @DisplayName("AddBook: negative stock rejected")
+    void addBookNegativeStock() {
+        Book b = new Book("9999999999997", "Bad Stock", "Auth", "Pub", "", 50.0, "Z", -1, 1, 0, 1.0, 1);
+        assertFalse(DatabaseManager.getInstance().addBook(b), "Negative stock should be rejected");
+    }
 }

@@ -162,4 +162,40 @@ public class TestPoolAndCache {
         assertNotNull(books);
         assertFalse(books.isEmpty());
     }
+
+    // ═══ ADDITIONAL POOL & CACHE TESTS ══════════════════════════════════════
+
+    @Test @Order(20) @DisplayName("Cache: getLastError is null on successful refresh")
+    void cacheNoError() {
+        BookCache.getInstance().refresh();
+        assertNull(BookCache.getInstance().getLastError(),
+            "getLastError should be null after successful refresh");
+    }
+
+    @Test @Order(21) @DisplayName("Cache: searchByTitle with regex special chars doesn't crash")
+    void cacheSearchRegexChars() {
+        assertDoesNotThrow(() -> BookCache.getInstance().searchByTitle("[test.*+?"));
+        assertDoesNotThrow(() -> BookCache.getInstance().searchByTitle("(parens)"));
+    }
+
+    @Test @Order(22) @DisplayName("Cache: searchByAuthor with null returns all books")
+    void cacheSearchAuthorNull() {
+        List<Book> all = BookCache.getInstance().getAllBooks();
+        List<Book> nullSearch = BookCache.getInstance().searchByAuthor(null);
+        assertEquals(all.size(), nullSearch.size());
+    }
+
+    @Test @Order(23) @DisplayName("Cache: searchByTitle with null returns all books")
+    void cacheSearchTitleNull() {
+        List<Book> all = BookCache.getInstance().getAllBooks();
+        List<Book> nullSearch = BookCache.getInstance().searchByTitle(null);
+        assertEquals(all.size(), nullSearch.size());
+    }
+
+    @Test @Order(24) @DisplayName("Pool: release null doesn't throw (repeated)")
+    void poolReleaseNullRepeated() {
+        for (int i = 0; i < 10; i++) {
+            assertDoesNotThrow(() -> ConnectionPool.getInstance().release(null));
+        }
+    }
 }

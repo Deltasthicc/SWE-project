@@ -224,4 +224,60 @@ public class TestEdgeCases {
             db.addLog("ACTOR_C", "TEST", "Message C");
         });
     }
+
+    // ═══ ADDITIONAL EDGE CASES ═══════════════════════════════════════════════
+
+    @Test @Order(70) @DisplayName("SaleRecord: many items (20) calculates total correctly")
+    void saleManyItems() {
+        SaleRecord s = new SaleRecord("SALE-MANY", "clerk1");
+        for (int i = 0; i < 20; i++) {
+            s.addItem(new LineItem("isbn-" + i, "Book " + i, 1, 10.0));
+        }
+        assertEquals(20, s.getItems().size());
+        assertEquals(200.0, s.getTotalAmount(), 0.001);
+    }
+
+    @Test @Order(71) @DisplayName("OOSRequest: very long email accepted in model")
+    void oosLongEmail() {
+        String longEmail = "a".repeat(200) + "@" + "b".repeat(50) + ".com";
+        OOSRequest req = new OOSRequest("REQ-LONG", "isbn", "T", "A", "P", longEmail);
+        assertEquals(longEmail, req.getEmail());
+    }
+
+    @Test @Order(72) @DisplayName("ISBN: pure spaces treated as empty")
+    void isbnPureSpaces() {
+        assertFalse(ISBNValidator.isValid("   "));
+    }
+
+    @Test @Order(73) @DisplayName("Cache: getByISBN with hyphenated ISBN finds book")
+    void cacheHyphenatedISBN() {
+        Book b = BookCache.getInstance().getByISBN("978-0-451-52493-5");
+        assertNotNull(b, "Hyphenated ISBN should be stripped and matched");
+        assertEquals("1984", b.getTitle());
+    }
+
+    @Test @Order(74) @DisplayName("Book: getRequiredProcurementQty with zero stock and zero sales")
+    void procurementZeroEverything() {
+        Book b = new Book("1","T","A","P","",10.0,"",0,5,0,0.0,0);
+        assertEquals(0, b.getRequiredProcurementQty());
+    }
+
+    @Test @Order(75) @DisplayName("SaleRecord: getTimestamp returns LocalDateTime object")
+    void saleTimestampObject() {
+        SaleRecord s = new SaleRecord("SALE-TS", "clerk1");
+        assertNotNull(s.getTimestamp());
+        assertTrue(s.getTimestamp() instanceof java.time.LocalDateTime);
+    }
+
+    @Test @Order(76) @DisplayName("OOSRequest: getTimestamp returns LocalDateTime object")
+    void oosTimestampObject() {
+        OOSRequest req = new OOSRequest("REQ-TS", "isbn", "T", "A", "P", null);
+        assertNotNull(req.getTimestamp());
+        assertTrue(req.getTimestamp() instanceof java.time.LocalDateTime);
+    }
+
+    @Test @Order(77) @DisplayName("Email: domain with subdomain is valid")
+    void emailSubdomain() {
+        assertTrue(EmailValidator.isValid("user@mail.example.co.uk"));
+    }
 }

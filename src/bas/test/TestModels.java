@@ -182,4 +182,100 @@ public class TestModels {
         assertEquals("Ravi", u.getName());
         assertEquals(User.Role.OWNER, u.getRole());
     }
+
+    // ═══ ADDITIONAL MODEL TESTS ═════════════════════════════════════════════
+
+    @Test @Order(60) @DisplayName("User: setters update all fields")
+    void userSetters() {
+        User u = new User("id1", "Name1", "hash1", User.Role.CLERK);
+        u.setUserId("id2"); u.setName("Name2");
+        u.setPasswordHash("hash2"); u.setRole(User.Role.OWNER);
+        assertEquals("id2", u.getUserId());
+        assertEquals("Name2", u.getName());
+        assertEquals("hash2", u.getPasswordHash());
+        assertEquals(User.Role.OWNER, u.getRole());
+    }
+
+    @Test @Order(61) @DisplayName("OOSRequest: setters update all fields")
+    void oosSetters() {
+        OOSRequest req = new OOSRequest("REQ-1","isbn1","T","A","P","e@m.com");
+        req.setRequestId("REQ-2"); req.setIsbn("isbn2");
+        req.setTitle("T2"); req.setAuthor("A2");
+        req.setPublisher("P2"); req.setEmail("new@m.com");
+        assertEquals("REQ-2", req.getRequestId());
+        assertEquals("isbn2", req.getIsbn());
+        assertEquals("T2", req.getTitle());
+        assertEquals("A2", req.getAuthor());
+        assertEquals("P2", req.getPublisher());
+        assertEquals("new@m.com", req.getEmail());
+    }
+
+    @Test @Order(62) @DisplayName("OOSRequest: DB constructor preserves stored timestamp")
+    void oosDbTimestamp() {
+        OOSRequest req = new OOSRequest("REQ-1","isbn","T","A","P","e@m.com","2026-01-15 10:30:00");
+        assertEquals("2026-01-15 10:30:00", req.getFormattedTimestamp());
+    }
+
+    @Test @Order(63) @DisplayName("OOSRequest: invalid stored timestamp falls back to now")
+    void oosInvalidTimestamp() {
+        OOSRequest req = new OOSRequest("REQ-1","isbn","T","A","P","e@m.com","not-a-date");
+        assertNotNull(req.getFormattedTimestamp());
+        // Should be a valid timestamp (fell back to now)
+        assertTrue(req.getFormattedTimestamp().matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"));
+    }
+
+    @Test @Order(64) @DisplayName("OOSRequest: setTimestamp updates correctly")
+    void oosSetTimestamp() {
+        OOSRequest req = new OOSRequest("REQ-1","isbn","T","A","P",null);
+        java.time.LocalDateTime custom = java.time.LocalDateTime.of(2026,6,15,12,0,0);
+        req.setTimestamp(custom);
+        assertEquals("2026-06-15 12:00:00", req.getFormattedTimestamp());
+    }
+
+    @Test @Order(65) @DisplayName("SaleRecord: setClerkId updates correctly")
+    void saleSetClerkId() {
+        SaleRecord s = new SaleRecord("SALE-1", "clerk1");
+        s.setClerkId("clerk2");
+        assertEquals("clerk2", s.getClerkId());
+    }
+
+    @Test @Order(66) @DisplayName("SaleRecord: setSaleId updates correctly")
+    void saleSetSaleId() {
+        SaleRecord s = new SaleRecord("SALE-OLD", "clerk1");
+        s.setSaleId("SALE-NEW");
+        assertEquals("SALE-NEW", s.getSaleId());
+    }
+
+    @Test @Order(67) @DisplayName("SaleRecord: setTimestamp updates correctly")
+    void saleSetTimestamp() {
+        SaleRecord s = new SaleRecord("SALE-1", "clerk1");
+        java.time.LocalDateTime custom = java.time.LocalDateTime.of(2026,3,1,9,0,0);
+        s.setTimestamp(custom);
+        assertEquals("2026-03-01 09:00:00", s.getFormattedTimestamp());
+    }
+
+    @Test @Order(68) @DisplayName("Book: all remaining getters return constructor values")
+    void bookAllGetters() {
+        Book b = new Book("isbn","T","A","P","Addr",250.0,"B-05",15,7,3,4.5,3);
+        assertEquals("Addr", b.getPublisherAddress());
+        assertEquals("B-05", b.getRackLocation());
+        assertEquals(7, b.getRestockThreshold());
+        assertEquals(3, b.getRequestCount());
+        assertEquals(4.5, b.getWeeklySales(), 0.001);
+        assertEquals(3, b.getProcurementLeadTimeWeeks());
+    }
+
+    @Test @Order(69) @DisplayName("Book: remaining setters update correctly")
+    void bookRemainingSetters() {
+        Book b = new Book();
+        b.setPublisherAddress("Addr"); b.setRackLocation("C-01");
+        b.setRestockThreshold(10); b.setRequestCount(5);
+        b.setWeeklySales(3.5); b.setProcurementLeadTimeWeeks(4);
+        assertEquals("Addr", b.getPublisherAddress());
+        assertEquals("C-01", b.getRackLocation());
+        assertEquals(10, b.getRestockThreshold());
+        assertEquals(5, b.getRequestCount());
+        assertEquals(3.5, b.getWeeklySales(), 0.001);
+        assertEquals(4, b.getProcurementLeadTimeWeeks());
+    }
 }
