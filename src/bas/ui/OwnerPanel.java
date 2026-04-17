@@ -75,32 +75,92 @@ public class OwnerPanel extends JPanel {
             String saleId=tm.getValueAt(row,0).toString(); itemModel.setRowCount(0);
             var items=DatabaseManager.getInstance().getSaleItems(saleId);
             for(Object[] it:items) itemModel.addRow(new Object[]{it[0],it[1],it[2],String.format("%.2f",(Double)it[3]),String.format("%.2f",(Double)it[4])});
-            String receipt=DatabaseManager.getInstance().getReceiptContent(saleId);
-            if(receipt!=null&&!receipt.isBlank()){receiptArea.setText(receipt);reprintBtn.setEnabled(true);}else{receiptArea.setText("(Not stored)");reprintBtn.setEnabled(false);}receiptArea.setCaretPosition(0);});
+            String receipt = DatabaseManager.getInstance().getReceiptContent(saleId);
+            boolean stored = receipt != null && !receipt.isBlank() && !isPlaceholder(receipt);
+            if (!stored) {
+                // Reconstruct a readable receipt from the line items we just loaded.
+                // This covers test-seeded sales (stored as "perf-test") and any older
+                // sales saved before receipt storage was added.
+                receipt = buildReceiptFromItems(saleId,
+                    String.valueOf(tm.getValueAt(row,1)),
+                    String.valueOf(tm.getValueAt(row,2)),
+                    items, (Double) 0.0 + Double.parseDouble(tm.getValueAt(row,4).toString()));
+            }
+            receiptArea.setText(receipt);
+            receiptArea.setCaretPosition(0);
+            reprintBtn.setEnabled(!receipt.isBlank());});
         reprintBtn.addActionListener(e->{if(!receiptArea.getText().isBlank()) PrinterUtil.printTextReport(receiptArea.getText(),"Reprint");});
         SwingUtilities.invokeLater(load); return p;
     }
 
+    /** Returns true when a DB-stored receipt is a placeholder rather than a real receipt. */
+    private boolean isPlaceholder(String s) {
+        String t = s.trim().toLowerCase();
+        return t.equals("perf-test") || t.equals("test") || t.startsWith("placeholder")
+            || t.length() < 20; // genuine receipts are always longer than this
+    }
+
+    /** Builds a plain-text receipt from line items when the stored content is missing. */
+    private String buildReceiptFromItems(String saleId, String ts, String clerk, java.util.List<Object[]> items, double total) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("================================================\n");
+        sb.append("          BAS BOOKSHOP — SALES RECEIPT\n");
+        sb.append("================================================\n");
+        sb.append("Sale ID  : ").append(saleId).append('\n');
+        sb.append("Date     : ").append(ts).append('\n');
+        sb.append("Clerk    : ").append(clerk).append('\n');
+        sb.append("------------------------------------------------\n");
+        sb.append(String.format("%-14s %-22s %5s %10s%n", "ISBN", "Title", "Qty", "Subtotal"));
+        sb.append("------------------------------------------------\n");
+        for (Object[] it : items) {
+            String title = String.valueOf(it[1]);
+            if (title.length() > 22) title = title.substring(0, 21) + "…";
+            sb.append(String.format("%-14s %-22s %5d %10.2f%n",
+                it[0], title, (Integer) it[2], (Double) it[4]));
+        }
+        sb.append("------------------------------------------------\n");
+        sb.append(String.format("%-43s INR %.2f%n", "TOTAL", total));
+        sb.append("================================================\n");
+        sb.append("  (receipt reconstructed from sale_items table)\n");
+        return sb.toString();
+    }
+
     private JPanel procurementTab() {
         JPanel p=new JPanel(new BorderLayout(10,10)); p.setBackground(Color.WHITE); p.setBorder(new EmptyBorder(12,12,12,12));
+
+        // ── Top bar: one Refresh button reloads BOTH tables ────────────────
+        JPanel topBar = new JPanel(new FlowLayout(FlowLayout.LEFT,8,4)); topBar.setBackground(Color.WHITE);
+        JButton refreshBtn = btn("Refresh", new Color(37,99,235), Color.WHITE);
+        refreshBtn.setToolTipText("Recompute restock recommendations and reload the orders table");
+        JLabel hint = new JLabel("Recommendations update automatically after you place or confirm an order.");
+        hint.setFont(new Font("SansSerif", Font.ITALIC, 11));
+        hint.setForeground(new Color(100,116,139));
+        topBar.add(refreshBtn); topBar.add(hint);
+        p.add(topBar, BorderLayout.NORTH);
+
+        // ── Recommendations (upper half) ───────────────────────────────────
         JPanel topP=new JPanel(new BorderLayout(6,6)); topP.setBackground(Color.WHITE);
-        topP.setBorder(new TitledBorder("FR-4.3: Books Needing Restock (Qty = max(0, ceil(WeeklySales x LeadTime) - Stock))"));
+        topP.setBorder(new TitledBorder("FR-4.3: Books Needing Restock  (Qty = max(0, ceil(WeeklySales × LeadTime) − Stock))"));
         String[] recCols={"ISBN","Title","Publisher","Stock","Threshold","Weekly Sales","Lead Wks","Recommended Qty"};
         DefaultTableModel recModel=new DefaultTableModel(recCols,0){@Override public boolean isCellEditable(int r,int c){return false;}};
         JTable recTable=styledTable(recModel); recTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         JPanel recBtns=new JPanel(new FlowLayout(FlowLayout.LEFT,8,4)); recBtns.setBackground(Color.WHITE);
-        JButton loadRecBtn=btn("Load Recommendations",new Color(37,99,235),Color.WHITE), placeOrderBtn=btn("Place Order for Selected",new Color(22,163,74),Color.WHITE);
-        recBtns.add(loadRecBtn); recBtns.add(placeOrderBtn);
+        JButton placeOrderBtn=btn("Place Order for Selected",new Color(22,163,74),Color.WHITE);
+        placeOrderBtn.setToolTipText("Create a procurement order for the selected title (asks for quantity)");
+        recBtns.add(placeOrderBtn);
         topP.add(recBtns,BorderLayout.NORTH); topP.add(new JScrollPane(recTable),BorderLayout.CENTER);
 
+        // ── Orders (lower half) ────────────────────────────────────────────
         JPanel bottomP=new JPanel(new BorderLayout(6,6)); bottomP.setBackground(Color.WHITE); bottomP.setBorder(new TitledBorder("Procurement Orders"));
         String[] ordCols={"Order ID","ISBN","Title","Publisher","Qty","Status","Ordered","Arrived"};
         DefaultTableModel ordModel=new DefaultTableModel(ordCols,0){@Override public boolean isCellEditable(int r,int c){return false;}};
         JTable ordTable=styledTable(ordModel); ordTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         JPanel ordBtns=new JPanel(new FlowLayout(FlowLayout.LEFT,8,4)); ordBtns.setBackground(Color.WHITE);
-        JButton loadOrdBtn=btn("Refresh Orders",new Color(37,99,235),Color.WHITE), confirmBtn=btn("Confirm Arrival (adds stock)",new Color(22,163,74),Color.WHITE);
+        JButton confirmBtn=btn("Confirm Arrival (adds stock)",new Color(22,163,74),Color.WHITE);
+        confirmBtn.setToolTipText("Mark the selected ORDERED row as arrived — stock is added to the book");
         JComboBox<String> filterBox=new JComboBox<>(new String[]{"ALL","ORDERED","ARRIVED"});
-        ordBtns.add(loadOrdBtn); ordBtns.add(filterBox); ordBtns.add(confirmBtn);
+        filterBox.setToolTipText("Filter the orders table by status");
+        ordBtns.add(filterBox); ordBtns.add(confirmBtn);
         bottomP.add(ordBtns,BorderLayout.NORTH); bottomP.add(new JScrollPane(ordTable),BorderLayout.CENTER);
 
         JSplitPane split=new JSplitPane(JSplitPane.VERTICAL_SPLIT,topP,bottomP); split.setResizeWeight(0.5); p.add(split,BorderLayout.CENTER);
@@ -109,14 +169,17 @@ public class OwnerPanel extends JPanel {
             for(Book b:DatabaseManager.getInstance().getBooksNeedingRestock()) recModel.addRow(new Object[]{b.getIsbn(),b.getTitle(),b.getPublisher(),b.getStockCount(),b.getRestockThreshold(),b.getWeeklySales(),b.getProcurementLeadTimeWeeks(),b.getRequiredProcurementQty()});};
         Runnable loadOrd=()->{ordModel.setRowCount(0); String f=filterBox.getSelectedItem().toString();
             for(Object[] o:DatabaseManager.getInstance().getProcurementOrders("ALL".equals(f)?null:f)) ordModel.addRow(o);};
-        loadRecBtn.addActionListener(e->loadRec.run()); loadOrdBtn.addActionListener(e->loadOrd.run()); filterBox.addActionListener(e->loadOrd.run());
+        Runnable refreshAll = () -> { loadRec.run(); loadOrd.run(); };
+
+        refreshBtn.addActionListener(e -> refreshAll.run());
+        filterBox.addActionListener(e -> loadOrd.run());
 
         placeOrderBtn.addActionListener(e->{int row=recTable.getSelectedRow(); if(row<0){JOptionPane.showMessageDialog(this,"Select a book.");return;}
             String isbn=recModel.getValueAt(row,0).toString(),title=recModel.getValueAt(row,1).toString(); int recQty=Math.max(1,(Integer)recModel.getValueAt(row,7));
             String input=JOptionPane.showInputDialog(this,"Order quantity for \""+title+"\":",recQty); if(input==null) return;
             try{int qty=Integer.parseInt(input.trim()); if(qty<=0){JOptionPane.showMessageDialog(this,"Must be positive.");return;}
                 String actor=SessionManager.getInstance().getUserId(); if(actor==null) actor="manager1";
-                if(DatabaseManager.getInstance().createProcurementOrder(isbn,qty,actor)){JOptionPane.showMessageDialog(this,"Order placed: "+title+" x "+qty); loadRec.run(); loadOrd.run();}
+                if(DatabaseManager.getInstance().createProcurementOrder(isbn,qty,actor)){JOptionPane.showMessageDialog(this,"Order placed: "+title+" x "+qty); refreshAll.run();}
                 else JOptionPane.showMessageDialog(this,"Order failed.","Error",JOptionPane.ERROR_MESSAGE);
             }catch(NumberFormatException ex){JOptionPane.showMessageDialog(this,"Invalid number.");}});
 
@@ -126,10 +189,11 @@ public class OwnerPanel extends JPanel {
             String title=ordModel.getValueAt(row,2).toString(); int qty=(Integer)ordModel.getValueAt(row,4);
             if(JOptionPane.showConfirmDialog(this,"Confirm arrival of "+qty+" copies of \""+title+"\"?\nStock will increase by "+qty+".","Confirm",JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION) return;
             String actor=SessionManager.getInstance().getUserId(); if(actor==null) actor="manager1";
-            if(DatabaseManager.getInstance().confirmProcurementArrival(orderId,actor)){JOptionPane.showMessageDialog(this,"Stock +"+qty+" for \""+title+"\""); loadRec.run(); loadOrd.run();}
+            if(DatabaseManager.getInstance().confirmProcurementArrival(orderId,actor)){JOptionPane.showMessageDialog(this,"Stock +"+qty+" for \""+title+"\""); refreshAll.run();}
             else JOptionPane.showMessageDialog(this,"Failed.","Error",JOptionPane.ERROR_MESSAGE);});
 
-        SwingUtilities.invokeLater(()->{loadRec.run(); loadOrd.run();}); return p;
+        SwingUtilities.invokeLater(refreshAll);
+        return p;
     }
 
     private JPanel oosTab() {
@@ -150,16 +214,45 @@ public class OwnerPanel extends JPanel {
         JPanel p=new JPanel(new BorderLayout(10,10)); p.setBackground(Color.WHITE); p.setBorder(new EmptyBorder(12,12,12,12));
         JPanel form=new JPanel(new GridLayout(5,2,8,8)); form.setBackground(Color.WHITE); form.setBorder(new TitledBorder("SMTP Configuration (Gmail)"));
         JTextField hostF=new JTextField(EmailService.getHost()),portF=new JTextField(String.valueOf(EmailService.getPort())),emailF=new JTextField(EmailService.getEmail());
-        JPasswordField passF=new JPasswordField(); passF.setText(""); passF.setToolTipText("Enter Gmail App Password");
+        // Pre-populate password with the AES-decoded stored value. JPasswordField
+        // renders every character as a dot, so the actual secret is never visible.
+        JPasswordField passF=new JPasswordField();
+        passF.setText(bas.config.AppConfig.SMTP_PASSWORD);
+        passF.setToolTipText("Gmail App Password (16 chars, masked)");
         JButton saveBtn=btn("Save & Test",new Color(37,99,235),Color.WHITE);
         form.add(new JLabel("SMTP Host:")); form.add(hostF); form.add(new JLabel("Port:")); form.add(portF);
         form.add(new JLabel("Email:")); form.add(emailF); form.add(new JLabel("App Password:")); form.add(passF);
         form.add(new JLabel()); form.add(saveBtn); p.add(form,BorderLayout.NORTH);
-        JLabel statusLbl=new JLabel(EmailService.isConfigured()?"Status: Configured":"Status: Not Configured");
-        statusLbl.setFont(new Font("SansSerif",Font.BOLD,13)); p.add(statusLbl,BorderLayout.CENTER);
-        saveBtn.addActionListener(e->{try{String pw=new String(passF.getPassword()); if(pw.isBlank()) pw=bas.config.AppConfig.SMTP_PASSWORD;
-            EmailService.configure(hostF.getText().trim(),Integer.parseInt(portF.getText().trim()),emailF.getText().trim(),pw);
-            statusLbl.setText("Status: "+(EmailService.isConfigured()?"Configured":"Not configured"));}catch(Exception ex){statusLbl.setText("Error: "+ex.getMessage());}});
+
+        JLabel statusLbl=new JLabel();
+        statusLbl.setFont(new Font("SansSerif",Font.BOLD,13));
+        statusLbl.setBorder(new EmptyBorder(6,4,4,4));
+        Runnable refreshStatus = () -> {
+            if (EmailService.isConfigured()) {
+                statusLbl.setText("Status: Configured");
+                statusLbl.setForeground(new Color(22,163,74));
+            } else {
+                statusLbl.setText("Status: Not Configured  (host, port, email, and app password are all required)");
+                statusLbl.setForeground(new Color(220,38,38));
+            }
+        };
+        refreshStatus.run();
+        p.add(statusLbl,BorderLayout.CENTER);
+
+        saveBtn.addActionListener(e->{
+            try {
+                String pw = new String(passF.getPassword());
+                // Don't silently fall back to the stored password if the user intentionally cleared the field.
+                // Only fall back when the field still holds the auto-populated value (the user never touched it).
+                int portV = Integer.parseInt(portF.getText().trim());
+                EmailService.configure(hostF.getText().trim(), portV, emailF.getText().trim(), pw);
+                refreshStatus.run();
+            } catch (NumberFormatException nfe) {
+                statusLbl.setText("Error: Port must be a number."); statusLbl.setForeground(new Color(220,38,38));
+            } catch (Exception ex) {
+                statusLbl.setText("Error: "+ex.getMessage()); statusLbl.setForeground(new Color(220,38,38));
+            }
+        });
         return p;
     }
 

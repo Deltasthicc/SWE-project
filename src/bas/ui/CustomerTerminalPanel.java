@@ -105,14 +105,25 @@ public class CustomerTerminalPanel extends JPanel {
         table.getColumnModel().getColumn(6).setPreferredWidth(50);   // Rack
         table.getColumnModel().getColumn(7).setPreferredWidth(90);   // Status
 
-        // Colour rows by stock status
+        // ── Sort on any column (alphabetical strings + numeric for Price/Stock) ──
+        // Click a header to sort ascending, click again for descending, click a
+        // third time to clear. Works with the coloured-row renderer below
+        // because we translate view → model indices in getTableCellRendererComponent.
+        javax.swing.table.TableRowSorter<DefaultTableModel> sorter =
+            new javax.swing.table.TableRowSorter<>(model);
+        sorter.setComparator(4, (a, b) -> Double.compare(parseD(a), parseD(b))); // Price
+        sorter.setComparator(5, (a, b) -> Integer.compare(parseI(a), parseI(b))); // Stock
+        table.setRowSorter(sorter);
+
+        // Colour rows by stock status — use MODEL index so sorting/filtering stays correct
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable t, Object v,
                     boolean sel, boolean focus, int row, int col) {
                 Component c = super.getTableCellRendererComponent(t,v,sel,focus,row,col);
                 if (!sel) {
-                    String status = safeStr(model.getValueAt(row, 7));
+                    int modelRow = t.convertRowIndexToModel(row);
+                    String status = safeStr(model.getValueAt(modelRow, 7));
                     if ("OUT OF STOCK".equals(status))
                         c.setBackground(new Color(254, 202, 202));
                     else if ("LOW STOCK".equals(status))
@@ -127,7 +138,7 @@ public class CustomerTerminalPanel extends JPanel {
         JScrollPane scroll = new JScrollPane(table);
         scroll.setBorder(BorderFactory.createTitledBorder(
             BorderFactory.createLineBorder(new Color(203,213,225)),
-            "Available Books  —  click a row then use the button below",
+            "Available Books  —  click a row then use the button below  |  click any column header to sort",
             TitledBorder.LEFT, TitledBorder.TOP));
         add(scroll, BorderLayout.CENTER);
 
@@ -220,14 +231,15 @@ public class CustomerTerminalPanel extends JPanel {
     // ── OOS Request dialog ────────────────────────────────────────────────────
 
     private void openOOS() {
-        // Pre-fill from selected row
+        // Pre-fill from selected row — convert view index to model (table may be sorted)
         int row = table.getSelectedRow();
         String isbn = "", title = "", author = "", pub = "", pubAddr = "";
         if (row >= 0) {
-            isbn   = safeStr(model.getValueAt(row, 0));
-            title  = safeStr(model.getValueAt(row, 1));
-            author = safeStr(model.getValueAt(row, 2));
-            pub    = safeStr(model.getValueAt(row, 3));
+            int m = table.convertRowIndexToModel(row);
+            isbn   = safeStr(model.getValueAt(m, 0));
+            title  = safeStr(model.getValueAt(m, 1));
+            author = safeStr(model.getValueAt(m, 2));
+            pub    = safeStr(model.getValueAt(m, 3));
             // Look up publisher address from DB
             Book book = DatabaseManager.getInstance().getByISBN(isbn);
             if (book != null) pubAddr = book.getPublisherAddress() == null ? "" : book.getPublisherAddress();
@@ -347,4 +359,12 @@ public class CustomerTerminalPanel extends JPanel {
     }
 
     private String safeStr(Object o) { return o == null ? "" : o.toString(); }
+
+    // Used by the TableRowSorter comparators for numeric columns.
+    private static double parseD(Object o) {
+        try { return Double.parseDouble(String.valueOf(o)); } catch (Exception e) { return 0.0; }
+    }
+    private static int parseI(Object o) {
+        try { return Integer.parseInt(String.valueOf(o).trim()); } catch (Exception e) { return 0; }
+    }
 }

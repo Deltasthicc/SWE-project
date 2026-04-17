@@ -8,11 +8,33 @@ import java.util.Properties;
 public class EmailService {
     private static String  host = AppConfig.SMTP_HOST, email = AppConfig.SMTP_EMAIL, password = AppConfig.SMTP_PASSWORD;
     private static int     port = AppConfig.SMTP_PORT;
-    private static boolean ready = true;
+    // Initial state reflects whether the values baked into AppConfig at startup
+    // are actually complete — host + port + email + password must all be present.
+    private static boolean ready = computeReady(host, port, email, password);
+
+    /**
+     * Returns true only when every field looks usable:
+     * <ul>
+     *   <li>host: non-blank, no whitespace (basic hostname shape)</li>
+     *   <li>port: in the legal TCP range 1..65535</li>
+     *   <li>email: passes {@link bas.util.EmailValidator#isValid}</li>
+     *   <li>password: non-blank and at least 8 characters
+     *       (Gmail App Passwords are 16 chars; anything shorter is almost
+     *       certainly invalid)</li>
+     * </ul>
+     * Any failure yields {@code false} — status label reads "Not Configured".
+     */
+    private static boolean computeReady(String h, int p, String e, String pw) {
+        if (h  == null || h.isBlank() || h.contains(" ") || h.contains("\t")) return false;
+        if (p  < 1 || p > 65535)                                               return false;
+        if (e  == null || e.isBlank() || !bas.util.EmailValidator.isValid(e))  return false;
+        if (pw == null || pw.isBlank() || pw.length() < 8)                     return false;
+        return true;
+    }
 
     public static void configure(String h, int p, String e, String pw) {
         host = h; port = p; email = e; password = pw;
-        ready = e != null && !e.isBlank() && pw != null && !pw.isBlank();
+        ready = computeReady(h, p, e, pw);
     }
     public static boolean isConfigured() { return ready; }
     public static String  getHost()      { return host; }

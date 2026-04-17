@@ -194,7 +194,9 @@ public class TestEmailAndPrinter {
 
     @Test @Order(26) @DisplayName("Email: isConfigured returns true after valid configure")
     void emailIsConfiguredAfterSet() {
-        EmailService.configure("smtp.test.com", 587, "user@test.com", "pass");
+        // Password must be >= 8 chars + email must pass EmailValidator — the
+        // stricter computeReady() in EmailService rejects short/invalid values.
+        EmailService.configure("smtp.test.com", 587, "user@test.com", "password1234");
         assertTrue(EmailService.isConfigured());
         assertEquals("smtp.test.com", EmailService.getHost());
         assertEquals(587, EmailService.getPort());

@@ -1,6 +1,6 @@
 # BAS — Bookshop Inventory & Sales Management System
 
-**Shiv Nadar Institution of Eminence — Software Engineering Project (Group G01)**
+**Shiv Nadar Institution of Eminence — Software Engineering Project (Group G02)**
 
 **Team:** Divyam Sharma · Shashwat Rajan · Suryavedha Pradhan · Shreyas Achal
 

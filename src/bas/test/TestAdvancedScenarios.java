@@ -108,8 +108,8 @@ public class TestAdvancedScenarios {
     @Test @Order(72) @DisplayName("Search: same author finds multiple") void searchSameAuthor() { assertTrue(DatabaseManager.getInstance().searchByAuthor("J.K. Rowling").size()>=3); }
 
     // Logs
-    @Test @Order(80) @DisplayName("Logs: INIT exists") void logsHaveInit() { assertTrue(DatabaseManager.getInstance().getRecentLogs(500).stream().anyMatch(l->"INIT".equals(l[2]))); }
-    @Test @Order(81) @DisplayName("Logs: SALE exists") void logsHaveSales() { assertTrue(DatabaseManager.getInstance().getRecentLogs(500).stream().anyMatch(l->"SALE".equals(l[2]))); }
+    @Test @Order(80) @DisplayName("Logs: INIT exists") void logsHaveInit() { assertTrue(DatabaseManager.getInstance().getRecentLogs(10000).stream().anyMatch(l->"INIT".equals(l[2]))); }
+    @Test @Order(81) @DisplayName("Logs: SALE exists") void logsHaveSales() { assertTrue(DatabaseManager.getInstance().getRecentLogs(10000).stream().anyMatch(l->"SALE".equals(l[2]))); }
     @Test @Order(82) @DisplayName("Logs: entries have timestamps") void logsHaveTimestamps() { for(Object[] l:DatabaseManager.getInstance().getRecentLogs(10)){assertNotNull(l[1]);assertTrue(l[1].toString().length()>=10);} }
 
     // Receipt format

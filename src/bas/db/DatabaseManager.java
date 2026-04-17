@@ -45,11 +45,64 @@ public class DatabaseManager {
             s.execute("CREATE TABLE IF NOT EXISTS app_logs (log_id SERIAL PRIMARY KEY, timestamp TEXT NOT NULL, event_type TEXT NOT NULL, actor TEXT, message TEXT)");
             s.execute("CREATE TABLE IF NOT EXISTS procurement_orders (order_id TEXT PRIMARY KEY, isbn TEXT NOT NULL, title TEXT, publisher TEXT, publisher_address TEXT, quantity INTEGER NOT NULL CHECK(quantity>0), status TEXT NOT NULL DEFAULT 'ORDERED', ordered_at TEXT NOT NULL, arrived_at TEXT)");
             s.close();
+            cleanupTestData(c);
             seedIfEmpty(c);
             BookCache.getInstance().refresh();
             System.out.println("[BAS] PostgreSQL database initialised (Supabase).");
         } catch (SQLException e) { throw new RuntimeException("DB init failed: " + e.getMessage(), e); }
         finally { release(c); }
+    }
+
+    /**
+     * Removes test-suite residue from the DB on every startup so the demo
+     * views (Transaction History, OOS Demand Log) don't get crowded out.
+     * <p>
+     * Only deletes rows whose ID matches a known test-class prefix (SALE-SRS-,
+     * SALE-ADV-, SALE-INT-, SALE-NEG-, SALE-CON-, SALE-RACE-, SALE-LOCAL-,
+     * SALE-MULTI-, SALE-MY-, SALE-NONEXISTENT-, SALE-REC-, SALE-SEQ-,
+     * SALE-TEST-, REQ-TEST-, REQ-ADV-, REQ-INT-) or OOS entries with
+     * obviously-test emails (@example.com, @test.com, anything starting with
+     * "test"). Real demo sales (UUID-style SALE-XXXXXXXX) and real OOS
+     * requests with normal emails are preserved. Idempotent and safe to run
+     * on every launch.
+     */
+    private void cleanupTestData(Connection c) {
+        String salePrefixWhere =
+            "sale_id LIKE 'SALE-SRS-%' OR sale_id LIKE 'SALE-TEST-%' OR " +
+            "sale_id LIKE 'SALE-ADV-%' OR sale_id LIKE 'SALE-INT-%' OR " +
+            "sale_id LIKE 'SALE-NEG-%' OR sale_id LIKE 'SALE-CON-%' OR " +
+            "sale_id LIKE 'SALE-RACE-%' OR sale_id LIKE 'SALE-LOCAL-%' OR " +
+            "sale_id LIKE 'SALE-MULTI-%' OR sale_id LIKE 'SALE-MY-%' OR " +
+            "sale_id LIKE 'SALE-NONEXISTENT-%' OR sale_id LIKE 'SALE-REC-%' OR " +
+            "sale_id LIKE 'SALE-SEQ-%'";
+        try (Statement s = c.createStatement()) {
+            // Delete line items first (FK). Then the sale rows themselves.
+            int itemsDel = s.executeUpdate("DELETE FROM sale_items WHERE " + salePrefixWhere.replace("sale_id","sale_id"));
+            int salesDel = s.executeUpdate("DELETE FROM sales WHERE " + salePrefixWhere);
+            // Test OOS: explicit test prefixes OR test emails OR null-email non-seed rows.
+            int oosDel = s.executeUpdate(
+                "DELETE FROM oos_requests WHERE " +
+                "request_id LIKE 'REQ-TEST-%' OR request_id LIKE 'REQ-ADV-%' OR " +
+                "request_id LIKE 'REQ-INT-%' OR " +
+                "email LIKE '%@example.com' OR email LIKE '%@test.com' OR " +
+                "email LIKE 'test%' OR email LIKE 'a@%' OR email LIKE 'c@%' OR " +
+                "email LIKE 'e@%' OR email LIKE 'new@%' OR email LIKE 'keep@%' OR " +
+                "email LIKE 'mark@%' OR " +
+                "(email IS NULL AND request_id NOT LIKE 'REQ-D%')"
+            );
+            // Test procurement orders too, if any.
+            int poDel = s.executeUpdate(
+                "DELETE FROM procurement_orders WHERE order_id LIKE 'PO-TEST-%'"
+            );
+            if (salesDel + oosDel + poDel > 0) {
+                System.out.println("[BAS] Test-data cleanup: removed " +
+                    salesDel + " test sales (" + itemsDel + " items), " +
+                    oosDel + " test OOS requests, " + poDel + " test procurement orders.");
+            }
+        } catch (SQLException e) {
+            // Non-fatal — cleanup is best-effort. Log and continue.
+            System.err.println("[BAS] Test-data cleanup skipped: " + e.getMessage());
+        }
     }
 
     public static String generateSalt() {
@@ -223,17 +276,41 @@ public class DatabaseManager {
             ip.executeBatch();
         }
         Object[][] oos = {
-            {"REQ-D001","9781501197277","It","Stephen King","Scribner","rahul.k@email.com",day(-8)+" 10:15:00","PENDING"},
-            {"REQ-D002","9781501197277","It","Stephen King","Scribner","priya.s@gmail.com",day(-6)+" 14:30:00","PENDING"},
+            // "It" — Stephen King (Scribner) — 3 requests
+            {"REQ-D001","9781501197277","It","Stephen King","Scribner","rahul.k@email.com",day(-12)+" 10:15:00","PENDING"},
+            {"REQ-D002","9781501197277","It","Stephen King","Scribner","priya.s@gmail.com",day(-9)+" 14:30:00","PENDING"},
             {"REQ-D003","9781501197277","It","Stephen King","Scribner",null,day(-4)+" 09:45:00","PENDING"},
-            {"REQ-D004","9780307474278","The Girl with the Dragon Tattoo","Stieg Larsson","Vintage Crime","amit.sharma@yahoo.com",day(-10)+" 11:20:00","PENDING"},
-            {"REQ-D005","9780307474278","The Girl with the Dragon Tattoo","Stieg Larsson","Vintage Crime",null,day(-7)+" 15:50:00","PENDING"},
-            {"REQ-D006","9780062797155","Circe","Madeline Miller","Little Brown & Co.","meera.r@email.com",day(-5)+" 16:10:00","PENDING"},
-            {"REQ-D007","9780062797155","Circe","Madeline Miller","Little Brown & Co.","sunita.p@gmail.com",day(-3)+" 11:30:00","PENDING"},
-            {"REQ-D008","9780525559481","The Song of Achilles","Madeline Miller","Ecco","raj.kumar@email.com",day(-9)+" 09:15:00","PENDING"},
-            {"REQ-D009","9780525559481","The Song of Achilles","Madeline Miller","Ecco","neha.t@yahoo.com",day(-6)+" 13:45:00","PENDING"},
-            {"REQ-D010","9780525559481","The Song of Achilles","Madeline Miller","Ecco","deepak.m@gmail.com",day(-3)+" 10:00:00","PENDING"},
-            {"REQ-D011","9780525559481","The Song of Achilles","Madeline Miller","Ecco",null,day(-1)+" 14:30:00","PENDING"},
+            // "The Girl with the Dragon Tattoo" — Stieg Larsson — 2 requests
+            {"REQ-D004","9780307474278","The Girl with the Dragon Tattoo","Stieg Larsson","Vintage Crime","amit.sharma@yahoo.com",day(-14)+" 11:20:00","PENDING"},
+            {"REQ-D005","9780307474278","The Girl with the Dragon Tattoo","Stieg Larsson","Vintage Crime","vikram.b@hotmail.com",day(-7)+" 15:50:00","PENDING"},
+            // "Circe" — Madeline Miller — 3 requests (one already notified)
+            {"REQ-D006","9780062797155","Circe","Madeline Miller","Little Brown & Co.","meera.r@email.com",day(-11)+" 16:10:00","NOTIFIED"},
+            {"REQ-D007","9780062797155","Circe","Madeline Miller","Little Brown & Co.","sunita.p@gmail.com",day(-5)+" 11:30:00","PENDING"},
+            {"REQ-D008","9780062797155","Circe","Madeline Miller","Little Brown & Co.","ananya.g@outlook.com",day(-2)+" 17:40:00","PENDING"},
+            // "The Song of Achilles" — Madeline Miller — 3 requests
+            {"REQ-D009","9780525559481","The Song of Achilles","Madeline Miller","Ecco","raj.kumar@email.com",day(-13)+" 09:15:00","PENDING"},
+            {"REQ-D010","9780525559481","The Song of Achilles","Madeline Miller","Ecco","neha.t@yahoo.com",day(-6)+" 13:45:00","PENDING"},
+            {"REQ-D011","9780525559481","The Song of Achilles","Madeline Miller","Ecco","deepak.m@gmail.com",day(-1)+" 10:00:00","PENDING"},
+            // "Dune" — Frank Herbert — 2 requests
+            {"REQ-D012","9780441013593","Dune","Frank Herbert","Ace Books","karthik.n@gmail.com",day(-10)+" 12:00:00","PENDING"},
+            {"REQ-D013","9780441013593","Dune","Frank Herbert","Ace Books","ishaan.m@snu.edu.in",day(-3)+" 08:15:00","PENDING"},
+            // "Sapiens" — Yuval Noah Harari — 2 requests (one notified)
+            {"REQ-D014","9780141988511","Sapiens: A Brief History of Humankind","Yuval Noah Harari","Vintage","shreya.p@outlook.com",day(-15)+" 18:20:00","NOTIFIED"},
+            {"REQ-D015","9780141988511","Sapiens: A Brief History of Humankind","Yuval Noah Harari","Vintage","arjun.d@gmail.com",day(-8)+" 10:45:00","PENDING"},
+            // "The Hobbit" — J.R.R. Tolkien — 2 requests
+            {"REQ-D016","9780547928227","The Hobbit","J.R.R. Tolkien","Houghton Mifflin","kiran.v@yahoo.com",day(-9)+" 14:05:00","PENDING"},
+            {"REQ-D017","9780547928227","The Hobbit","J.R.R. Tolkien","Houghton Mifflin","rohan.s@gmail.com",day(-2)+" 16:25:00","PENDING"},
+            // "Hamlet" — Shakespeare — 2 requests (college students)
+            {"REQ-D018","9780199535569","Hamlet","William Shakespeare","Oxford World's Classics","literature.club@snu.edu.in",day(-6)+" 11:10:00","PENDING"},
+            {"REQ-D019","9780199535569","Hamlet","William Shakespeare","Oxford World's Classics","aparna.k@snu.edu.in",day(-3)+" 14:50:00","PENDING"},
+            // "Five Point Someone" — Chetan Bhagat — 2 requests
+            {"REQ-D020","9789350291863","Five Point Someone","Chetan Bhagat","Rupa Publications","college.student@email.com",day(-4)+" 09:30:00","PENDING"},
+            {"REQ-D021","9789350291863","Five Point Someone","Chetan Bhagat","Rupa Publications",null,day(-1)+" 13:15:00","PENDING"},
+            // "Where the Crawdads Sing" — Delia Owens — 2 requests (notified + pending)
+            {"REQ-D022","9781984822178","Where the Crawdads Sing","Delia Owens","G.P. Putnam's Sons","pooja.n@gmail.com",day(-17)+" 10:20:00","NOTIFIED"},
+            {"REQ-D023","9781984822178","Where the Crawdads Sing","Delia Owens","G.P. Putnam's Sons","maya.t@yahoo.com",day(-5)+" 15:30:00","PENDING"},
+            // "Atomic Habits" — high demand — 1 request
+            {"REQ-D024","9781982173593","Atomic Habits","James Clear","Avery","siddharth.r@gmail.com",day(0)+" 11:00:00","PENDING"},
         };
         try (PreparedStatement ps = c.prepareStatement("INSERT INTO oos_requests (request_id,isbn,title,author,publisher,email,timestamp,status) VALUES (?,?,?,?,?,?,?,?)")) {
             for (Object[] o : oos) { for (int i=0;i<8;i++) ps.setString(i+1,(String)o[i]); ps.addBatch(); }
@@ -424,6 +501,32 @@ public class DatabaseManager {
                 while (rs.next()) list.add(new Object[]{rs.getString("order_id"),rs.getString("isbn"),rs.getString("title"),rs.getString("publisher"),rs.getInt("quantity"),rs.getString("status"),rs.getString("ordered_at"),rs.getString("arrived_at")});
             }
         } catch (SQLException e) { err("getProcurementOrders",e); } finally { release(c); } return list;
+    }
+
+    /**
+     * Returns the most recent ORDERED procurement order for this ISBN, or null
+     * if none exists. Used by the POS insufficient-stock dialog so we can tell
+     * the clerk "a restock is already on the way" instead of offering to place
+     * a duplicate order.
+     * <p>
+     * Return shape: {@code [orderId, title, publisher, quantity, orderedAt]}.
+     */
+    public Object[] getActiveProcurementOrder(String isbn) {
+        Connection c = null;
+        try { c = borrow();
+            try (PreparedStatement ps = c.prepareStatement(
+                    "SELECT order_id,title,publisher,quantity,ordered_at FROM procurement_orders "
+                  + "WHERE isbn=? AND status='ORDERED' ORDER BY ordered_at DESC LIMIT 1")) {
+                ps.setString(1, isbn);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) return new Object[]{
+                    rs.getString("order_id"), rs.getString("title"),
+                    rs.getString("publisher"), rs.getInt("quantity"),
+                    rs.getString("ordered_at")};
+            }
+        } catch (SQLException e) { err("getActiveProcurementOrder", e); }
+        finally { release(c); }
+        return null;
     }
 
     public void addLog(String actor, String type, String msg) { Connection c=null; try{c=borrow();addLog(c,actor,type,msg);}catch(SQLException e){System.err.println("[LOG] "+e.getMessage());}finally{release(c);} }

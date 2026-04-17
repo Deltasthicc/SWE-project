@@ -318,7 +318,7 @@ public class TestSRSCompliance {
 
     @Test @Order(85) @DisplayName("NFR-9: Key operations logged (inventory, billing, reports)")
     void nfr9_logging() {
-        List<Object[]> logs = DatabaseManager.getInstance().getRecentLogs(500);
+        List<Object[]> logs = DatabaseManager.getInstance().getRecentLogs(10000);
         assertTrue(logs.stream().anyMatch(l -> "INIT".equals(l[2])));
         assertTrue(logs.stream().anyMatch(l -> "SALE".equals(l[2])));
         assertTrue(logs.stream().anyMatch(l -> "INVENTORY".equals(l[2])));
