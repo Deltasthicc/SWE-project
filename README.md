@@ -2,7 +2,7 @@
 
 **Shiv Nadar Institution of Eminence — Software Engineering Project (Group G02)**
 
-**Team:** Divyam Sharma · Shashwat Rajan · Suryavedha Pradhan · Shreyas Achal
+**Collaborators:** Divyam Sharma · Shashwat Rajan · Suryavedha Pradhan · Shreyas Achal
 
 ---
 
